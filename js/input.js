@@ -97,12 +97,13 @@ class InputHandler {
         // Find object under cursor
         const obj = this.getObjectAtPosition(this.mousePosition.x, this.mousePosition.y);
 
-        if (obj && !obj.isPlaced) {
-            this.startDrag(obj, this.mousePosition);
-        } else if (obj && obj.isPlaced) {
-            // Optional: Allow picking up already placed objects
-            if (event.shiftKey || event.button === 2) { // Shift+click or right-click
+        if (obj) {
+            // If object is placed in backpack, pick it up
+            if (obj.isPlaced) {
                 this.pickUpPlacedObject(obj);
+            } else {
+                // Start dragging unplaced object
+                this.startDrag(obj, this.mousePosition);
             }
         }
     }
@@ -118,7 +119,7 @@ class InputHandler {
         } else {
             // Update cursor style based on hover
             const obj = this.getObjectAtPosition(this.mousePosition.x, this.mousePosition.y);
-            this.canvas.style.cursor = obj && !obj.isPlaced ? 'grab' : 'default';
+            this.canvas.style.cursor = obj ? 'grab' : 'default';
         }
     }
 
@@ -145,8 +146,12 @@ class InputHandler {
         this.isMouseDown = true;
 
         const obj = this.getObjectAtPosition(position.x, position.y);
-        if (obj && !obj.isPlaced) {
-            this.startDrag(obj, position);
+        if (obj) {
+            if (obj.isPlaced) {
+                this.pickUpPlacedObject(obj);
+            } else {
+                this.startDrag(obj, position);
+            }
         }
     }
 
@@ -226,25 +231,47 @@ class InputHandler {
         const obj = this.game.state.draggedObject;
         if (!obj) return;
 
-        // Calculate grid position for placement
-        const centerX = obj.pixelX + (obj.width * this.game.config.cellSize) / 2;
-        const centerY = obj.pixelY + (obj.height * this.game.config.cellSize) / 2;
+        // Check if object overlaps with backpack area
+        const objBounds = {
+            left: obj.pixelX,
+            right: obj.pixelX + (obj.width * this.game.config.cellSize),
+            top: obj.pixelY,
+            bottom: obj.pixelY + (obj.height * this.game.config.cellSize)
+        };
 
-        const gridPos = this.game.pixelToGrid(centerX, centerY);
+        const backpackBounds = {
+            left: this.game.backpackX,
+            right: this.game.backpackX + this.game.backpackPixelWidth,
+            top: this.game.backpackY,
+            bottom: this.game.backpackY + this.game.backpackPixelHeight
+        };
 
-        // Attempt to place object
-        if (this.game.isValidPlacement(gridPos.x, gridPos.y, obj)) {
-            // Valid placement
-            this.game.handleObjectPlaced(obj, gridPos.x, gridPos.y);
-            console.log(`Placed ${obj.name} at grid position (${gridPos.x}, ${gridPos.y})`);
+        // Check if object overlaps with backpack
+        const overlapsBackpack = !(objBounds.right <= backpackBounds.left ||
+            objBounds.left >= backpackBounds.right ||
+            objBounds.bottom <= backpackBounds.top ||
+            objBounds.top >= backpackBounds.bottom);
+
+        if (overlapsBackpack) {
+            // Object touches backpack - try to place it
+            const centerX = obj.pixelX + (obj.width * this.game.config.cellSize) / 2;
+            const centerY = obj.pixelY + (obj.height * this.game.config.cellSize) / 2;
+
+            const gridPos = this.game.pixelToGrid(centerX, centerY);
+
+            if (this.game.isValidPlacement(gridPos.x, gridPos.y, obj)) {
+                // Valid placement in backpack
+                this.game.handleObjectPlaced(obj, gridPos.x, gridPos.y);
+                console.log(`Placed ${obj.name} in backpack at grid position (${gridPos.x}, ${gridPos.y})`);
+            } else {
+                // Invalid placement - return to original position
+                obj.pixelX = this.dragStartPosition.x;
+                obj.pixelY = this.dragStartPosition.y;
+                console.log(`Failed to place ${obj.name} in backpack - returning to original position`);
+            }
         } else {
-            // Invalid placement - return to original position
-            obj.pixelX = this.dragStartPosition.x;
-            obj.pixelY = this.dragStartPosition.y;
-
-            // Show feedback
-            this.game.showFeedback('Invalid placement!', 'error');
-            console.log(`Failed to place ${obj.name} - returning to original position`);
+            // Object is outside backpack - leave it where it is
+            console.log(`${obj.name} placed outside backpack at (${obj.pixelX}, ${obj.pixelY})`);
         }
 
         // Clear drag state

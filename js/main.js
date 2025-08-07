@@ -125,57 +125,18 @@ window.BackpackMinigame = {
 /**
  * Test initialization function (for development)
  */
-window.initTestGame = function (configName = 'medium') {
-    const config = window.testConfigs[configName] || window.testConfigs.medium;
-
-    // Add completion handler for testing
-    config.onComplete = function (placedObjects) {
-        console.log('Test game completed!');
-        console.log('Placed objects:', placedObjects);
-
-        // Update test output display
-        const outputDisplay = document.getElementById('output-display');
-        if (outputDisplay) {
-            outputDisplay.textContent = JSON.stringify(placedObjects, null, 2);
-        }
-
-        // If there are required items, validate
-        if (window.testConfigs[configName].requiredItems) {
-            const validation = window.validateTestSolution(
-                placedObjects,
-                window.testConfigs[configName].requiredItems
-            );
-            console.log('Validation result:', validation);
+window.initTestGame = function () {
+    const config = {
+        backpackWidth: 4,
+        backpackHeight: 5,
+        cellSize: 60,
+        objects: window.testObjects || [],
+        sprites: window.testSprites || {},
+        onComplete: function (placedObjects) {
+            console.log('Test game completed!');
+            console.log('Placed objects:', placedObjects);
         }
     };
-
-    // Note: Since we're not loading actual sprites in test mode,
-    // clear the sprite configuration to use colored rectangles
-    config.sprites = {};
 
     return startBackpackGame(config);
-};
-
-/**
- * Load different test configurations
- */
-window.loadSmallBackpack = function () {
-    window.initTestGame('small');
-};
-
-window.loadLargeBackpack = function () {
-    window.initTestGame('large');
-};
-
-window.loadPuzzleBackpack = function () {
-    window.initTestGame('puzzle');
-};
-
-window.loadRandomBackpack = function () {
-    const randomConfig = window.generateRandomTest();
-    randomConfig.onComplete = function (placedObjects) {
-        document.getElementById('output-display').textContent =
-            JSON.stringify(placedObjects, null, 2);
-    };
-    startBackpackGame(randomConfig);
 };

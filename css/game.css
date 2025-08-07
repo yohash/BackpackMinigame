@@ -20,21 +20,27 @@ body {
     background: white;
     border-radius: 12px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    max-width: 1200px;
+    padding: 0;
+    max-width: 800px;
     width: 100%;
+    margin: 0 auto;
 }
 
 /* Game Container */
 #game-container {
     position: relative;
-    display: inline-block;
-    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 /* Canvas Styling */
 #backpack-canvas {
     display: block;
+    width: 100%;
+    max-width: 800px;
+    height: 600px;
     border: 3px solid #4a5568;
     border-radius: 8px;
     background: #f7fafc;
@@ -43,9 +49,9 @@ body {
     image-rendering: crisp-edges;
 }
 
-    #backpack-canvas.dragging {
-        cursor: grabbing;
-    }
+#backpack-canvas.dragging {
+    cursor: grabbing;
+}
 
 /* UI Overlay */
 #ui-overlay {
@@ -58,40 +64,26 @@ body {
     z-index: 10;
 }
 
-    #ui-overlay * {
-        pointer-events: auto;
-    }
-
-/* Game Header */
-#game-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px 8px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+#ui-overlay * {
+    pointer-events: auto;
 }
 
-#game-title {
-    font-size: 1.5em;
-    font-weight: 600;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
+/* Object Counter */
 #object-counter {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 8px 15px;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 20px;
     border-radius: 20px;
-    font-weight: 500;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    color: #4a5568;
 }
 
 #placed-count {
-    color: #68d391;
+    color: #48bb78;
     font-weight: bold;
     font-size: 1.2em;
 }
@@ -99,6 +91,7 @@ body {
 #total-count {
     font-weight: bold;
     font-size: 1.2em;
+    color: #4a5568;
 }
 
 /* Game Controls */
@@ -123,170 +116,55 @@ body {
     letter-spacing: 0.5px;
 }
 
-    .game-btn.primary {
-        background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
-        color: white;
-        box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
-    }
-
-        .game-btn.primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
-        }
-
-        .game-btn.primary:disabled {
-            background: #cbd5e0;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-    .game-btn.secondary {
-        background: #e2e8f0;
-        color: #4a5568;
-    }
-
-        .game-btn.secondary:hover {
-            background: #cbd5e0;
-            transform: translateY(-1px);
-        }
-
-/* Feedback Overlay */
-#feedback-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    z-index: 100;
-    font-size: 1.2em;
-    font-weight: 600;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+.game-btn.primary {
+    background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
 }
 
-    #feedback-overlay.success {
-        color: #48bb78;
-        border: 3px solid #48bb78;
-    }
-
-    #feedback-overlay.error {
-        color: #f56565;
-        border: 3px solid #f56565;
-    }
-
-    #feedback-overlay.hidden {
-        opacity: 0;
-        display: none;
-    }
-
-/* Test Controls (Development Only) */
-#test-controls {
-    margin-top: 30px;
-    padding-top: 30px;
-    border-top: 2px solid #e2e8f0;
+.game-btn.primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
 }
 
-    #test-controls h3 {
-        color: #4a5568;
-        margin-bottom: 15px;
-    }
-
-    #test-controls button {
-        margin-right: 10px;
-        padding: 8px 16px;
-        background: #5a67d8;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-    }
-
-        #test-controls button:hover {
-            background: #4c51bf;
-        }
-
-#test-output {
-    margin-top: 20px;
-    padding: 15px;
-    background: #f7fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
+.game-btn.primary:disabled {
+    background: #cbd5e0;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
-    #test-output h4 {
-        color: #4a5568;
-        margin-bottom: 10px;
-    }
-
-#output-display {
-    background: #2d3748;
-    color: #68d391;
-    padding: 10px;
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    overflow-x: auto;
+.game-btn.secondary {
+    background: #e2e8f0;
+    color: #4a5568;
 }
 
-/* Object Staging Area Visual Hints */
-.staging-area {
-    border: 2px dashed #cbd5e0;
-    border-radius: 8px;
-    background: rgba(237, 242, 247, 0.5);
-}
-
-/* Grid Visual Helpers */
-.grid-lines {
-    stroke: #e2e8f0;
-    stroke-width: 1;
-    opacity: 0.5;
-}
-
-.grid-hover {
-    fill: rgba(66, 153, 225, 0.2);
-    stroke: #4299e1;
-    stroke-width: 2;
-}
-
-.valid-placement {
-    fill: rgba(72, 187, 120, 0.3);
-    stroke: #48bb78;
-}
-
-.invalid-placement {
-    fill: rgba(245, 101, 101, 0.3);
-    stroke: #f56565;
-}
-
-/* Dragged Object Ghost */
-.ghost-object {
-    opacity: 0.6;
-    pointer-events: none;
+.game-btn.secondary:hover {
+    background: #cbd5e0;
+    transform: translateY(-1px);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     #game-wrapper {
-        padding: 10px;
+        padding: 0;
     }
-
-    #game-header {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
+    
+    #backpack-canvas {
+        height: 500px;
     }
-
+    
+    #object-counter {
+        font-size: 0.9em;
+        padding: 8px 15px;
+    }
+    
     #game-controls {
         bottom: 10px;
         right: 10px;
         left: 10px;
         justify-content: center;
     }
-
+    
     .game-btn {
         padding: 10px 20px;
         font-size: 14px;

@@ -32,7 +32,10 @@ class BackpackGame {
             placedObjects: [],
             grid: null,
             sprites: {},
-            lastFrameTime: 0
+            lastFrameTime: 0,
+            feedbackMessage: '',
+            feedbackTimeout: null,
+            feedbackType: 'info'
         };
 
         // Calculate dimensions
@@ -91,16 +94,13 @@ class BackpackGame {
      * Set up canvas dimensions
      */
     setupCanvas() {
-        // Calculate total canvas size including staging areas
-        const stagingWidth = this.config.stagingAreaPadding * 2 + 100; // Extra width for objects
-        const stagingHeight = this.config.stagingAreaPadding * 2;
+        // Fixed canvas size
+        this.canvas.width = 800;
+        this.canvas.height = 600;
 
-        this.canvas.width = this.backpackPixelWidth + this.config.padding * 2 + stagingWidth;
-        this.canvas.height = this.backpackPixelHeight + this.config.padding * 2 + stagingHeight;
-
-        // Center the backpack in the canvas
+        // Center the backpack with good buffer space
         this.backpackX = (this.canvas.width - this.backpackPixelWidth) / 2;
-        this.backpackY = (this.canvas.height - this.backpackPixelHeight) / 2 + 30; // Offset for header
+        this.backpackY = (this.canvas.height - this.backpackPixelHeight) / 2 - 30; // Slight offset up for better visual balance
     }
 
     /**
@@ -208,22 +208,37 @@ class BackpackGame {
      */
     positionStagingObjects() {
         const unplacedObjects = this.state.objects.filter(obj => !obj.isPlaced);
-        const objectSpacing = 10;
+        const objectSpacing = 15;
 
-        let currentX = this.backpackX - 100;
-        let currentY = this.backpackY;
+        // Distribute objects around the canvas edges
+        let currentX = 50;
+        let currentY = 50;
+        let placedOnLeft = 0;
+        let placedOnRight = 0;
 
         unplacedObjects.forEach((obj, index) => {
-            // Simple left-side staging for now
-            obj.pixelX = currentX;
-            obj.pixelY = currentY;
+            // Alternate between left and right sides
+            if (index % 2 === 0) {
+                // Left side
+                obj.pixelX = currentX;
+                obj.pixelY = 100 + placedOnLeft * 80;
+                placedOnLeft++;
 
-            currentY += (obj.height * this.config.cellSize) + objectSpacing;
+                // Wrap to new column if needed
+                if (obj.pixelY + obj.height * this.config.cellSize > this.canvas.height - 100) {
+                    currentX += 100;
+                    placedOnLeft = 0;
+                }
+            } else {
+                // Right side
+                obj.pixelX = this.canvas.width - 100 - (obj.width * this.config.cellSize);
+                obj.pixelY = 100 + placedOnRight * 80;
+                placedOnRight++;
 
-            // Wrap to right side if needed
-            if (currentY > this.canvas.height - 100) {
-                currentX = this.backpackX + this.backpackPixelWidth + 20;
-                currentY = this.backpackY;
+                // Wrap to new column if needed
+                if (obj.pixelY + obj.height * this.config.cellSize > this.canvas.height - 100) {
+                    placedOnRight = 0;
+                }
             }
         });
     }
@@ -288,38 +303,55 @@ class BackpackGame {
             this.drawObject(this.state.draggedObject, true);
             this.drawGhostObject();
         }
+
+        // Draw feedback message
+        this.drawFeedback();
     }
 
     /**
      * Draw the backpack container
      */
     drawBackpack() {
-        // Background
-        this.ctx.fillStyle = this.config.backpackColor;
-        this.ctx.fillRect(
-            this.backpackX,
-            this.backpackY,
-            this.backpackPixelWidth,
-            this.backpackPixelHeight
-        );
+        // Check if backpack sprite is loaded
+        if (this.state.sprites['backpack']) {
+            // Draw backpack sprite
+            this.ctx.drawImage(
+                this.state.sprites['backpack'],
+                this.backpackX,
+                this.backpackY,
+                this.backpackPixelWidth,
+                this.backpackPixelHeight
+            );
+        } else {
+            // Fallback to colored rectangle
+            // Background
+            this.ctx.fillStyle = this.config.backpackColor;
+            this.ctx.fillRect(
+                this.backpackX,
+                this.backpackY,
+                this.backpackPixelWidth,
+                this.backpackPixelHeight
+            );
 
-        // Border
-        this.ctx.strokeStyle = this.config.backpackBorderColor;
-        this.ctx.lineWidth = 3;
-        this.ctx.strokeRect(
-            this.backpackX,
-            this.backpackY,
-            this.backpackPixelWidth,
-            this.backpackPixelHeight
-        );
+            // Border
+            this.ctx.strokeStyle = this.config.backpackBorderColor;
+            this.ctx.lineWidth = 3;
+            this.ctx.strokeRect(
+                this.backpackX,
+                this.backpackY,
+                this.backpackPixelWidth,
+                this.backpackPixelHeight
+            );
+        }
     }
 
     /**
      * Draw the grid lines
      */
     drawGrid() {
-        this.ctx.strokeStyle = this.config.gridLineColor;
+        this.ctx.strokeStyle = '#2d3748'; // Darker color for better visibility
         this.ctx.lineWidth = this.config.gridLineWidth;
+        this.ctx.globalAlpha = 0.5; // Semi-transparent over sprite
 
         // Vertical lines
         for (let x = 1; x < this.config.backpackWidth; x++) {
@@ -338,6 +370,8 @@ class BackpackGame {
             this.ctx.lineTo(this.backpackX + this.backpackPixelWidth, pixelY);
             this.ctx.stroke();
         }
+
+        this.ctx.globalAlpha = 1.0; // Reset alpha
     }
 
     /**
@@ -389,11 +423,35 @@ class BackpackGame {
     drawGhostObject() {
         if (!this.state.draggedObject) return;
 
+        const obj = this.state.draggedObject;
+
+        // Check if object is over backpack area
+        const objBounds = {
+            left: obj.pixelX,
+            right: obj.pixelX + (obj.width * this.config.cellSize),
+            top: obj.pixelY,
+            bottom: obj.pixelY + (obj.height * this.config.cellSize)
+        };
+
+        const backpackBounds = {
+            left: this.backpackX,
+            right: this.backpackX + this.backpackPixelWidth,
+            top: this.backpackY,
+            bottom: this.backpackY + this.backpackPixelHeight
+        };
+
+        // Only show ghost if overlapping backpack
+        const overlapsBackpack = !(objBounds.right <= backpackBounds.left ||
+            objBounds.left >= backpackBounds.right ||
+            objBounds.bottom <= backpackBounds.top ||
+            objBounds.top >= backpackBounds.bottom);
+
+        if (!overlapsBackpack) return;
+
         // Calculate grid position
-        const gridPos = this.pixelToGrid(
-            this.state.ghostPosition.x,
-            this.state.ghostPosition.y
-        );
+        const centerX = obj.pixelX + (obj.width * this.config.cellSize) / 2;
+        const centerY = obj.pixelY + (obj.height * this.config.cellSize) / 2;
+        const gridPos = this.pixelToGrid(centerX, centerY);
 
         if (this.isValidPlacement(gridPos.x, gridPos.y, this.state.draggedObject)) {
             this.ctx.fillStyle = 'rgba(72, 187, 120, 0.3)';
@@ -479,9 +537,6 @@ class BackpackGame {
         // Update UI
         this.updateObjectCounter();
         this.checkContinueButton();
-
-        // Show feedback
-        this.showFeedback('Item placed!', 'success');
     }
 
     /**
@@ -512,16 +567,47 @@ class BackpackGame {
     /**
      * Show feedback message
      */
-    showFeedback(message, type) {
-        const overlay = document.getElementById('feedback-overlay');
-        if (!overlay) return;
+    showFeedback(message, type = 'info') {
+        this.state.feedbackMessage = message;
+        this.state.feedbackType = type;
 
-        overlay.textContent = message;
-        overlay.className = type;
+        // Clear any existing timeout
+        if (this.state.feedbackTimeout) {
+            clearTimeout(this.state.feedbackTimeout);
+        }
 
-        setTimeout(() => {
-            overlay.className = 'hidden';
-        }, 1500);
+        // Set timeout to clear message
+        this.state.feedbackTimeout = setTimeout(() => {
+            this.state.feedbackMessage = '';
+        }, 2000);
+    }
+
+    /**
+     * Draw feedback message at bottom of canvas
+     */
+    drawFeedback() {
+        if (!this.state.feedbackMessage) return;
+
+        // Set font and measure text
+        this.ctx.font = '14px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'bottom';
+
+        // Set color based on type
+        if (this.state.feedbackType === 'success') {
+            this.ctx.fillStyle = '#48bb78';
+        } else if (this.state.feedbackType === 'error') {
+            this.ctx.fillStyle = '#f56565';
+        } else {
+            this.ctx.fillStyle = '#4a5568';
+        }
+
+        // Draw text at bottom center
+        this.ctx.fillText(
+            this.state.feedbackMessage,
+            this.canvas.width / 2,
+            this.canvas.height - 20
+        );
     }
 
     /**
@@ -571,8 +657,6 @@ class BackpackGame {
         // Update UI
         this.updateObjectCounter();
         this.checkContinueButton();
-
-        this.showFeedback('Game reset!', 'success');
     }
 
     /**

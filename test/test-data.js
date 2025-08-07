@@ -210,86 +210,23 @@ window.testSprites = {
     'smokes': 'assets/sprites/smokes.png',
 };
 
-// Different test configurations
-window.testConfigs = {
-    small: {
-        backpackWidth: 4,
-        backpackHeight: 4,
-        cellSize: 60,
-        objects: window.testObjects.slice(0, 5) // Just first 5 objects
-    },
-    medium: {
-        backpackWidth: 5,
-        backpackHeight: 6,
-        cellSize: 50,
-        objects: window.testObjects.slice(0, 8) // First 8 objects
-    },
-    large: {
-        backpackWidth: 6,
-        backpackHeight: 8,
-        cellSize: 45,
-        objects: window.testObjects // All objects
-    },
-    puzzle: {
-        backpackWidth: 4,
-        backpackHeight: 5,
-        cellSize: 55,
-        objects: [
-            // Specific puzzle configuration
-            { id: 'block1', name: 'Block 1', width: 2, height: 2, color: '#ff6b6b' },
-            { id: 'block2', name: 'Block 2', width: 3, height: 1, color: '#4ecdc4' },
-            { id: 'block3', name: 'Block 3', width: 1, height: 3, color: '#45b7d1' },
-            { id: 'block4', name: 'Block 4', width: 2, height: 1, color: '#96ceb4' },
-            { id: 'block5', name: 'Block 5', width: 1, height: 2, color: '#ffeaa7' },
-            { id: 'block6', name: 'Block 6', width: 1, height: 1, color: '#dfe6e9' }
-        ]
-    }
-};
-
 // Twine integration test data
 window.twineTestData = {
     // Simulates data coming from a Twine passage
     passage: "backpack_minigame",
     variables: {
-        backpackSize: "medium",
-        availableItems: [
-            "book", "potion_health", "sword", "food", "rope"
-        ],
-        requiredItems: ["book", "sword"], // Items that must be packed
+        backpackSize: "4x5",
+        availableItems: window.testObjects.map(obj => obj.id),
+        requiredItems: [], // No required items for test mode
         previouslyPacked: {} // Items already packed from previous attempts
     }
 };
 
-// Helper function to generate random test configuration
-window.generateRandomTest = function () {
-    const widths = [4, 5, 6];
-    const heights = [4, 5, 6, 7, 8];
-    const numObjects = Math.floor(Math.random() * 6) + 5; // 5-10 objects
-
-    const randomObjects = [];
-    for (let i = 0; i < numObjects; i++) {
-        randomObjects.push({
-            id: `item_${i}`,
-            name: `Item ${i + 1}`,
-            width: Math.floor(Math.random() * 3) + 1, // 1-3
-            height: Math.floor(Math.random() * 3) + 1, // 1-3
-            color: `hsl(${Math.random() * 360}, 70%, 50%)`
-        });
-    }
-
-    return {
-        backpackWidth: widths[Math.floor(Math.random() * widths.length)],
-        backpackHeight: heights[Math.floor(Math.random() * heights.length)],
-        cellSize: 50,
-        objects: randomObjects
-    };
-};
-
 // Test function to validate object placement
-window.validateTestSolution = function (placedObjects, requiredItems) {
+window.validateTestSolution = function(placedObjects, requiredItems) {
     const allRequired = requiredItems.every(item => placedObjects[item] === true);
     const packedCount = Object.keys(placedObjects).length;
-
+    
     return {
         success: allRequired,
         packedCount: packedCount,

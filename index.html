@@ -12,42 +12,24 @@
         <div id="game-container">
             <!-- Canvas for rendering -->
             <canvas id="backpack-canvas"></canvas>
-
+            
             <!-- UI Overlay -->
             <div id="ui-overlay">
-                <div id="game-header">
-                    <h2 id="game-title">Pack Your Backpack</h2>
-                    <div id="object-counter">
-                        <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
-                    </div>
+                <div id="object-counter">
+                    <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
                 </div>
-
+                
                 <div id="game-controls">
                     <button id="reset-btn" class="game-btn secondary">Reset</button>
                     <button id="continue-btn" class="game-btn primary" disabled>Continue</button>
                 </div>
-            </div>
-
-            <!-- Hidden feedback overlay -->
-            <div id="feedback-overlay" class="hidden"></div>
-        </div>
-
-        <!-- Test Data Controls (Remove when integrating with Twine) -->
-        <div id="test-controls">
-            <h3>Test Controls</h3>
-            <button onclick="initTestGame()">Start Test Game</button>
-            <button onclick="loadSmallBackpack()">Small Backpack (4x4)</button>
-            <button onclick="loadLargeBackpack()">Large Backpack (6x8)</button>
-            <div id="test-output">
-                <h4>Placed Objects:</h4>
-                <pre id="output-display">{}</pre>
             </div>
         </div>
     </div>
 
     <!-- Test Data -->
     <script src="test/test-data.js"></script>
-
+    
     <!-- Game Scripts -->
     <script src="js/grid.js"></script>
     <script src="js/objects.js"></script>
@@ -56,35 +38,30 @@
     <script src="js/game.js"></script>
     <script src="js/twine-bridge.js"></script>
     <script src="js/main.js"></script>
-
+    
     <!-- Test Initialization -->
     <script>
-        // Test game initialization
+        // Auto-start the game when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            // Automatically start the test game with 4x5 backpack
+            setTimeout(initTestGame, 100);
+        });
+        
+        // Test game initialization with fixed 4x5 backpack
         function initTestGame() {
             const config = {
-                backpackWidth: 5,
-                backpackHeight: 6,
-                cellSize: 50,
+                backpackWidth: 4,
+                backpackHeight: 5,
+                cellSize: 60,
                 objects: window.testObjects || [],
                 sprites: window.testSprites || {},
                 onComplete: (placedObjects) => {
-                    document.getElementById('output-display').textContent =
-                        JSON.stringify(placedObjects, null, 2);
+                    console.log('Game completed:', placedObjects);
                 }
             };
-
+            
             window.backpackGame = new BackpackGame('backpack-canvas', config);
             window.backpackGame.startGame();
-        }
-
-        function loadSmallBackpack() {
-            // Load small backpack configuration
-            console.log('Loading small backpack...');
-        }
-
-        function loadLargeBackpack() {
-            // Load large backpack configuration
-            console.log('Loading large backpack...');
         }
     </script>
 </body>
