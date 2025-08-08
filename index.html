@@ -12,13 +12,13 @@
         <div id="game-container">
             <!-- Canvas for rendering -->
             <canvas id="backpack-canvas"></canvas>
-
+            
             <!-- UI Overlay -->
             <div id="ui-overlay">
                 <div id="object-counter">
                     <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
                 </div>
-
+                
                 <div id="game-controls">
                     <button id="reset-btn" class="game-btn secondary">Reset</button>
                     <button id="continue-btn" class="game-btn primary" disabled>Continue</button>
@@ -29,7 +29,7 @@
 
     <!-- Test Data -->
     <script src="test/test-data.js"></script>
-
+    
     <!-- Game Scripts -->
     <script src="js/grid.js"></script>
     <script src="js/objects.js"></script>
@@ -38,30 +38,29 @@
     <script src="js/game.js"></script>
     <script src="js/twine-bridge.js"></script>
     <script src="js/main.js"></script>
-
+    
     <!-- Test Initialization -->
     <script>
         // Auto-start the game when page loads
-        window.addEventListener('DOMContentLoaded', function () {
+        window.addEventListener('DOMContentLoaded', function() {
             // Automatically start the test game with 4x5 backpack
             setTimeout(initTestGame, 100);
         });
-
+        
         // Test game initialization with fixed 4x5 backpack
         function initTestGame() {
             const config = {
                 backpackWidth: 4,
                 backpackHeight: 5,
-                cellSize: 100, // Fixed 100px cells
-                gridXOffset: 0, // Adjustable grid X offset
-                gridYOffset: 0, // Adjustable grid Y offset
+                gridXOffset: 0, // Try changing these values to move the grid!
+                gridYOffset: 0, // For example: gridXOffset: 50, gridYOffset: -20
                 objects: window.testObjects || [],
                 sprites: window.testSprites || {},
                 onComplete: (placedObjects) => {
                     console.log('Game completed:', placedObjects);
                 }
             };
-
+            
             window.backpackGame = new BackpackGame('backpack-canvas', config);
             window.backpackGame.startGame();
         }

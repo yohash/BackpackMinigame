@@ -216,6 +216,8 @@ window.twineTestData = {
     passage: "backpack_minigame",
     variables: {
         backpackSize: "4x5",
+        gridXOffset: 0, // Adjust to align grid with backpack visual
+        gridYOffset: 0, // Adjust to align grid with backpack visual
         availableItems: window.testObjects.map(obj => obj.id),
         requiredItems: [], // No required items for test mode
         previouslyPacked: {} // Items already packed from previous attempts
