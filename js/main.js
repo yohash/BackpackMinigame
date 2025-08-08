@@ -30,10 +30,11 @@ function initTwineGame() {
     const twineVars = window.SugarCube.State.variables;
     
     const config = {
-        backpackWidth: twineVars.backpackWidth || 4,
+        backpackWidth: twineVars.backpackWidth || 5,
         backpackHeight: twineVars.backpackHeight || 5,
         gridXOffset: twineVars.gridXOffset || 0,
         gridYOffset: twineVars.gridYOffset || 0,
+        gridMask: twineVars.gridMask || null, // Grid mask for irregular shapes
         objects: parseTwineObjects(twineVars.objects),
         sprites: twineVars.sprites || {},
         onComplete: handleTwineComplete
@@ -125,13 +126,44 @@ window.BackpackMinigame = {
 
 /**
  * Test initialization function (for development)
+ * 
+ * Grid Mask Examples:
+ * 
+ * L-Shape:
+ * [1, 1, 1, 0, 0],
+ * [1, 0, 1, 0, 0],
+ * [1, 0, 1, 1, 1],
+ * [1, 0, 0, 0, 1],
+ * [1, 1, 1, 1, 1]
+ * 
+ * Diamond:
+ * [0, 0, 1, 0, 0],
+ * [0, 1, 1, 1, 0],
+ * [1, 1, 1, 1, 1],
+ * [0, 1, 1, 1, 0],
+ * [0, 0, 1, 0, 0]
+ * 
+ * Cross:
+ * [0, 1, 1, 1, 0],
+ * [0, 1, 1, 1, 0],
+ * [1, 1, 1, 1, 1],
+ * [1, 1, 1, 1, 1],
+ * [0, 1, 1, 1, 0]
  */
 window.initTestGame = function() {
     const config = {
-        backpackWidth: 4,
+        backpackWidth: 5,
         backpackHeight: 5,
         gridXOffset: 0, // Try changing these values to move the grid!
         gridYOffset: 0, // For example: gridXOffset: 50, gridYOffset: -20
+        // Irregular grid shape - 0 means blocked, 1 means usable
+        gridMask: [
+            [0, 1, 1, 1, 1],  // Row 0: First cell blocked
+            [0, 1, 1, 1, 1],  // Row 1: First cell blocked
+            [0, 1, 1, 1, 1],  // Row 2: First cell blocked
+            [1, 1, 1, 1, 1],  // Row 3: All cells usable
+            [1, 1, 1, 1, 1]   // Row 4: All cells usable
+        ],
         objects: window.testObjects || [],
         sprites: window.testSprites || {},
         onComplete: function(placedObjects) {

@@ -47,13 +47,21 @@
             setTimeout(initTestGame, 100);
         });
         
-        // Test game initialization with fixed 4x5 backpack
+        // Test game initialization with irregular 5x5 backpack
         function initTestGame() {
             const config = {
-                backpackWidth: 4,
+                backpackWidth: 5,
                 backpackHeight: 5,
-                gridXOffset: 0, // Try changing these values to move the grid!
-                gridYOffset: 0, // For example: gridXOffset: 50, gridYOffset: -20
+                gridXOffset: -40, // Try changing these values to move the grid!
+                gridYOffset: -23, // For example: gridXOffset: 50, gridYOffset: -20
+                // Irregular grid shape - 0 means blocked, 1 means usable
+                gridMask: [
+                    [0, 1, 1, 1, 1],  // Row 0: First cell blocked
+                    [0, 1, 1, 1, 1],  // Row 1: First cell blocked
+                    [0, 1, 1, 1, 1],  // Row 2: First cell blocked
+                    [1, 1, 1, 1, 1],  // Row 3: All cells usable
+                    [1, 1, 1, 1, 1]   // Row 4: All cells usable
+                ],
                 objects: window.testObjects || [],
                 sprites: window.testSprites || {},
                 onComplete: (placedObjects) => {

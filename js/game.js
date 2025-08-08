@@ -9,17 +9,25 @@ class BackpackGame {
         
         // Game configuration - properly merge config
         this.config = {
-            backpackWidth: 4,
+            backpackWidth: 5,  // Now 5x5 for the irregular grid
             backpackHeight: 5,
             cellSize: 100, // Fixed 100px grid cells
-            gridXOffset: 40, // Default offset for grid positioning
-            gridYOffset: 18, // Default offset for grid positioning
+            gridXOffset: 0, // Default offset for grid positioning
+            gridYOffset: 0, // Default offset for grid positioning
             padding: 60,
             gridLineWidth: 1,
             gridLineColor: '#e2e8f0',
             backpackColor: '#ffffff',
             backpackBorderColor: '#4a5568',
-            stagingAreaPadding: 20
+            stagingAreaPadding: 20,
+            // Default grid mask - 1 means usable, 0 means blocked
+            gridMask: [
+                [0, 1, 1, 1, 1],  // Row 0: First cell blocked
+                [0, 1, 1, 1, 1],  // Row 1: First cell blocked
+                [0, 1, 1, 1, 1],  // Row 2: First cell blocked
+                [1, 1, 1, 1, 1],  // Row 3: All cells usable
+                [1, 1, 1, 1, 1]   // Row 4: All cells usable
+            ]
         };
         
         // Apply user config on top of defaults
@@ -200,7 +208,7 @@ class BackpackGame {
      * Create initial game state
      */
     createGameState() {
-        // Initialize grid
+        // Initialize grid with mask support
         this.state.grid = this.createGrid(
             this.config.backpackWidth,
             this.config.backpackHeight
@@ -224,14 +232,21 @@ class BackpackGame {
     }
     
     /**
-     * Create empty grid
+     * Create empty grid with mask support
      */
     createGrid(width, height) {
         const grid = [];
         for (let y = 0; y < height; y++) {
             grid[y] = [];
             for (let x = 0; x < width; x++) {
-                grid[y][x] = null;
+                // Check if this cell is valid according to the mask
+                if (this.config.gridMask && 
+                    this.config.gridMask[y] && 
+                    this.config.gridMask[y][x] === 0) {
+                    grid[y][x] = 'blocked'; // Mark as blocked
+                } else {
+                    grid[y][x] = null; // Available for placement
+                }
             }
         }
         return grid;
@@ -321,6 +336,9 @@ class BackpackGame {
         // Draw backpack background
         this.drawBackpack();
         
+        // Draw blocked cells indicator (optional visual)
+        this.drawBlockedCells();
+        
         // Draw grid
         this.drawGrid();
         
@@ -342,6 +360,38 @@ class BackpackGame {
         
         // Draw feedback message
         this.drawFeedback();
+    }
+    
+    /**
+     * Draw visual indicator for blocked cells
+     */
+    drawBlockedCells() {
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Light gray overlay
+        
+        for (let y = 0; y < this.config.backpackHeight; y++) {
+            for (let x = 0; x < this.config.backpackWidth; x++) {
+                if (this.config.gridMask && 
+                    this.config.gridMask[y] && 
+                    this.config.gridMask[y][x] === 0) {
+                    
+                    const cellX = this.gridX + (x * this.config.cellSize);
+                    const cellY = this.gridY + (y * this.config.cellSize);
+                    
+                    // Draw a subtle overlay on blocked cells
+                    this.ctx.fillRect(cellX, cellY, this.config.cellSize, this.config.cellSize);
+                    
+                    // Optional: Draw an X or pattern to indicate blocked
+                    this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+                    this.ctx.lineWidth = 1;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(cellX, cellY);
+                    this.ctx.lineTo(cellX + this.config.cellSize, cellY + this.config.cellSize);
+                    this.ctx.moveTo(cellX + this.config.cellSize, cellY);
+                    this.ctx.lineTo(cellX, cellY + this.config.cellSize);
+                    this.ctx.stroke();
+                }
+            }
+        }
     }
     
     /**
@@ -382,37 +432,83 @@ class BackpackGame {
     }
     
     /**
-     * Draw the grid lines
+     * Draw the grid lines for irregular grid
      */
     drawGrid() {
         this.ctx.strokeStyle = '#2d3748'; // Darker color for better visibility
         this.ctx.lineWidth = this.config.gridLineWidth;
         this.ctx.globalAlpha = 0.5; // Semi-transparent over sprite
         
-        // Draw border around grid area
-        this.ctx.strokeRect(
-            this.gridX,
-            this.gridY,
-            this.gridPixelWidth,
-            this.gridPixelHeight
-        );
-        
-        // Vertical lines
-        for (let x = 1; x < this.config.backpackWidth; x++) {
-            const pixelX = this.gridX + (x * this.config.cellSize);
-            this.ctx.beginPath();
-            this.ctx.moveTo(pixelX, this.gridY);
-            this.ctx.lineTo(pixelX, this.gridY + this.gridPixelHeight);
-            this.ctx.stroke();
-        }
-        
-        // Horizontal lines
-        for (let y = 1; y < this.config.backpackHeight; y++) {
-            const pixelY = this.gridY + (y * this.config.cellSize);
-            this.ctx.beginPath();
-            this.ctx.moveTo(this.gridX, pixelY);
-            this.ctx.lineTo(this.gridX + this.gridPixelWidth, pixelY);
-            this.ctx.stroke();
+        // Draw individual cell borders for valid cells only
+        for (let y = 0; y < this.config.backpackHeight; y++) {
+            for (let x = 0; x < this.config.backpackWidth; x++) {
+                // Only draw if this cell is valid
+                if (this.config.gridMask && 
+                    this.config.gridMask[y] && 
+                    this.config.gridMask[y][x] === 1) {
+                    
+                    const cellX = this.gridX + (x * this.config.cellSize);
+                    const cellY = this.gridY + (y * this.config.cellSize);
+                    
+                    this.ctx.beginPath();
+                    
+                    // Draw top border if needed
+                    if (y === 0 || !this.config.gridMask[y-1] || this.config.gridMask[y-1][x] === 0) {
+                        this.ctx.moveTo(cellX, cellY);
+                        this.ctx.lineTo(cellX + this.config.cellSize, cellY);
+                    }
+                    
+                    // Draw right border if needed
+                    if (x === this.config.backpackWidth - 1 || 
+                        !this.config.gridMask[y][x+1] || 
+                        this.config.gridMask[y][x+1] === 0) {
+                        this.ctx.moveTo(cellX + this.config.cellSize, cellY);
+                        this.ctx.lineTo(cellX + this.config.cellSize, cellY + this.config.cellSize);
+                    }
+                    
+                    // Draw bottom border if needed
+                    if (y === this.config.backpackHeight - 1 || 
+                        !this.config.gridMask[y+1] || 
+                        this.config.gridMask[y+1][x] === 0) {
+                        this.ctx.moveTo(cellX + this.config.cellSize, cellY + this.config.cellSize);
+                        this.ctx.lineTo(cellX, cellY + this.config.cellSize);
+                    }
+                    
+                    // Draw left border if needed
+                    if (x === 0 || !this.config.gridMask[y][x-1] || this.config.gridMask[y][x-1] === 0) {
+                        this.ctx.moveTo(cellX, cellY + this.config.cellSize);
+                        this.ctx.lineTo(cellX, cellY);
+                    }
+                    
+                    this.ctx.stroke();
+                    
+                    // Draw internal grid lines with lighter color
+                    this.ctx.globalAlpha = 0.3;
+                    this.ctx.strokeStyle = '#718096';
+                    
+                    // Draw right internal line if next cell is also valid
+                    if (x < this.config.backpackWidth - 1 && 
+                        this.config.gridMask[y][x+1] === 1) {
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cellX + this.config.cellSize, cellY);
+                        this.ctx.lineTo(cellX + this.config.cellSize, cellY + this.config.cellSize);
+                        this.ctx.stroke();
+                    }
+                    
+                    // Draw bottom internal line if next cell is also valid
+                    if (y < this.config.backpackHeight - 1 && 
+                        this.config.gridMask[y+1] && 
+                        this.config.gridMask[y+1][x] === 1) {
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(cellX, cellY + this.config.cellSize);
+                        this.ctx.lineTo(cellX + this.config.cellSize, cellY + this.config.cellSize);
+                        this.ctx.stroke();
+                    }
+                    
+                    this.ctx.globalAlpha = 0.5;
+                    this.ctx.strokeStyle = '#2d3748';
+                }
+            }
         }
         
         this.ctx.globalAlpha = 1.0; // Reset alpha
@@ -538,7 +634,7 @@ class BackpackGame {
     }
     
     /**
-     * Check if placement is valid
+     * Check if placement is valid with irregular grid support
      */
     isValidPlacement(gridX, gridY, obj) {
         // Check boundaries
@@ -546,11 +642,26 @@ class BackpackGame {
         if (gridX + obj.width > this.config.backpackWidth) return false;
         if (gridY + obj.height > this.config.backpackHeight) return false;
         
-        // Check for overlaps
+        // Check for overlaps and blocked cells
         for (let y = 0; y < obj.height; y++) {
             for (let x = 0; x < obj.width; x++) {
-                if (this.state.grid[gridY + y][gridX + x] !== null) {
-                    return false;
+                const checkY = gridY + y;
+                const checkX = gridX + x;
+                
+                // Check if this cell is blocked by the mask
+                if (this.config.gridMask && 
+                    this.config.gridMask[checkY] && 
+                    this.config.gridMask[checkY][checkX] === 0) {
+                    return false; // Can't place on blocked cells
+                }
+                
+                // Check if cell is already occupied or blocked
+                const cellValue = this.state.grid[checkY][checkX];
+                if (cellValue !== null && cellValue !== 'blocked') {
+                    return false; // Cell is occupied by another object
+                }
+                if (cellValue === 'blocked') {
+                    return false; // Cell is blocked
                 }
             }
         }
@@ -697,7 +808,7 @@ class BackpackGame {
      * Handle reset button click
      */
     handleReset() {
-        // Clear grid
+        // Clear grid (respecting mask)
         this.state.grid = this.createGrid(
             this.config.backpackWidth,
             this.config.backpackHeight
