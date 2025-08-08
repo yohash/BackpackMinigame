@@ -21,7 +21,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     padding: 0;
-    max-width: 800px;
+    max-width: 1280px;
     width: 100%;
     margin: 0 auto;
 }
@@ -39,8 +39,8 @@ body {
 #backpack-canvas {
     display: block;
     width: 100%;
-    max-width: 800px;
-    height: 600px;
+    max-width: 1280px;
+    height: 720px;
     border: 3px solid #4a5568;
     border-radius: 8px;
     background: #f7fafc;
@@ -49,9 +49,9 @@ body {
     image-rendering: crisp-edges;
 }
 
-#backpack-canvas.dragging {
-    cursor: grabbing;
-}
+    #backpack-canvas.dragging {
+        cursor: grabbing;
+    }
 
 /* UI Overlay */
 #ui-overlay {
@@ -64,9 +64,9 @@ body {
     z-index: 10;
 }
 
-#ui-overlay * {
-    pointer-events: auto;
-}
+    #ui-overlay * {
+        pointer-events: auto;
+    }
 
 /* Object Counter */
 #object-counter {
@@ -116,55 +116,63 @@ body {
     letter-spacing: 0.5px;
 }
 
-.game-btn.primary {
-    background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
-    color: white;
-    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
-}
+    .game-btn.primary {
+        background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
+    }
 
-.game-btn.primary:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
-}
+        .game-btn.primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
+        }
 
-.game-btn.primary:disabled {
-    background: #cbd5e0;
-    cursor: not-allowed;
-    box-shadow: none;
-}
+        .game-btn.primary:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
 
-.game-btn.secondary {
-    background: #e2e8f0;
-    color: #4a5568;
-}
+    .game-btn.secondary {
+        background: #e2e8f0;
+        color: #4a5568;
+    }
 
-.game-btn.secondary:hover {
-    background: #cbd5e0;
-    transform: translateY(-1px);
-}
+        .game-btn.secondary:hover {
+            background: #cbd5e0;
+            transform: translateY(-1px);
+        }
 
 /* Responsive Design */
+@media (max-width: 1280px) {
+    #backpack-canvas {
+        height: calc(100vw * 0.5625); /* 16:9 aspect ratio */
+        max-height: 720px;
+    }
+}
+
 @media (max-width: 768px) {
     #game-wrapper {
         padding: 0;
     }
-    
+
     #backpack-canvas {
-        height: 500px;
+        height: calc(100vw * 0.5625); /* 16:9 aspect ratio */
+        max-height: 500px;
     }
-    
+
     #object-counter {
         font-size: 0.9em;
         padding: 8px 15px;
     }
-    
+
     #game-controls {
         bottom: 10px;
         right: 10px;
         left: 10px;
         justify-content: center;
     }
-    
+
     .game-btn {
         padding: 10px 20px;
         font-size: 14px;

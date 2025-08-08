@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Twine environment detected');
         initTwineGame();
     } else {
-        console.log('Standalone mode - use test controls to start');
+        console.log('Standalone mode');
         // In standalone mode, wait for manual initialization
     }
 });
@@ -129,7 +129,9 @@ window.initTestGame = function () {
     const config = {
         backpackWidth: 4,
         backpackHeight: 5,
-        cellSize: 60,
+        cellSize: 100, // Fixed 100px cells
+        gridXOffset: 0, // Adjustable grid X offset
+        gridYOffset: 0, // Adjustable grid Y offset
         objects: window.testObjects || [],
         sprites: window.testSprites || {},
         onComplete: function (placedObjects) {

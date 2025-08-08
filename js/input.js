@@ -216,12 +216,6 @@ class InputHandler {
         // Update object position (centered on cursor with offset)
         obj.pixelX = position.x - this.game.state.dragOffset.x;
         obj.pixelY = position.y - this.game.state.dragOffset.y;
-
-        // Update ghost position for preview
-        this.game.state.ghostPosition = {
-            x: position.x - this.game.state.dragOffset.x + (obj.width * this.game.config.cellSize) / 2,
-            y: position.y - this.game.state.dragOffset.y + (obj.height * this.game.config.cellSize) / 2
-        };
     }
 
     /**
@@ -231,7 +225,7 @@ class InputHandler {
         const obj = this.game.state.draggedObject;
         if (!obj) return;
 
-        // Check if object overlaps with backpack area
+        // Check if object overlaps with grid area
         const objBounds = {
             left: obj.pixelX,
             right: obj.pixelX + (obj.width * this.game.config.cellSize),
@@ -239,38 +233,43 @@ class InputHandler {
             bottom: obj.pixelY + (obj.height * this.game.config.cellSize)
         };
 
-        const backpackBounds = {
-            left: this.game.backpackX,
-            right: this.game.backpackX + this.game.backpackPixelWidth,
-            top: this.game.backpackY,
-            bottom: this.game.backpackY + this.game.backpackPixelHeight
+        const gridBounds = {
+            left: this.game.gridX,
+            right: this.game.gridX + this.game.gridPixelWidth,
+            top: this.game.gridY,
+            bottom: this.game.gridY + this.game.gridPixelHeight
         };
 
-        // Check if object overlaps with backpack
-        const overlapsBackpack = !(objBounds.right <= backpackBounds.left ||
-            objBounds.left >= backpackBounds.right ||
-            objBounds.bottom <= backpackBounds.top ||
-            objBounds.top >= backpackBounds.bottom);
+        // Check if object overlaps with grid
+        const overlapsGrid = !(objBounds.right <= gridBounds.left ||
+            objBounds.left >= gridBounds.right ||
+            objBounds.bottom <= gridBounds.top ||
+            objBounds.top >= gridBounds.bottom);
 
-        if (overlapsBackpack) {
-            // Object touches backpack - try to place it
-            const centerX = obj.pixelX + (obj.width * this.game.config.cellSize) / 2;
-            const centerY = obj.pixelY + (obj.height * this.game.config.cellSize) / 2;
+        if (overlapsGrid) {
+            // Object touches grid - try to place it
+            // Use nearest grid snap (same as ghost preview)
+            const snapX = obj.pixelX + this.game.config.cellSize / 2;
+            const snapY = obj.pixelY + this.game.config.cellSize / 2;
+            const gridPos = this.game.pixelToGrid(snapX, snapY);
 
-            const gridPos = this.game.pixelToGrid(centerX, centerY);
+            // Clamp to valid grid bounds
+            const clampedX = Math.max(0, Math.min(gridPos.x, this.game.config.backpackWidth - obj.width));
+            const clampedY = Math.max(0, Math.min(gridPos.y, this.game.config.backpackHeight - obj.height));
 
-            if (this.game.isValidPlacement(gridPos.x, gridPos.y, obj)) {
+            if (this.game.isValidPlacement(clampedX, clampedY, obj)) {
                 // Valid placement in backpack
-                this.game.handleObjectPlaced(obj, gridPos.x, gridPos.y);
-                console.log(`Placed ${obj.name} in backpack at grid position (${gridPos.x}, ${gridPos.y})`);
+                this.game.handleObjectPlaced(obj, clampedX, clampedY);
+                console.log(`Placed ${obj.name} in backpack at grid position (${clampedX}, ${clampedY})`);
             } else {
                 // Invalid placement - return to original position
                 obj.pixelX = this.dragStartPosition.x;
                 obj.pixelY = this.dragStartPosition.y;
+                this.game.showFeedback(`Can't place ${obj.name} here`, 'error');
                 console.log(`Failed to place ${obj.name} in backpack - returning to original position`);
             }
         } else {
-            // Object is outside backpack - leave it where it is
+            // Object is outside grid - leave it where it is
             console.log(`${obj.name} placed outside backpack at (${obj.pixelX}, ${obj.pixelY})`);
         }
 
