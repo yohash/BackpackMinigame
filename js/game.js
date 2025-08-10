@@ -1,6 +1,6 @@
 /**
  * BackpackGame - Main game controller
- * Manages the overall game state and coordinates between subsystems
+ * POLISHED VERSION: Updated UI layout and hover display
  */
 class BackpackGame {
     constructor(canvasId, config) {
@@ -53,7 +53,8 @@ class BackpackGame {
             feedbackTimeout: null,
             feedbackType: 'info',
             backpackNativeWidth: 0,
-            backpackNativeHeight: 0
+            backpackNativeHeight: 0,
+            hoveredObject: null  // NEW: Track hovered object
         };
         
         // Calculate grid dimensions
@@ -71,6 +72,7 @@ class BackpackGame {
         this.objectManager = null;
         this.renderer = null;
         this.inputHandler = null;
+        this.debugConsole = null;
         
         // Bind methods
         this.gameLoop = this.gameLoop.bind(this);
@@ -224,7 +226,8 @@ class BackpackGame {
             pixelX: 0,
             pixelY: 0,
             width: objData.width || 1,
-            height: objData.height || 1
+            height: objData.height || 1,
+            description: objData.description || ''  // Ensure description exists
         }));
         
         // Update UI counters
@@ -298,7 +301,7 @@ class BackpackGame {
      * Set up UI event handlers
      */
     setupUI() {
-        const continueBtn = document.getElementById('continue-btn');
+        const continueBtn = document.getElementById('continue-btn') || document.getElementById('done-btn');
         const resetBtn = document.getElementById('reset-btn');
         
         if (continueBtn) {
@@ -336,8 +339,8 @@ class BackpackGame {
         // Draw backpack background
         this.drawBackpack();
         
-        // Draw blocked cells indicator (optional visual)
-        this.drawBlockedCells();
+        // DON'T draw blocked cells indicator - removed for clean look
+        // this.drawBlockedCells();
         
         // Draw grid
         this.drawGrid();
@@ -360,38 +363,16 @@ class BackpackGame {
         
         // Draw feedback message
         this.drawFeedback();
+        
+        // NEW: Draw object info display
+        this.drawObjectInfo();
     }
     
     /**
-     * Draw visual indicator for blocked cells
+     * REMOVED: No longer drawing blocked cell indicators
      */
     drawBlockedCells() {
-        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Light gray overlay
-        
-        for (let y = 0; y < this.config.backpackHeight; y++) {
-            for (let x = 0; x < this.config.backpackWidth; x++) {
-                if (this.config.gridMask && 
-                    this.config.gridMask[y] && 
-                    this.config.gridMask[y][x] === 0) {
-                    
-                    const cellX = this.gridX + (x * this.config.cellSize);
-                    const cellY = this.gridY + (y * this.config.cellSize);
-                    
-                    // Draw a subtle overlay on blocked cells
-                    this.ctx.fillRect(cellX, cellY, this.config.cellSize, this.config.cellSize);
-                    
-                    // Optional: Draw an X or pattern to indicate blocked
-                    this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
-                    this.ctx.lineWidth = 1;
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(cellX, cellY);
-                    this.ctx.lineTo(cellX + this.config.cellSize, cellY + this.config.cellSize);
-                    this.ctx.moveTo(cellX + this.config.cellSize, cellY);
-                    this.ctx.lineTo(cellX, cellY + this.config.cellSize);
-                    this.ctx.stroke();
-                }
-            }
-        }
+        // Intentionally empty - we don't want visual indicators
     }
     
     /**
@@ -432,7 +413,7 @@ class BackpackGame {
     }
     
     /**
-     * Draw the grid lines for irregular grid
+     * Draw the grid lines for irregular grid (cleaned up)
      */
     drawGrid() {
         this.ctx.strokeStyle = '#2d3748'; // Darker color for better visibility
@@ -512,6 +493,44 @@ class BackpackGame {
         }
         
         this.ctx.globalAlpha = 1.0; // Reset alpha
+    }
+
+    /**
+     * Draw object information display
+     */
+    drawObjectInfo() {
+        const objectToShow = this.state.draggedObject || this.state.hoveredObject;
+        
+        if (!objectToShow) return;
+        
+        // Position: centered below the backpack
+        const infoX = this.canvas.width / 2;
+        const infoY = this.gridY + this.gridPixelHeight + 60;
+        
+        // Draw background box for better visibility
+        const name = objectToShow.name || objectToShow.id;
+        const description = objectToShow.description || '';
+        
+        // Measure text to create background
+        this.ctx.font = 'bold 24px Arial';
+        const nameWidth = this.ctx.measureText(name).width;
+        this.ctx.font = '16px Arial';
+        const descWidth = description ? this.ctx.measureText(description).width : 0;
+        const maxWidth = Math.max(nameWidth, descWidth);
+        
+        // Draw name (large)
+        this.ctx.font = 'bold 24px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'top';
+        this.ctx.fillStyle = '#2d3748';
+        this.ctx.fillText(name, infoX, infoY);
+        
+        // Draw description (small) - FIXED to ensure it displays
+        if (description && description.length > 0) {
+            this.ctx.font = '16px Arial';
+            this.ctx.fillStyle = '#718096';
+            this.ctx.fillText(description, infoX, infoY + 30);
+        }
     }
     
     /**
@@ -720,7 +739,8 @@ class BackpackGame {
      * Check if continue button should be enabled
      */
     checkContinueButton() {
-        const continueBtn = document.getElementById('continue-btn');
+        // Check both possible button IDs
+        const continueBtn = document.getElementById('continue-btn') || document.getElementById('done-btn');
         if (continueBtn) {
             // Enable if at least one object is placed
             continueBtn.disabled = this.state.placedObjects.length === 0;

@@ -4,6 +4,15 @@
  */
 window.testObjects = [
     {
+        id: 'baseball',
+        name: 'Baseball',
+        width: 1,
+        height: 1,
+        color: 'hsl(50, 70%, 60%)',
+        sprite: 'baseball',
+        description: 'A baseball.'
+    },
+    {
         id: 'bong',
         name: 'Bong',
         width: 2,
@@ -13,13 +22,31 @@ window.testObjects = [
         description: 'A glass bong.'
     },
     {
-        id: 'cash',
-        name: 'Cash',
-        width: 1,
+        id: 'burtreynolds',
+        name: 'Burtreynolds',
+        width: 2,
         height: 2,
-        color: 'hsl(40, 70%, 60%)',
-        sprite: 'cash',
-        description: 'A stack of cash.'
+        color: 'hsl(70, 70%, 60%)',
+        sprite: 'burtreynolds',
+        description: 'A Burt Reynolds photo.'
+    },
+    {
+        id: 'cash1',
+        name: 'Cash1',
+        width: 1,
+        height: 1,
+        color: 'hsl(90, 70%, 60%)',
+        sprite: 'cash1',
+        description: 'A small stack of cash.'
+    },
+    {
+        id: 'cash401',
+        name: 'Cash401',
+        width: 1,
+        height: 1,
+        color: 'hsl(110, 70%, 60%)',
+        sprite: 'cash401',
+        description: 'A large stack of cash.'
     },
     {
         id: 'cellphone',
@@ -74,6 +101,15 @@ window.testObjects = [
         color: 'hsl(160, 70%, 60%)',
         sprite: 'fleacollar',
         description: 'A flea collar for pets.'
+    },
+    {
+        id: 'jesterpant',
+        name: 'Jesterpant',
+        width: 3,
+        height: 1,
+        color: 'hsl(130, 70%, 60%)',
+        sprite: 'jesterpant',
+        description: 'A pair of jester pants.'
     },
     {
         id: 'jestervest',
@@ -182,14 +218,35 @@ window.testObjects = [
         color: 'hsl(60, 70%, 60%)',
         sprite: 'smokes',
         description: 'A pack of cigarettes.'
+    },
+    {
+        id: 'spade',
+        name: 'Spade',
+        width: 1,
+        height: 3,
+        color: 'hsl(150, 70%, 60%)',
+        sprite: 'spade',
+        description: 'A garden spade.'
+    },
+    {
+        id: 'trophy',
+        name: 'Trophy',
+        width: 2,
+        height: 3,
+        color: 'hsl(170, 70%, 60%)',
+        sprite: 'trophy',
+        description: 'A shiny trophy.'
     }
 ];
 
 // Sprite paths (you'll need to add actual image files)
 window.testSprites = {
     'backpack': 'assets/sprites/backpack_bg.png',
+    'baseball': 'assets/sprites/baseball.png',
+    'burtreynolds': 'assets/sprites/burtreyn.png',
     'bong': 'assets/sprites/bong.png',
-    'cash': 'assets/sprites/cash401.png',
+    'cash1': 'assets/sprites/cash1.png',
+    'cash401': 'assets/sprites/cash401.png',
     'cellphone': 'assets/sprites/cellphone.png',
     'cheetos': 'assets/sprites/cheetos.png',
     'cups': 'assets/sprites/cups.png',
@@ -197,6 +254,7 @@ window.testSprites = {
     'fabreeze': 'assets/sprites/fabreeze.png',
     'fleacollar': 'assets/sprites/fleacollar.png',
     'jestervest': 'assets/sprites/jestervest.png',
+    'jesterpant': 'assets/sprites/jesterpant.png',
     'lighterern': 'assets/sprites/lighterern.png',
     'lightergrt': 'assets/sprites/lightergrt.png',
     'lighterram': 'assets/sprites/lighterram.png',
@@ -208,6 +266,8 @@ window.testSprites = {
     'romancandel': 'assets/sprites/romancand.png',
     'shield': 'assets/sprites/sheild.png',
     'smokes': 'assets/sprites/smokes.png',
+    'spade': 'assets/sprites/spade.png',
+    'trophy': 'assets/sprites/trophy.png',
 };
 
 // Twine integration test data

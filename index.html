@@ -36,6 +36,7 @@
     <script src="js/renderer.js"></script>
     <script src="js/input.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/debug-console.js"></script> <!-- NEW: Debug Console -->
     <script src="js/twine-bridge.js"></script>
     <script src="js/main.js"></script>
     
@@ -71,6 +72,13 @@
             
             window.backpackGame = new BackpackGame('backpack-canvas', config);
             window.backpackGame.startGame();
+            
+            // Show instructions in console
+            console.log('%c🎮 Debug Console Ready!', 'color: #68d391; font-size: 16px; font-weight: bold;');
+            console.log('%cPress "D" to toggle the debug console', 'color: #e2e8f0; font-size: 14px;');
+            console.log('• Check/uncheck items to show/hide them');
+            console.log('• Click "Apply" to update the game');
+            console.log('• Drag the console header to move it');
         }
     </script>
 </body>

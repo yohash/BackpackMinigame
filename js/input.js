@@ -1,6 +1,6 @@
 /**
  * InputHandler - Manages all user input for the backpack game
- * Handles mouse and touch events for drag and drop functionality
+ * UPDATED: Added hover tracking for object info display
  */
 class InputHandler {
     constructor(canvas, game) {
@@ -49,9 +49,12 @@ class InputHandler {
      */
     getMousePosition(event) {
         const rect = this.canvas.getBoundingClientRect();
+        const scaleX = this.canvas.width / rect.width;
+        const scaleY = this.canvas.height / rect.height;
+        
         return {
-            x: event.clientX - rect.left,
-            y: event.clientY - rect.top
+            x: (event.clientX - rect.left) * scaleX,
+            y: (event.clientY - rect.top) * scaleY
         };
     }
     
@@ -61,9 +64,12 @@ class InputHandler {
     getTouchPosition(event) {
         const rect = this.canvas.getBoundingClientRect();
         const touch = event.touches[0] || event.changedTouches[0];
+        const scaleX = this.canvas.width / rect.width;
+        const scaleY = this.canvas.height / rect.height;
+        
         return {
-            x: touch.clientX - rect.left,
-            y: touch.clientY - rect.top
+            x: (touch.clientX - rect.left) * scaleX,
+            y: (touch.clientY - rect.top) * scaleY
         };
     }
     
@@ -117,8 +123,13 @@ class InputHandler {
         if (this.game.state.isDragging && this.game.state.draggedObject) {
             this.updateDrag(this.mousePosition);
         } else {
-            // Update cursor style based on hover
+            // Update hover state
             const obj = this.getObjectAtPosition(this.mousePosition.x, this.mousePosition.y);
+            
+            // Update hovered object in game state
+            this.game.state.hoveredObject = obj;
+            
+            // Update cursor style based on hover
             this.canvas.style.cursor = obj ? 'grab' : 'default';
         }
     }
@@ -146,6 +157,10 @@ class InputHandler {
         this.isMouseDown = true;
         
         const obj = this.getObjectAtPosition(position.x, position.y);
+        
+        // Set hovered object for touch
+        this.game.state.hoveredObject = obj;
+        
         if (obj) {
             if (obj.isPlaced) {
                 this.pickUpPlacedObject(obj);
@@ -177,6 +192,9 @@ class InputHandler {
         if (this.game.state.isDragging && this.game.state.draggedObject) {
             this.endDrag(this.mousePosition);
         }
+        
+        // Clear hovered object on touch end
+        this.game.state.hoveredObject = null;
         
         this.isMouseDown = false;
     }
