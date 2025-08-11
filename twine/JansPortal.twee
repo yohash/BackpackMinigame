@@ -797,6 +797,7 @@ What do you put in your backpack?
 :: Scene2A {"position":"400,450","size":"100,100"}
 STRIP MALL PARKING LOT
 
+
 You are in the parking lot, still. The anger won’t let you leave. 
 <<if $cash401>>
 You crouch down behind a dirty pick-up truck and pull the envelope of cash out of your bag. $401 dollars. They owe you that much, at least, for years of humiliation. But GRETA will notice any minute that it’s gone. They’ll obviously come looking for you. Why did you take it?
@@ -1932,64 +1933,236 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 
 <<set $mobmen = 0>>
 
+<<set $nextPassageString = "">>
+
 
 /* <<newinventory $backpack "Backpack">> */
 
 
+:: BackpackComplete
+<<set $romancand = $packedItems.includes("romancand")>>
+\<<set $lightergrt = $packedItems.includes("lightergrt")>>
+\<<set $lighterern = $packedItems.includes("lighterern")>>
+\<<set $lighterram = $packedItems.includes("lighterram")>>
+\<<set $matchbook = $packedItems.includes("matchbook")>>
+\<<set $cellphone = $packedItems.includes("cellphone")>>
+\<<set $lollipops = $packedItems.includes("lollipops")>>
+\<<set $fleacollar = $packedItems.includes("fleacollar")>>
+\<<set $fabreeze = $packedItems.includes("fabreeze")>>
+\<<set $cheetos = $packedItems.includes("cheetos")>>
+\<<set $bong = $packedItems.includes("bong")>>
+\<<set $shield = $packedItems.includes("shield")>>
+\<<set $cups = $packedItems.includes("cups")>>
+\<<set $cash401 = $packedItems.includes("cash401")>>
+\<<set $pointer = $packedItems.includes("pointer")>>
+\<<set $smokes = $packedItems.includes("smokes")>>
+\<<set $jestervest = $packedItems.includes("jestervest")>>
+\<<set $orcking = $packedItems.includes("orcking")>>
+\<<set $dice = $packedItems.includes("dice")>>
+\<<set $papertow = $packedItems.includes("papertow")>>
+\<<set $cheetos2 = $packedItems.includes("cheetos2")>>
+\<<set $baseball = $packedItems.includes("baseball")>>
+\<<set $spade = $packedItems.includes("spade")>>
+\<<set $troph = $packedItems.includes("troph")>>
+\<<set $jesterpant = $packedItems.includes("jesterpant")>>
+\<<set $burtreyn = $packedItems.includes("burtreyn")>>
+\<<set $cash1 = $packedItems.includes("cash1")>>
+IN YOUR BACKPACK
+<<if $romancand>>• Roman candle<br><</if>>
+\<<if $lighterram>>• Rambo’s lighter<br><</if>>
+\<<if $matchbook>>• Matchbook<br><</if>>
+\<<if $lollipops>>• Lollipops<br><</if>>
+\<<if $fleacollar>>• Flea collar<br><</if>>
+\<<if $fabreeze>>• Fabreeze<br><</if>>
+\<<if $cheetos>>• Cheetos<br><</if>>
+\<<if $cheetos2>>• Cheetos 2<br><</if>>
+\<<if $bong>>• Bong<br><</if>>
+\<<if $pointer>>• Laser Pointer<br><</if>>
+\<<if $spade>>• Spade<br><</if>>
+\<<if $troph>>• Softball trophy<br><</if>>
+\<<if $burtreyn>>• Burt Reynolds portrait<br><</if>>
+\<<if $jesterpant>>• Jester pants<br><</if>>
+\<<if $baseball>>• Baseball<br><</if>>
+\<<if $lightergrt>>• Greta’s lighter<br><</if>>
+\<<if $cellphone>>• Cellphone<br><</if>>
+\<<if $cups>>• Empty cups<br><</if>>
+\<<if $cash401>>• Stack of $401<br><</if>>
+\<<if $smokes>>• Greta’s smokes<br><</if>>
+\<<if $jestervest>>• Jester vest<br><</if>>
+\<<if $orcking>>• Orc King figurine<br><</if>>
+\<<if $dice>>• 6-sided dice<br><</if>>
+\<<if $lighterern>>• Ernesto’s lighter<br><</if>>
+\<<if $shield>>• Half shield<br><</if>>
+\<<if $papertow>>• Paper towels<br><</if>>
+
+
+[[$nextPassageString->$nextPassage]]
 
 
 :: backpackmenu12 {"position":"1025,2500","size":"100,100"}
-IN YOUR BACKPACK
-<<if $lightergrt>>• Greta’s lighter<br><</if>><<if $smokes>>• Greta’s smokes<br><</if>><<if $orcking>>• Orc King figurine<br><</if>><<if $dice>>• 6-sided dice<br><</if>><<if $lighterern>>• Ernesto’s lighter<br><</if>><<if $shield>>• Half shield<br><</if>><<if $papertow>>• Paper towels<br><</if>><<if $cheetos>>• Cheetos<br><</if>><<if $baseball>>• Baseball<br><</if>><<if $pointer>>• Laser Pointer<br><</if>><<if $spade>>• Spade<br><</if>><<if $trophy>>• Softball trophy<br><</if>><<if $burtreyn>>• Burt Reynolds portrait<br><</if>><<if $romancand>>• Roman candle<br><</if>><<if $lighterram>>• Rambo’s Lighter<br><</if>><<if $matchbook>>• Matchbook<br><</if>><<if $lollipops>>• Lollipops<br><</if>><<if $fleacollar>>• Flea collar<br><</if>><<if $fabreeze>>• Fabreeze<br><</if>><<if !$lightergrt && !$smokes && !$orcking && !$dice && !$lighterern && !$shield && !$papertow && !$cheetos && !$baseball && !$spade && !$trophy && !$burtreyn && !$pointer && !$romancand && !$lighterram && !$matchbook && !$lollipops && !$fleacollar && !$fabreeze && !$bodyarmor>>(empty)<br><</if>>
-ACTIONS
-<<if !$lightergrt>>[[Add Greta’s lighter|backpackmenu12][$lightergrt = true]]<br><<else>>[[Remove Greta’s lighter|backpackmenu12][$lightergrt = false]]<br><</if>><<if !$smokes>>[[Add smokes|backpackmenu12][$smokes = true]]<br><<else>>[[Remove smokes|backpackmenu12][$smokes = false]]<br><</if>><<if !$orcking>>[[Add Orc King figurine|backpackmenu12][$orcking = true]]<br><<else>>[[Remove Orc King figurine|backpackmenu12][$orcking = false]]<br><</if>><<if !$dice>>[[Add 6-sided dice|backpackmenu12][$dice = true]]<br><<else>>[[Remove 6-sided dice|backpackmenu12][$dice = false]]<br><</if>><<if !$lighterern>>[[Add Ernesto’s lighter|backpackmenu12][$lighterern = true]]<br><<else>>[[Remove Ernesto’s lighter|backpackmenu12][$lighterern = false]]<br><</if>><<if !$shield>>[[Add half shield|backpackmenu12][$shield = true]]<br><<else>>[[Remove half shield|backpackmenu12][$shield = false]]<br><</if>><<if !$papertow>>[[Add paper towels|backpackmenu12][$papertow = true]]<br><<else>>[[Remove paper towels|backpackmenu12][$papertow = false]]<br><</if>><<if !$cheetos>>[[Add Cheetos|backpackmenu12][$cheetos = true]]<br><<else>>[[Remove Cheetos|backpackmenu12][$cheetos = false]]<br><</if>><<if !$baseball>>[[Add Baseball|backpackmenu12][$baseball = true]]<br><<else>>[[Remove Baseball|backpackmenu12][$baseball = false]]<br><</if>><<if !$spade>>[[Add Spade|backpackmenu12][$spade = true]]<br><<else>>[[Remove Spade|backpackmenu12][$spade = false]]<br><</if>><<if !$pointer>>[[Add Laser Pointer|backpackmenu12][$pointer = true]]<br><<else>>[[Remove Laser Pointer|backpackmenu12][$pointer = false]]<br><</if>><<if !$trophy>>[[Add Softball trophy|backpackmenu12][$trophy = true]]<br><<else>>[[Remove Softball trophy|backpackmenu12][$trophy = false]]<br><</if>><<if !$burtreyn>>[[Add Burt Reynolds portrait|backpackmenu12][$burtreyn = true]]<br><<else>>[[Remove Burt Reynolds portrait|backpackmenu12][$burtreyn = false]]<br><</if>><<if !$romancand>>[[Add Roman candle|backpackmenu12][$romancand = true]]<br><<else>>[[Remove Roman candle|backpackmenu12][$romancand = false]]<br><</if>><<if !$lighterram>>[[Add Rambo’s Lighter|backpackmenu12][$lighterram = true]]<br><<else>>[[Remove Rambo’s Lighter|backpackmenu12][$lighterram = false]]<br><</if>><<if !$matchbook>>[[Add Matchbook|backpackmenu12][$matchbook = true]]<br><<else>>[[Remove Matchbook|backpackmenu12][$matchbook = false]]<br><</if>><<if !$lollipops>>[[Add Lollipops|backpackmenu12][$lollipops = true]]<br><<else>>[[Remove Lollipops|backpackmenu12][$lollipops = false]]<br><</if>><<if !$fleacollar>>[[Add Flea collar|backpackmenu12][$fleacollar = true]]<br><<else>>[[Remove Flea collar|backpackmenu12][$fleacollar = false]]<br><</if>><<if !$fabreeze>>[[Add Fabreeze|backpackmenu12][$fabreeze = true]]<br><<else>>[[Remove Fabreeze|backpackmenu12][$fabreeze = false]]<br><</if>>
+
+<<set $availableItems to ["lightergrt", "smokes", "orcking", "dice", "lighterern", "shield", "papertow", "cheetos", "baseball", "pointer", "spade", "trophy", "burtreyn", "romancand", "lighterram", "matchbook", "lollipops", "fleacollar", "fabreeze"]>>
+<<set $nextPassage to "Scene12B">>
+<<set $nextPassageString to "Leave MA'S HOUSE">>
+
+<div id="backpack-game-container">
+    <canvas id="backpack-canvas"></canvas>
+    <div id="ui-overlay">
+        <div id="object-counter">
+            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
+        </div>
+    </div>
+    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
+    <button id="reset-btn" class="game-btn secondary">Reset</button>
+    <button id="done-btn" class="game-btn primary" disabled>Done</button>
+</div>
+
+<<done>>
+<<script>>
+    // Hide Twine UI and make fullscreen
+    document.getElementById('ui-bar').style.display = 'none';
+    document.querySelector('.passage').classList.add('backpack-active');
+    
+    // Start the game
+    setTimeout(function() {
+        BackpackMinigame.start(State.variables.availableItems);
+    }, 100);
+<</script>>
+<</done>>
 
 \[[Leave MA'S HOUSE|Scene12B]]
 
 
-:: backpackmenu2 {"position":"1150,300","size":"100,100"}
-IN YOUR BACKPACK
-<<if $lightergrt>>• Greta’s lighter<br><</if>><<if $cellphone>>• Cellphone<br><</if>><<if $cups>>• Empty cups<br><</if>><<if $cash401>>• Stack of $401<br><</if>><<if $smokes>>• Greta’s smokes<br><</if>><<if $jestervest>>• Jester vest<br><</if>><<if !$lightergrt && !$cellphone && !$cups && !$cash401 && !$smokes && !$jestervest>>(empty)<br><</if>>
-ACTIONS 
-<<if !$lightergrt>>[[Add Greta’s lighter|backpackmenu2][$lightergrt = true]]<br><<else>>[[Remove Greta’s lighter|backpackmenu2][$lightergrt = false]]<br><</if>><<if !$cellphone>>[[Add cellphone|backpackmenu2][$cellphone = true]]<br><<else>>[[Remove cellphone|backpackmenu2][$cellphone = false]]<br><</if>><<if !$cups>>[[Add cups|backpackmenu2][$cups = true]]<br><<else>>[[Remove cups|backpackmenu2][$cups = false]]<br><</if>><<if !$cash401>>[[Add cash401|backpackmenu2][$cash401 = true][$STOLEcash401 = false]]<br><<else>>[[Remove cash401|backpackmenu2][$cash401 = false][$STOLEcash401 = true]]<br><</if>><<if !$smokes>>[[Add smokes|backpackmenu2][$smokes = true]]<br><<else>>[[Remove smokes|backpackmenu2][$smokes = false]]<br><</if>><<if !$jestervest>>[[Add jester vest|backpackmenu2][$jestervest = true]]<br><<else>>[[Remove jester vest|backpackmenu2][$jestervest = false]]<br><</if>>
+:: backpackmenu2
+<<set $availableItems to ["lightergrt", "cash401", "cups", "cellphone", "smokes", "jestervest"]>>
+<<set $nextPassage to "Scene2A">>
+<<set $nextPassageString to "Leave the BREAKROOM">>
 
-[[Leave the BREAKROOM|Scene2A]]
+<div id="backpack-game-container">
+    <canvas id="backpack-canvas"></canvas>
+    <div id="ui-overlay">
+        <div id="object-counter">
+            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
+        </div>
+    </div>
+    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
+    <button id="reset-btn" class="game-btn secondary">Reset</button>
+    <button id="done-btn" class="game-btn primary" disabled>Done</button>
+</div>
 
+<<done>>
+<<script>>
+    // Hide Twine UI and make fullscreen
+    document.getElementById('ui-bar').style.display = 'none';
+    document.querySelector('.passage').classList.add('backpack-active');
+    
+    // Start the game
+    setTimeout(function() {
+        BackpackMinigame.start(State.variables.availableItems);
+    }, 100);
+<</script>>
+<</done>>
 
-
-
-
+/* [[Leave the BREAKROOM|Scene2A]] */
 
 :: backpackmenu3 {"position":"950,700","size":"100,100"}
-IN YOUR BACKPACK
-<<if $lightergrt>>• Greta’s lighter<br><</if>><<if $cellphone>>• Cellphone<br><</if>><<if $cups>>• Empty cups<br><</if>><<if $cash401>>• Stack of $401<br><</if>><<if $smokes>>• Greta’s smokes<br><</if>><<if $jestervest>>• Jester vest<br><</if>><<if $orcking>>• Orc King figurine<br><</if>><<if $dice>>• 6-sided dice<br><</if>><<if $lighterern>>• Ernesto’s lighter<br><</if>><<if $bong>>• Bong<br><</if>><<if $shield>>• Half shield<br><</if>><<if $papertow>>• Paper towels<br><</if>><<if !$lightergrt && !$cellphone && !$cups && !$cash401 && !$smokes && !$jestervest && !$orcking && !$dice && !$lighterern && !$bong && !$shield && !$papertow>>(empty)<br><</if>>
-ACTIONS
-<<if !$lightergrt>>[[Add Greta’s lighter|backpackmenu3][$lightergrt = true]]<br><<else>>[[Remove Greta’s lighter|backpackmenu3][$lightergrt = false]]<br><</if>><<if !$cellphone>>[[Add cellphone|backpackmenu3][$cellphone = true]]<br><<else>>[[Remove cellphone|backpackmenu3][$cellphone = false]]<br><</if>><<if !$cups>>[[Add cups|backpackmenu3][$cups = true]]<br><<else>>[[Remove cups|backpackmenu3][$cups = false]]<br><</if>><<if !$cash401>>[[Add cash401|backpackmenu3][$cash401 = true]]<br><<else>>[[Remove cash401|backpackmenu3][$cash401 = false]]<br><</if>><<if !$smokes>>[[Add smokes|backpackmenu3][$smokes = true]]<br><<else>>[[Remove smokes|backpackmenu3][$smokes = false]]<br><</if>><<if !$jestervest>>[[Add jester vest|backpackmenu3][$jestervest = true]]<br><<else>>[[Remove jester vest|backpackmenu3][$jestervest = false]]<br><</if>><<if !$orcking>>[[Add Orc King figurine|backpackmenu3][$orcking = true]]<br><<else>>[[Remove Orc King figurine|backpackmenu3][$orcking = false]]<br><</if>><<if !$dice>>[[Add 6-sided dice|backpackmenu3][$dice = true]]<br><<else>>[[Remove 6-sided dice|backpackmenu3][$dice = false]]<br><</if>><<if !$lighterern>>[[Add Ernesto’s lighter|backpackmenu3][$lighterern = true]]<br><<else>>[[Remove Ernesto’s lighter|backpackmenu3][$lighterern = false]]<br><</if>><<if !$bong>>[[Add bong|backpackmenu3][$bong = true]]<br><<else>>[[Remove bong|backpackmenu3][$bong = false]]<br><</if>><<if !$shield>>[[Add half shield|backpackmenu3][$shield = true]]<br><<else>>[[Remove half shield|backpackmenu3][$shield = false]]<br><</if>><<if !$papertow>>[[Add paper towels|backpackmenu3][$papertow = true]]<br><<else>>[[Remove paper towels|backpackmenu3][$papertow = false]]<br><</if>>
 
-\[[Leave ERNESTO’S APARTMENT|Scene3E]]
+<<set $availableItems to ["lightergrt", "cash401", "cups", "cellphone", "smokes", "jestervest", "orcking", "dice", "lighterern", "bong", "shield", "papertow"]>>
+<<set $nextPassage to "Scene3E">>
+<<set $nextPassageString to "Leave ERNESTO’S APARTMENT">>
 
+<div id="backpack-game-container">
+    <canvas id="backpack-canvas"></canvas>
+    <div id="ui-overlay">
+        <div id="object-counter">
+            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
+        </div>
+    </div>
+    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
+    <button id="reset-btn" class="game-btn secondary">Reset</button>
+    <button id="done-btn" class="game-btn primary" disabled>Done</button>
+</div>
 
+<<done>>
+<<script>>
+    // Hide Twine UI and make fullscreen
+    document.getElementById('ui-bar').style.display = 'none';
+    document.querySelector('.passage').classList.add('backpack-active');
+    
+    // Start the game
+    setTimeout(function() {
+        BackpackMinigame.start(State.variables.availableItems);
+    }, 100);
+<</script>>
+<</done>>
 
-
-
-
+/* [[Leave ERNESTO’S APARTMENT|Scene3E]] */
 
 :: backpackmenu4 {"position":"1000,950","size":"100,100"}
-IN YOUR BACKPACK
-<<if $lightergrt>>• Greta’s lighter<br><</if>><<if $cellphone>>• Cellphone<br><</if>><<if $cash401>>• Stack of $401<br><</if>><<if $smokes>>• Greta’s smokes<br><</if>><<if $jestervest>>• Jester vest<br><</if>><<if $orcking>>• Orc King figurine<br><</if>><<if $dice>>• 6-sided dice<br><</if>><<if $lighterern>>• Ernesto’s lighter<br><</if>><<if $bong>>• Bong<br><</if>><<if $shield>>• Half shield<br><</if>><<if $papertow>>• Paper towels<br><</if>><<if $cheetos>>• Cheetos<br><</if>><<if $baseball>>• Baseball<br><</if>><<if $spade>>• Spade<br><</if>><<if !$lightergrt && !$cellphone && !$cash401 && !$smokes && !$jestervest && !$orcking && !$dice && !$lighterern && !$bong && !$shield && !$papertow && !$cheetos && !$baseball && !$spade>>(empty)<br><</if>>
-ACTIONS
-<<if !$lightergrt>>[[Add Greta’s lighter|backpackmenu4][$lightergrt = true]]<br><<else>>[[Remove Greta’s lighter|backpackmenu4][$lightergrt = false]]<br><</if>><<if !$cellphone>>[[Add cellphone|backpackmenu4][$cellphone = true]]<br><<else>>[[Remove cellphone|backpackmenu4][$cellphone = false]]<br><</if>><<if !$cash401>>[[Add cash401|backpackmenu4][$cash401 = true]]<br><<else>>[[Remove cash401|backpackmenu4][$cash401 = false]]<br><</if>><<if !$smokes>>[[Add smokes|backpackmenu4][$smokes = true]]<br><<else>>[[Remove smokes|backpackmenu4][$smokes = false]]<br><</if>><<if !$jestervest>>[[Add jester vest|backpackmenu4][$jestervest = true]]<br><<else>>[[Remove jester vest|backpackmenu4][$jestervest = false]]<br><</if>><<if !$orcking>>[[Add Orc King figurine|backpackmenu4][$orcking = true]]<br><<else>>[[Remove Orc King figurine|backpackmenu4][$orcking = false]]<br><</if>><<if !$dice>>[[Add 6-sided dice|backpackmenu4][$dice = true]]<br><<else>>[[Remove 6-sided dice|backpackmenu4][$dice = false]]<br><</if>><<if !$lighterern>>[[Add Ernesto’s lighter|backpackmenu4][$lighterern = true]]<br><<else>>[[Remove Ernesto’s lighter|backpackmenu4][$lighterern = false]]<br><</if>><<if !$bong>>[[Add bong|backpackmenu4][$bong = true]]<br><<else>>[[Remove bong|backpackmenu4][$bong = false]]<br><</if>><<if !$shield>>[[Add half shield|backpackmenu4][$shield = true]]<br><<else>>[[Remove half shield|backpackmenu4][$shield = false]]<br><</if>><<if !$papertow>>[[Add paper towels|backpackmenu4][$papertow = true]]<br><<else>>[[Remove paper towels|backpackmenu4][$papertow = false]]<br><</if>><<if !$cheetos>>[[Add Cheetos|backpackmenu4][$cheetos = true]]<br><<else>>[[Remove Cheetos|backpackmenu4][$cheetos = false]]<br><</if>><<if !$baseball>>[[Add Baseball|backpackmenu4][$baseball = true]]<br><<else>>[[Remove Baseball|backpackmenu4][$baseball = false]]<br><</if>><<if !$spade>>[[Add Spade|backpackmenu4][$spade = true]]<br><<else>>[[Remove Spade|backpackmenu4][$spade = false]]<br><</if>>
 
-\[[Go to JAN'S CELLAR|Scene5A]]
+<<set $availableItems to ["lightergrt", "cash401", "cheetos", "cellphone", "smokes", "jestervest", "orcking", "dice", "lighterern", "bong", "shield", "papertow", "baseball", "spade"]>>
+<<set $nextPassage to "Scene5A">>
+<<set $nextPassageString to "Go to JAN'S CELLAR">>
 
+<div id="backpack-game-container">
+    <canvas id="backpack-canvas"></canvas>
+    <div id="ui-overlay">
+        <div id="object-counter">
+            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
+        </div>
+    </div>
+    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
+    <button id="reset-btn" class="game-btn secondary">Reset</button>
+    <button id="done-btn" class="game-btn primary" disabled>Done</button>
+</div>
+
+<<done>>
+<<script>>
+    // Hide Twine UI and make fullscreen
+    document.getElementById('ui-bar').style.display = 'none';
+    document.querySelector('.passage').classList.add('backpack-active');
+    
+    // Start the game
+    setTimeout(function() {
+        BackpackMinigame.start(State.variables.availableItems);
+    }, 100);
+<</script>>
+<</done>>
+
+/* \[[Go to JAN'S CELLAR|Scene5A]] */
 
 :: backpackmenu7 {"position":"1400,1550","size":"100,100"}
-IN YOUR BACKPACK
-<<if $lightergrt>>• Greta’s lighter<br><</if>><<if $smokes>>• Greta’s smokes<br><</if>><<if $jestervest>>• Jester vest<br><</if>><<if $orcking>>• Orc King figurine<br><</if>><<if $dice>>• 6-sided dice<br><</if>><<if $lighterern>>• Ernesto’s lighter<br><</if>><<if $shield>>• Half shield<br><</if>><<if $papertow>>• Paper towels<br><</if>><<if $cheetos>>• Cheetos<br><</if>><<if $baseball>>• Baseball<br><</if>><<if $spade>>• Spade<br><</if>><<if $pointer>>• Laser pointer<br><</if>><<if $trophy>>• Softball trophy<br><</if>><<if $jesterpant>>• Jester pants<br><</if>><<if $burtreyn>>• Burt Reynolds portrait<br><</if>><<if !$lightergrt && !$smokes && !$jestervest && !$orcking && !$dice && !$lighterern && !$shield && !$papertow && !$cheetos && !$baseball && !$spade && !$trophy && !$jesterpant && !$burtreyn && !$pointer>>(empty)<br><</if>>
-ACTIONS
-<<if !$lightergrt>>[[Add Greta’s lighter|backpackmenu7][$lightergrt = true]]<br><<else>>[[Remove Greta’s lighter|backpackmenu7][$lightergrt = false]]<br><</if>><<if !$smokes>>[[Add smokes|backpackmenu7][$smokes = true]]<br><<else>>[[Remove smokes|backpackmenu7][$smokes = false]]<br><</if>><<if !$jestervest>>[[Add jester vest|backpackmenu7][$jestervest = true]]<br><<else>>[[Remove jester vest|backpackmenu7][$jestervest = false]]<br><</if>><<if !$orcking>>[[Add Orc King figurine|backpackmenu7][$orcking = true]]<br><<else>>[[Remove Orc King figurine|backpackmenu7][$orcking = false]]<br><</if>><<if !$dice>>[[Add 6-sided dice|backpackmenu7][$dice = true]]<br><<else>>[[Remove 6-sided dice|backpackmenu7][$dice = false]]<br><</if>><<if !$lighterern>>[[Add Ernesto’s lighter|backpackmenu7][$lighterern = true]]<br><<else>>[[Remove Ernesto’s lighter|backpackmenu7][$lighterern = false]]<br><</if>><<if !$shield>>[[Add half shield|backpackmenu7][$shield = true]]<br><<else>>[[Remove half shield|backpackmenu7][$shield = false]]<br><</if>><<if !$papertow>>[[Add paper towels|backpackmenu7][$papertow = true]]<br><<else>>[[Remove paper towels|backpackmenu7][$papertow = false]]<br><</if>><<if !$cheetos>>[[Add Cheetos|backpackmenu7][$cheetos = true]]<br><<else>>[[Remove Cheetos|backpackmenu7][$cheetos = false]]<br><</if>><<if !$baseball>>[[Add Baseball|backpackmenu7][$baseball = true]]<br><<else>>[[Remove Baseball|backpackmenu7][$baseball = false]]<br><</if>><<if !$spade>>[[Add Spade|backpackmenu7][$spade = true]]<br><<else>>[[Remove Spade|backpackmenu7][$spade = false]]<br><</if>><<if !$pointer>>[[Add Laser Pointer|backpackmenu7][$pointer = true]]<br><<else>>[[Remove Laser Pointer|backpackmenu7][$pointer = false]]<br><</if>><<if !$trophy>>[[Add Softball trophy|backpackmenu7][$trophy = true]]<br><<else>>[[Remove Softball trophy|backpackmenu7][$trophy = false]]<br><</if>><<if !$jesterpant>>[[Add Jester pants|backpackmenu7][$jesterpant = true]]<br><<else>>[[Remove Jester pants|backpackmenu7][$jesterpant = false]]<br><</if>><<if !$burtreyn>>[[Add Burt Reynolds portrait|backpackmenu7][$burtreyn = true]]<br><<else>>[[Remove Burt Reynolds portrait|backpackmenu7][$burtreyn = false]]<br><</if>>
 
-\[[Go to the STRIP MALL|Scene8A]]
+<<set $availableItems to ["lightergrt", "cheetos", "smokes", "jestervest", "orcking", "dice", "lighterern", "shield", "papertow", "baseball", "spade", "pointer", "trophy", "jesterpant", "burtreyn"]>>
+<<set $nextPassage to "Scene8A">>
+<<set $nextPassageString to "Go to the STRIP MALL">>
+
+<div id="backpack-game-container">
+    <canvas id="backpack-canvas"></canvas>
+    <div id="ui-overlay">
+        <div id="object-counter">
+            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
+        </div>
+    </div>
+    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
+    <button id="reset-btn" class="game-btn secondary">Reset</button>
+    <button id="done-btn" class="game-btn primary" disabled>Done</button>
+</div>
+
+<<done>>
+<<script>>
+    // Hide Twine UI and make fullscreen
+    document.getElementById('ui-bar').style.display = 'none';
+    document.querySelector('.passage').classList.add('backpack-active');
+    
+    // Start the game
+    setTimeout(function() {
+        BackpackMinigame.start(State.variables.availableItems);
+    }, 100);
+<</script>>
+<</done>>
+
+/* \[[Go to the STRIP MALL|Scene8A]] */
 
 
 :: scrapped 9b {"position":"625,1950","size":"100,100"}

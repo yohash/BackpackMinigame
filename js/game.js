@@ -6,7 +6,12 @@ class BackpackGame {
     constructor(canvasId, config) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
-        
+        // In the constructor, after binding other methods:
+        this.handleResize = this.handleResize.bind(this);
+
+        // Add resize listener
+        window.addEventListener('resize', this.handleResize);
+
         // Game configuration - properly merge config
         this.config = {
             backpackWidth: 5,  // Now 5x5 for the irregular grid
@@ -114,14 +119,35 @@ class BackpackGame {
             console.error('Failed to start game:', error);
         });
     }
-    
+
     /**
-     * Set up canvas dimensions
+     * Set up canvas dimensions with proper aspect ratio
      */
     setupCanvas() {
-        // Fixed canvas size
-        this.canvas.width = 1600;
-        this.canvas.height = 900;
+        // Get container dimensions
+        const container = this.canvas.parentElement;
+        const containerWidth = container.clientWidth;
+        const containerHeight = container.clientHeight;
+        
+        // Calculate dimensions maintaining 16:9 aspect ratio
+        const targetAspectRatio = 16 / 9;
+        const containerAspectRatio = containerWidth / containerHeight;
+        
+        let canvasWidth, canvasHeight;
+        
+        if (containerAspectRatio > targetAspectRatio) {
+            // Container is wider than 16:9
+            canvasHeight = Math.min(containerHeight, 900);
+            canvasWidth = canvasHeight * targetAspectRatio;
+        } else {
+            // Container is taller than 16:9
+            canvasWidth = Math.min(containerWidth, 1600);
+            canvasHeight = canvasWidth / targetAspectRatio;
+        }
+        
+        // Set internal canvas resolution
+        this.canvas.width = canvasWidth;
+        this.canvas.height = canvasHeight;
         
         // If backpack sprite is loaded, use its native dimensions
         if (this.state.sprites['backpack']) {
@@ -143,7 +169,20 @@ class BackpackGame {
             this.gridY = this.backpackY + this.config.gridYOffset;
         }
     }
-    
+
+    /**
+     * Handle window resize events
+     */
+    handleResize() {
+        // Debounce resize events
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            this.setupCanvas();
+            // Reposition staging objects if needed
+            this.positionStagingObjects();
+        }, 100);
+    }
+
     /**
      * Initialize all game subsystems
      */

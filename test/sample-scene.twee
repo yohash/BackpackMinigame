@@ -1,0 +1,154 @@
+:: StoryTitle
+Backpack Adventure
+
+:: StoryData
+{
+  "ifid": "d8431a9f-bd23-4977-85c2-43f5b1684355",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "Invite",
+  "zoom": 1
+}
+
+
+:: Invite
+# The Party Invitation
+
+Your phone buzzes with a text from Jake:
+
+"Party at my place in 30 mins! Don't forget to bring... you know 😉"
+
+You look around your messy room. Time to pack your backpack!
+
+[[Check what you have->Inventory]]
+
+:: Inventory
+# Your Room
+
+You scan your room and take inventory:
+
+<<set $foundItems to ["cellphone", "cash", "cheetos", "cups", "bong", "fabreeze", "dice", "lighterern", "lollipops"]>>
+
+* Your cellphone (obviously)
+* Some cash from your wallet
+* A bag of Cheetos
+* Stack of red solo cups
+* Your "special" glassware (hidden in the closet)
+* Fabreeze (essential)
+* Some dice from game night
+* A lighter
+* Lollipops from yesterday
+
+You can't take everything - choose wisely!
+
+[[Pack your backpack->PackBackpack]]
+
+:: PackBackpack
+<<set $availableItems to $foundItems>>
+<<set $nextPassage to "LeaveForParty">>
+
+<div id="backpack-game-container">
+    <canvas id="backpack-canvas"></canvas>
+    <div id="ui-overlay">
+        <div id="object-counter">
+            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
+        </div>
+    </div>
+    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
+    <button id="reset-btn" class="game-btn secondary">Reset</button>
+    <button id="done-btn" class="game-btn primary" disabled>Done</button>
+</div>
+
+<<done>>
+<<script>>
+    // Hide Twine UI and make fullscreen
+    document.getElementById('ui-bar').style.display = 'none';
+    document.querySelector('.passage').classList.add('backpack-active');
+    
+    // Start the game
+    setTimeout(function() {
+        BackpackMinigame.start(State.variables.availableItems);
+    }, 100);
+<</script>>
+<</done>>
+
+:: BackpackComplete
+# All Packed!
+
+You managed to fit $packedCount items in your backpack:
+
+<<for _item range $packedItems>>
+* _item
+<</for>>
+
+<<if $packedItems.includes("cellphone")>>
+✅ Good - you have your phone.
+<<else>>
+❌ You forgot your phone!
+<</if>>
+
+<<if $packedItems.includes("cash")>>
+✅ Smart thinking with the cash.
+<<else>>
+⚠️ No money? That could be a problem...
+<</if>>
+
+<<if $packedItems.includes("bong")>>
+🎉 The party essential made it in!
+<<else>>
+😅 Jake's going to be disappointed...
+<</if>>
+
+[[Continue->$nextPassage]]
+
+:: LeaveForParty
+# Time to Go!
+
+With your backpack ready, you head out into the night.
+
+<<if $packedCount gte 5>>
+Your backpack feels heavy but complete.
+<<elseif $packedCount gte 3>>
+You've got the basics covered.
+<<else>>
+You're traveling light tonight.
+<</if>>
+
+The party awaits...
+
+[[Arrive at the party->PartyScene]]
+
+:: PartyScene
+# The Party
+
+You arrive at Jake's house. Music pulses from inside.
+
+<<if $packedItems["bong"]>>
+Jake greets you at the door: "My hero! You brought it!"
+
+The party kicks into high gear.
+<<else>>
+Jake looks at your backpack hopefully: "Did you...?"
+
+You shake your head. "Sorry man, couldn't fit it."
+
+"Ah well, we'll survive!"
+<</if>>
+
+<<if $packedItems["cups"]>>
+Later, someone yells: "We're out of cups!"
+
+You save the day by pulling out your stack.
+<</if>>
+
+<<if !$packedItems["cellphone"]>>
+You reach for your phone to capture the moment... but it's not there.
+
+You'll have to rely on other people's photos.
+<</if>>
+
+THE END
+
+Your packing score: <<print $packedCount * 10>> points!
+
+[[Play again->Start]]
