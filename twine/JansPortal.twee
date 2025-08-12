@@ -1,5 +1,5 @@
 :: StoryTitle
-JansPortal Test V2
+JansPortal Test V5
 
 
 :: StoryData
@@ -7,9 +7,116 @@ JansPortal Test V2
   "ifid": "d8431a9f-bd23-4977-85c2-43f5b1684355",
   "format": "SugarCube",
   "format-version": "2.37.3",
-  "start": "JansPortal",
+  "start": "StartScreen",
   "zoom": 1
 }
+
+
+:: BackpackComplete {"position":"25,0","size":"100,100"}
+<<set $romancand = $packedItems.includes("romancand")>>
+\<<set $lightergrt = $packedItems.includes("lightergrt")>>
+\<<set $lighterern = $packedItems.includes("lighterern")>>
+\<<set $lighterram = $packedItems.includes("lighterram")>>
+\<<set $matchbook = $packedItems.includes("matchbook")>>
+\<<set $cellphone = $packedItems.includes("cellphone")>>
+\<<set $lollipops = $packedItems.includes("lollipops")>>
+\<<set $fleacollar = $packedItems.includes("fleacollar")>>
+\<<set $fabreeze = $packedItems.includes("fabreeze")>>
+\<<set $cheetos = $packedItems.includes("cheetos")>>
+\<<set $bong = $packedItems.includes("bong")>>
+\<<set $shield = $packedItems.includes("shield")>>
+\<<set $cups = $packedItems.includes("cups")>>
+\<<set $cash401 = $packedItems.includes("cash401")>>
+\<<set $pointer = $packedItems.includes("pointer")>>
+\<<set $smokes = $packedItems.includes("smokes")>>
+\<<set $jestervest = $packedItems.includes("jestervest")>>
+\<<set $orcking = $packedItems.includes("orcking")>>
+\<<set $dice = $packedItems.includes("dice")>>
+\<<set $papertow = $packedItems.includes("papertow")>>
+\<<set $cheetos2 = $packedItems.includes("cheetos2")>>
+\<<set $baseball = $packedItems.includes("baseball")>>
+\<<set $spade = $packedItems.includes("spade")>>
+\<<set $troph = $packedItems.includes("troph")>>
+\<<set $jesterpant = $packedItems.includes("jesterpant")>>
+\<<set $burtreyn = $packedItems.includes("burtreyn")>>
+\<<set $cash1 = $packedItems.includes("cash1")>>
+IN YOUR BACKPACK
+<<if $romancand>>• Roman candle<br><</if>>
+\<<if $lighterram>>• Rambo’s lighter<br><</if>>
+\<<if $matchbook>>• Matchbook<br><</if>>
+\<<if $lollipops>>• Lollipops<br><</if>>
+\<<if $fleacollar>>• Flea collar<br><</if>>
+\<<if $fabreeze>>• Fabreeze<br><</if>>
+\<<if $cheetos>>• Cheetos<br><</if>>
+\<<if $cheetos2>>• Cheetos 2<br><</if>>
+\<<if $bong>>• Bong<br><</if>>
+\<<if $pointer>>• Laser Pointer<br><</if>>
+\<<if $spade>>• Spade<br><</if>>
+\<<if $troph>>• Softball trophy<br><</if>>
+\<<if $burtreyn>>• Burt Reynolds portrait<br><</if>>
+\<<if $jesterpant>>• Jester pants<br><</if>>
+\<<if $baseball>>• Baseball<br><</if>>
+\<<if $lightergrt>>• Greta’s lighter<br><</if>>
+\<<if $cellphone>>• Cellphone<br><</if>>
+\<<if $cups>>• Empty cups<br><</if>>
+\<<if $cash401>>• Stack of $401<br><</if>>
+\<<if $smokes>>• Greta’s smokes<br><</if>>
+\<<if $jestervest>>• Jester vest<br><</if>>
+\<<if $orcking>>• Orc King figurine<br><</if>>
+\<<if $dice>>• 6-sided dice<br><</if>>
+\<<if $lighterern>>• Ernesto’s lighter<br><</if>>
+\<<if $shield>>• Half shield<br><</if>>
+\<<if $papertow>>• Paper towels<br><</if>>
+
+
+[[$nextPassageString->$nextPassage]]
+
+
+:: CONTENT WARNING {"position":"225,50","size":"100,100"}
+CONTENT WARNING 
+
+This game contains strong language, crude humor, references to drug and alcohol use, references to sexual harm, mild sexual innuendo, and cartoonish but occasionally gory depictions of violence. May not be suitable for players under 16.
+
+[[Go back to the MAIN MENU|StartScreen]]
+[[CREDITS]]
+
+
+:: CREDITS {"position":"225,250","size":"100,100"}
+CREDITS
+
+Story and Design
+Zach Dodson
+
+Art
+Tiia Reijonen
+
+Programming
+Jason Heebl
+
+--
+
+Special thanks
+Ragnar Anderson
+David Lewis
+Michael Fallik
+Caspar Gray
+Benjamin Pilbrow
+Erin Thomas-Riley
+
+Playtesters
+
+
+[[Go back to the MAIN MENU|StartScreen]]
+[[CONTENT WARNING]]
+
+
+:: EndScreen {"position":"1800,3200","size":"100,100"}
+Thank you for playing. More Interactive Tragedies can be found at:
+<a href="https://www.interactivetragedy.com" target="_blank" rel="noopener noreferrer">interactivetragedy.com</a>
+<a href="https://store.steampowered.com/franchise/InterTragedy" target="_blank" rel="noopener noreferrer">Steam</a>
+
+[[Play again.|StartScreen]]
+[[CREDITS]]
 
 
 :: Ending1 {"position":"1050,3075","size":"100,100"}
@@ -19,7 +126,7 @@ You feel that familiar anger rise. But only for a fleeting moment. There's nothi
 
 As you lose consciousness, you think back on the choices you've made. You wish you had brought something to protect you against all those arrows. Why would you leave something like BODY ARMOR behind? You try and retrace your steps, regretting every decision you've made, as the new world you’ve found goes black.
 
-THE END
+[[THE END|EndScreen]]
 
 
 :: Ending2 {"position":"1300,3075","size":"100,100"}
@@ -29,7 +136,7 @@ You feel that familiar anger rise. But only for a fleeting moment. There's nothi
 
 As you lose consciousness, you think back on the choices you've made. <<if not $romancandle>>You wish you had brought something to make more of an impression on the denizens of the CASTLE. <<else>><</if>><<if $romancand && not ($lighterram || $lighterern || $lightergrt || $matchbook)>>Why wouldn't you have brought something to light the ROMAN CANDLE with? You feel stupid. <<else>><</if>>You try and retrace your steps, regretting every decision you've made, as the new world you’ve found goes black.
 
-THE END
+[[THE END|EndScreen]]
 
 
 :: Ending3 {"position":"1550,3075","size":"100,100"}
@@ -41,7 +148,7 @@ As you start to lose consciousness, you think back on the choices you've made. <
 
 The ARCHERS notch their bows, and take aim at you. You try and retrace your steps, regretting every decision you've made, as the new world you’ve found goes black.
 
-THE END
+[[THE END|EndScreen]]
 
 
 :: Ending4 {"position":"1675,3075","size":"100,100"}
@@ -51,22 +158,7 @@ As you start to lose consciousness, you think back on the choices you've made. <
 
 You smile, just faintly, as the new world you’ve found goes black.
 
-THE END
-
-
-:: JansPortal {"position":"175,150","size":"100,100"}
-JansPortal...
-
-CREDITS (Include playtesters)
-CONTENT WARNINGS
-
-[[START.|Scene1A]]
-
-[[Test Backpack 2|backpackmenu2]]
-[[Test Backpack 3|backpackmenu3]]
-[[Test Backpack 4|backpackmenu4]]
-[[Test Backpack 7|backpackmenu7]]
-[[Test Backpack 12|backpackmenu12]]
+[[THE END|EndScreen]]
 
 
 :: Scene10A {"position":"800,2100","size":"100,100"}
@@ -125,7 +217,6 @@ You leap after them, trying to stomp them out before they roll underneath the...
 [[... DRAGON’S BREATH FIREWORKS TRAILER |Scene11A]]
 
 
-
 :: Scene11A {"position":"850,2300","size":"100,100"}
 \:: Scene11A
 DRAGON’S BREATH FIREWORKS
@@ -139,9 +230,7 @@ His Little Lordship sits in the trailer, surrounded by empty smoothie cups and f
 Except the ROMAN CANDLES on the front counter, under a sign that reads “On sale. $1. Fireballs.” They’re next to some LIGHTERS and MATCHES. You pull your crumpled dollar from RAMBO out of your backpack and point to <<if typeof $items === "undefined">><<set $items = ["MATCHES","LIGHTER","ROMAN CANDLE"]>><<set $lastItemMsg = null>><</if>><<if $lastItemMsg>><<print $lastItemMsg>><br><br><<link "Push it down">><<goto "Scene11B">><</link>><<else>><<link "\n\n... the MATCHES">><<set $lastItemMsg = "the MATCHES.\n\nBERT: I’ll take a matchbook.\n\nJEFFREY pulls it back off the counter, out of your reach. You feel your face flush. But he's a kid, so you…">><<set $matchbook = true>><<set $items = []>><<goto "Scene11A">><</link>><br><<link "... the LIGHTER.">><<set $lastItemMsg = "the LIGHTER\n\nBERT: I’ll take a lighter.\n\nJEFFREY pulls it back off the counter, out of your reach. You feel your face flush. But he's a kid, so you…">><<set $lighterram = true>><<set $items = []>><<goto "Scene11A">><</link>><br><<link "... the ROMAN CANDLE.">><<set $lastItemMsg = "the ROMAN CANDLE\n\nBERT: I’ll take one Roman candle.\n\nJEFFREY pulls it back off the counter, out of your reach. You feel your face flush. But he's a kid, so you…">><<set $romancand = true>><<set $items = []>><<goto "Scene11A">><</link>><</if>>
 
 
-
 :: Scene11B {"position":"950,2300","size":"100,100"}
-
 JEFFREY: That’s thu-reeee dollars.
 
 BERT: Who’s in charge here?
@@ -156,7 +245,6 @@ You face flushes again. You don’t have to answer to this little shit anymore. 
 
 [[Push it down again|Scene11BSupress]]
 [[Let it out|Scene11BAnger]]
-
 
 
 :: Scene11BAnger {"position":"1075,2350","size":"100,100"}
@@ -184,7 +272,7 @@ MA REYNOLD'S HOUSE
 
 When you return to MA’s house, she’s not there. You take the opportunity to make your final preparations before heading back to Jan's cellar door. You open MA’s kitchen pantry, looking for anything that might help in a castle siege.
 
-The shelves are barren. You forgot that her almost every meal is cigarettes. All that remains in the pantry are some old LOLLIPOPS, a rhinestone-studded pink FLEA COLLAR that used to belong to NED's cat, and a can of FABREEZE. 
+The shelves are barren. You forgot that her almost every meal is cigarettes. All that remains in the pantry are some old LOLLIPOPS, a rhinestone-studded pink FLEA COLLAR that used to belong to NED's cat, and a can of FABREEZE. <<set $romancand = true>><<set $lighterram = true>><<set $matchbook = true>><<set $lollipops = true>><<set $fleacollar = true>><<set $fabreeze = true>>
 
 [[Open your BACKPACK|backpackmenu12]]
 
@@ -283,8 +371,6 @@ CICILIA: Go! She awaits!
 [[To the CASTLE|Scene14B]]
 
 
-
-
 :: Scene14B {"position":"1125,2800","size":"100,100"}
 You tighten your backpack straps, and open the door to the HUT. Only to be met by THE VILLAGE MOB. You immediately slam it closed. SEWARD bursts in.
 
@@ -334,7 +420,6 @@ CICILIA pushes you both outside…
 [[...in to the FARMYARD|Scene14C]]
 
 
-
 :: Scene14C {"position":"1250,2800","size":"100,100"}
 PEASANT’S FARMYARD
 
@@ -357,7 +442,6 @@ MOB: The Wizard of STRIPMALLSHIRE! The Fearless RAMBO!
 CICILIA pushes a shield and pack into SEWARD’s hands, and the two of you are swept away at the head of the angry mob.
 
 [[To the CASTLE|Scene14D]]
-
 
 
 :: Scene14D {"position":"1375,2800","size":"100,100"}
@@ -390,9 +474,6 @@ SEWARD: All I can say, mighty one, is that what our King desires, he receives. H
 SEWARD stops, turns, and screams: HALT! The mob gathers round.
 
 [[Gather your THOUGHTS|Scene14E]]
-
-
-
 
 
 :: Scene14E {"position":"1500,2800","size":"100,100"}
@@ -668,7 +749,6 @@ Little King Jeffrey snatches the smoothie out of your hand with a scowl. As the 
 [[Push the anger down|Scene1C]]
 
 
-
 :: Scene1C {"position":"650,150","size":"100,100"}
 This guy again. He comes in every day. Just another TECH BRO, always dressed like he’s working out. But you’ve never seen him sweat. He drums his fingers on his FitBit. On matching designer leashes, his two peekapoos (an unfortunate poodle and miniature pekingese crossbreed) stare blankly behind him.
 
@@ -760,7 +840,6 @@ Your grip on the smoothie cup tightens. The anger is overwhelming.
 [[Let it out|Scene1CAnger]]
 
 
-
 :: Scene1D {"position":"1025,150","size":"100,100"}
 TECH BRO: MANAGER!!!
 
@@ -788,10 +867,9 @@ GRETA: Hurry up, Burt!
 
 You want to get back at her somehow. On the table you see her lighter and pack of clove cigarettes. Right next to the till count she was about to deposit in the safe... hundreds of dollars in a white envelope. 
 
-What do you put in your backpack?
+What do you put in your backpack?<<set $lightergrt = true>><<set $cellphone = true>><<set $cups = true>><<set $cash401 = true>><<set $smokes = true>><<set $jestervest = true>>
 
 [[Open your BACKPACK|backpackmenu2]]
-
 
 
 :: Scene2A {"position":"400,450","size":"100,100"}
@@ -821,11 +899,6 @@ They’re about to walk by you. Those stupid, stupid dogs. Now’s your chance. 
 [[Let it out|Scene2BAnger]]
 
 
-
-
-
-
-
 :: Scene2BAnger {"position":"525,375","size":"100,100"}
 <<if $cups>>
 You reach into your backpack and grab the stack of empty cups. Squinting with one eye, to aim, you hurl them at the TECH BRO. You miss by a mile. You can’t throw for shit.
@@ -841,7 +914,6 @@ TECH BRO storms off. ERNESTO sighs, looks up, and sees you behind the truck, duc
 [[You WAVE HIM OVER|Scene2C]]
 
 
-
 :: Scene2BSupress {"position":"525,500","size":"100,100"}
 <<if $jestervest>>You try to duck down lower and angle out of your backpack. But the little jingle bells on your jester vest sound from inside your bag. The TECH BRO doesn’t hear them, but his dogs sure do. They freak out, pulling at their leashes with high-pitched yapping.<<else>>You try to stay as still as possible. Which always makes you sneeze. 
 
@@ -854,7 +926,6 @@ TECH BRO: See? My poos are effin traumatized. You’ll hear from my lawyer.
 TECH BRO storms off. ERNESTO sighs, looks up, and sees you behind the truck, ducking responsibility.
 
 [[You WAVE HIM OVER|Scene2C]]
-
 
 
 :: Scene2C {"position":"650,450","size":"100,100"}
@@ -877,8 +948,6 @@ ERNESTO: I didn’t mean that. Of course you can...
 You can’t really be mad at ERNESTO, he’s harmless. Not that he’s been much help either...
 
 [[Let it out... but just a little.|Scene2D]]
-
-
 
 
 :: Scene2D {"position":"775,450","size":"100,100"}
@@ -925,7 +994,6 @@ You try not to feel angry.
 [[Push it down|Scene3A]]
 
 
-
 :: Scene3A {"position":"450,700","size":"100,100"}
 ERNESTO’S APARTMENT
 
@@ -936,7 +1004,6 @@ It always feels a bit creepy to sleep here. ERNESTO is in too deep. There’s a 
 You all have been at it for an hour, but it feels like aeons. DUNGEON MASTER DAN carefully arranges the pieces for the next sequence, clicking the plastic drawbridge into place on the set’s miniature castle. FRED coughs out smoke and passes you a ridiculous purple BONG. You don’t want him to know it’s yours, from the last time you were here. <<if $lightergrt>>You use Greta’s lighter to light it and try not to think about her.<<else>>You take a long draw.<</if>>
 
 [[Make your next move|Scene3B]]
-
 
 
 :: Scene3B {"position":"575,700","size":"100,100"}
@@ -959,7 +1026,6 @@ ERNESTO: C’mon Bert, you know that’s not how it’s played.
 DUNGEON MASTER DAN: You haven’t prepped that spell, so even with +2 modifier... You’d have to roll a twelve. 
 
 [[Roll the dice|Scene3C]]
-
 
 
 :: Scene3C {"position":"700,700","size":"100,100"}
@@ -1001,7 +1067,6 @@ You feel the blood rushing to your cheeks.
 [[Let it out|Scene3DAnger]]
 
 
-
 :: Scene3DAnger {"position":"825,625","size":"100,100"}
 If this stupid game doesn’t have any rules, why should you? You jump up and lunge at DUNGEON MASTER DAN, but he skitters out of the way, and you lurch into ERNESTO’s display case of table-top figurines. The replica swords come clattering down and the medieval shield cracks neatly in half, making a horrible noise. 
 
@@ -1013,10 +1078,9 @@ ERNESTO holds up a shaking hand, silencing you. He picks up your backpack from t
 
 BERT: Ernesto, c’mon. I’ll take this shield and get it fixed at... um...
 
-ERNESTO just points to the door. Time to pack up.
+ERNESTO just points to the door. Time to pack up. <<set $jestervest = true>><<set $orcking = true>><<set $dice = true>><<set $lighterern = true>><<set $bong = true>><<set $shield = true>><<set $papertow = true>>
 
 [[Open your BACKPACK|backpackmenu3]]
-
 
 
 :: Scene3DSupress {"position":"825,750","size":"100,100"}
@@ -1028,10 +1092,9 @@ ERNESTO, hands shaking, picks up your backpack from the corner, and hands it to 
 
 BERT: I mean, this game is beneath me. You know...
 
-ERNESTO just points to the door. Time to pack up.
+ERNESTO just points to the door. Time to pack up. <<set $jestervest = true>><<set $orcking = true>><<set $dice = true>><<set $lighterern = true>><<set $bong = true>><<set $shield = true>><<set $papertow = true>>
 
 [[Open your BACKPACK|backpackmenu3]]
-
 
 
 :: Scene3E {"position":"1075,700","size":"100,100"}
@@ -1042,7 +1105,6 @@ BERT: Please?
 ERNESTO slams the door in your face. No choice now:
 
 [[Go to MA'S HOUSE|Scene4A]]
-
 
 
 :: Scene4A {"position":"500,950","size":"100,100"}
@@ -1084,7 +1146,6 @@ She begins to close the door again.
 
 [[Push it open|Scene4BAnger]]
 [[Let it close|Scene4BSupress]]
-
 
 
 :: Scene4BAnger {"position":"625,1000","size":"100,100"}
@@ -1141,11 +1202,9 @@ Nothing else to do. <<if $bong>>You sit on the cellar doors, take the BONG out o
 
 <<if $dice>>You roll the 6-sided die. It's a one. You roll again. It's a one.<<else>><</if>>
 
-You doze off, wake up<<if $bong>>, take another bong rip<<else>>, eat another Cheeto<</if>>. <<if $dice>>You roll the die again. Another one.<<else>><</if>>Time passes... 
+You doze off, wake up<<if $bong && ($lightergrt || $lighterern), take another bong rip<<else>>, eat another Cheeto<</if>>. <<if $dice>>You roll the die again. Another one.<<else>><</if>>Time passes... 
 
 [[You fall ASLEEP.|Scene4D]]
-
-
 
 
 :: Scene4D {"position":"875,950","size":"100,100"}
@@ -1157,7 +1216,7 @@ A sudden jingling of the cat’s collar draws your attention to the house next d
 
 You can see inside her house, for the first time, and it’s surreal: it matches the house you grew up in , but it’s complete empty. Then, the first rays of the rising sun crest and illuminate a matching CELLAR DOOR, in JAN’s backyard. The cat scampers behind it, leading you on. 
 
-Maybe you can stay in there, instead. It’s cold, you need to sleep, and clearly you’re not getting inside Ma’s house. Or cellar. You’ve scattered your things around the back yard. In the pre-dawn light, you gather them up to pack your bag...
+Maybe you can stay in there, instead. It’s cold, you need to sleep, and clearly you’re not getting inside Ma’s house. Or cellar. You’ve scattered your things around the back yard. In the pre-dawn light, you gather them up to pack your bag... <<set $cheetos = true>><<set $baseball = true>><<set $spade = true>>
 
 [[Open your BACKPACK|backpackmenu4]]
 
@@ -1188,7 +1247,6 @@ The light forms the outline of a closed door, daylight filtering in. You squelch
 The door is stuck. You bash your weight against it until it gives, and you trip...
 
 [[... OUTSIDE.|Scene5C]]
-
 
 
 :: Scene5C {"position":"800,1200","size":"100,100"}
@@ -1237,8 +1295,6 @@ SEWARD cranks the pitchfork back to deliver a death blow.
 [[Reach into your BACKPACK.|Scene5E]]
 
 
-
-
 :: Scene5E {"position":"1050,1200","size":"100,100"}
 <<if $lightergrt || $lighterern>>You reach inside the backpack and pull out the LIGHTER.  Cowering in fear, you flick the wheel of your LIGHTER and a flame appears. <<elseif $orcking>>You reach inside the backpack and pull out the miniature ORC KING. You hold him up.
   
@@ -1277,8 +1333,6 @@ BERT: I want…
 What do you want, exactly? 
 
 [[Try to THINK.|Scene5F]]
-
-
 
 
 :: Scene5F {"position":"1175,1200","size":"100,100"}
@@ -1363,8 +1417,6 @@ SEWARD takes a deep bow, and scrambles away.
 [[To the CASTLE.|Scene6B]]
 
 
-
-
 :: Scene6B {"position":"725,1350","size":"100,100"}
 THE CASTLE
 
@@ -1407,8 +1459,6 @@ You look out the door. It’s an angry mob of villagers. They even have pitchfor
 [[Make for the BARN.|Scene6D]]
 
 
-
-
 :: Scene6D {"position":"975,1350","size":"100,100"}
 You burst out of the HUT, ducking in the hope that somehow the mob doesn’t spot you. They do, and start to rush after you. Already winded, you break into a loping run<<if $cellphone>> and pull your CELL PHONE out of your pocket. You struggle to dial 911 while running. You stop to press send and see there’s no signal. That makes sense. No cell service in medieval times.<<else>>.<</if>>
 
@@ -1417,8 +1467,6 @@ The mob is closing in. You dive into the BARN and slip, face-planting into sheep
 You drop your BACKPACK to lighten your load. You step on a sheep’s back, it emits a loud BAAAAA of objection, but you manage to pull yourself up and grip the edge of the door frame. 
 
 [[Go through the CELLAR DOOR.|Scene6E]]
-
-
 
 
 :: Scene6E {"position":"1100,1350","size":"100,100"}
@@ -1438,19 +1486,12 @@ When no one drops down into the barn, you look up: the door in the roof is still
 [[Go through the CELLAR DOOR.|Scene6F]]
 
 
-
-
-
-
-
 :: Scene6F {"position":"1225,1350","size":"100,100"}
 You try to climb a sheep again, which slips away. You grab another, humping it into position. You clamor on top, again pull yourself up through the door frame, your feet dangling. The mob is inside the BARN. Someone stabs your shoe with a pitchfork. It falls off. You scream. 
 
 With all your strength, which is barely enough, you pull yourself...
 
 [[... in to the DARKNESS.|Scene7A]]
-
-
 
 
 :: Scene7A {"position":"650,1550","size":"100,100"}
@@ -1463,9 +1504,6 @@ JAN’S house looms in the setting sun, behind you. Your eye again catches movem
 You've got to move. You've only got one shoe.
 
 [[Run back to to MA’S HOUSE.|Scene7B]]
-
-
-
 
 
 :: Scene7B {"position":"775,1550","size":"100,100"}
@@ -1488,8 +1526,6 @@ MA REYNOLDS: Jesus Christ on a Stick, Bert. You shit yourself in your sleep? Tak
 You know you've got something to prove to MA where you've been. 
 
 [[Search your BACKPACK|Scene7C]]
-
-
 
 
 :: Scene7C {"position":"900,1550","size":"100,100"}
@@ -1517,7 +1553,6 @@ MA reaches over to affectionately touch a framed portrait of Burt Reynolds, in i
 [[Let it out|Scene7D]]
 
 
-
 :: Scene7D {"position":"1025,1550","size":"100,100"}
 BERT: Burt Reynolds is not my father.
 
@@ -1539,10 +1574,6 @@ As she cackles, you feel the anger rising again.
 
 <<if $cash401>>[[Give her the CASH|Scene7Ecash]]
 [[Don't give her the CASH|Scene7Enocash]]<<else>>[[Search your BACKPACK|Scene7Enocash]]<</if>>
-
-
-
-
 
 
 :: Scene7Ecash {"position":"1150,1600","size":"100,100"}
@@ -1622,10 +1653,9 @@ You wake up what feels like minutes—or days—later, on top of the covers. You
 
 You get up, get dressed. Your one remaining shoe is still covered in shit, you need to take care of that. But no time now. You find a pair of NED's slippers, and slide them out from under the bed. Slipping your foot into one, you feel something. 
 
-There's a LASER POINTER in the slipper. NED is so weird. You take it out and put the slipper on. Opening your BACKPACK, you...
+There's a LASER POINTER in the slipper. NED is so weird. You take it out and put the slipper on. Time to get out of here. <<set $trophy = true>><<set $jesterpant = true>><<set $burtreyn = true>><<set $pointer = true>>
 
-[[... take the LASER POINTER|backpackmenu7][$pointer = true]]
-[[... toss the LASER POINTER|backpackmenu7][$pointer = false]]
+[[Open your BACKPACK|backpackmenu7]]
 
 
 :: Scene8A {"position":"700,1800","size":"100,100"}
@@ -1779,7 +1809,6 @@ You walk out...
 [[...into the STRIP MALL PARKING LOT|Scene8E]]
 
 
-
 :: Scene8E {"position":"1200,1800","size":"100,100"}
 STRIP MALL PARKING LOT
 
@@ -1806,11 +1835,6 @@ You can hear noises inside, but you Fuck Off anyway.
 
 
 :: Scene8gunz {"position":"1450,1800","size":"100,100"}
-
-
-
-
-
 [[Return to the STRIP MALL PARKING LOT|Scene8E]]
 
 
@@ -1860,8 +1884,6 @@ RAMBO grunts.<<else>><</if>>
 [[Open your BACKPACK|Scene9B]]<<else>>[[Return to the STRIP MALL PARKING LOT|Scene8E]]<</if>>
 
 
-
-
 :: Scene9B {"position":"875,1950","size":"100,100"}
 <<if previous() === "Scene8kash">>RAMBO’S GUNZ ‘N AMMO
 
@@ -1888,6 +1910,27 @@ RAMBO: Too much. And I don’t take ones. Freemasons. Knights Templar. 1118.
 He points at the pyramid with the eye on the front of the bill. You nod like you get it, and stuff the dollar into your backpack pocket.<<set $cash401 = false>><<set $cash1 = true>><<set $bodyarmor = true>>
 
 [[Return to the STRIP MALL PARKING LOT|Scene10A]]
+
+
+:: StartScreen {"position":"175,150","size":"100,100"}
+JansPortal
+
+**Key art**
+By Zach Dodson
+for Interactive Tragedy, Limited
+
+
+[[START.|Scene1A]]
+[[CREDITS]]
+[[CONTENT WARNING]]
+
+
+
+[[Test Backpack 2|backpackmenu2]]
+[[Test Backpack 3|backpackmenu3]]
+[[Test Backpack 4|backpackmenu4]]
+[[Test Backpack 7|backpackmenu7]]
+[[Test Backpack 12|backpackmenu12]]
 
 
 :: StoryInit [startup] {"position":"50,150","size":"100,100"}
@@ -1939,68 +1982,7 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 /* <<newinventory $backpack "Backpack">> */
 
 
-:: BackpackComplete
-<<set $romancand = $packedItems.includes("romancand")>>
-\<<set $lightergrt = $packedItems.includes("lightergrt")>>
-\<<set $lighterern = $packedItems.includes("lighterern")>>
-\<<set $lighterram = $packedItems.includes("lighterram")>>
-\<<set $matchbook = $packedItems.includes("matchbook")>>
-\<<set $cellphone = $packedItems.includes("cellphone")>>
-\<<set $lollipops = $packedItems.includes("lollipops")>>
-\<<set $fleacollar = $packedItems.includes("fleacollar")>>
-\<<set $fabreeze = $packedItems.includes("fabreeze")>>
-\<<set $cheetos = $packedItems.includes("cheetos")>>
-\<<set $bong = $packedItems.includes("bong")>>
-\<<set $shield = $packedItems.includes("shield")>>
-\<<set $cups = $packedItems.includes("cups")>>
-\<<set $cash401 = $packedItems.includes("cash401")>>
-\<<set $pointer = $packedItems.includes("pointer")>>
-\<<set $smokes = $packedItems.includes("smokes")>>
-\<<set $jestervest = $packedItems.includes("jestervest")>>
-\<<set $orcking = $packedItems.includes("orcking")>>
-\<<set $dice = $packedItems.includes("dice")>>
-\<<set $papertow = $packedItems.includes("papertow")>>
-\<<set $cheetos2 = $packedItems.includes("cheetos2")>>
-\<<set $baseball = $packedItems.includes("baseball")>>
-\<<set $spade = $packedItems.includes("spade")>>
-\<<set $troph = $packedItems.includes("troph")>>
-\<<set $jesterpant = $packedItems.includes("jesterpant")>>
-\<<set $burtreyn = $packedItems.includes("burtreyn")>>
-\<<set $cash1 = $packedItems.includes("cash1")>>
-IN YOUR BACKPACK
-<<if $romancand>>• Roman candle<br><</if>>
-\<<if $lighterram>>• Rambo’s lighter<br><</if>>
-\<<if $matchbook>>• Matchbook<br><</if>>
-\<<if $lollipops>>• Lollipops<br><</if>>
-\<<if $fleacollar>>• Flea collar<br><</if>>
-\<<if $fabreeze>>• Fabreeze<br><</if>>
-\<<if $cheetos>>• Cheetos<br><</if>>
-\<<if $cheetos2>>• Cheetos 2<br><</if>>
-\<<if $bong>>• Bong<br><</if>>
-\<<if $pointer>>• Laser Pointer<br><</if>>
-\<<if $spade>>• Spade<br><</if>>
-\<<if $troph>>• Softball trophy<br><</if>>
-\<<if $burtreyn>>• Burt Reynolds portrait<br><</if>>
-\<<if $jesterpant>>• Jester pants<br><</if>>
-\<<if $baseball>>• Baseball<br><</if>>
-\<<if $lightergrt>>• Greta’s lighter<br><</if>>
-\<<if $cellphone>>• Cellphone<br><</if>>
-\<<if $cups>>• Empty cups<br><</if>>
-\<<if $cash401>>• Stack of $401<br><</if>>
-\<<if $smokes>>• Greta’s smokes<br><</if>>
-\<<if $jestervest>>• Jester vest<br><</if>>
-\<<if $orcking>>• Orc King figurine<br><</if>>
-\<<if $dice>>• 6-sided dice<br><</if>>
-\<<if $lighterern>>• Ernesto’s lighter<br><</if>>
-\<<if $shield>>• Half shield<br><</if>>
-\<<if $papertow>>• Paper towels<br><</if>>
-
-
-[[$nextPassageString->$nextPassage]]
-
-
 :: backpackmenu12 {"position":"1025,2500","size":"100,100"}
-
 <<set $availableItems to ["lightergrt", "smokes", "orcking", "dice", "lighterern", "shield", "papertow", "cheetos", "baseball", "pointer", "spade", "trophy", "burtreyn", "romancand", "lighterram", "matchbook", "lollipops", "fleacollar", "fabreeze"]>>
 <<set $nextPassage to "Scene12B">>
 <<set $nextPassageString to "Leave MA'S HOUSE">>
@@ -2033,7 +2015,7 @@ IN YOUR BACKPACK
 \[[Leave MA'S HOUSE|Scene12B]]
 
 
-:: backpackmenu2
+:: backpackmenu2 {"position":"1275,150","size":"100,100"}
 <<set $availableItems to ["lightergrt", "cash401", "cups", "cellphone", "smokes", "jestervest"]>>
 <<set $nextPassage to "Scene2A">>
 <<set $nextPassageString to "Leave the BREAKROOM">>
@@ -2065,8 +2047,8 @@ IN YOUR BACKPACK
 
 /* [[Leave the BREAKROOM|Scene2A]] */
 
-:: backpackmenu3 {"position":"950,700","size":"100,100"}
 
+:: backpackmenu3 {"position":"950,700","size":"100,100"}
 <<set $availableItems to ["lightergrt", "cash401", "cups", "cellphone", "smokes", "jestervest", "orcking", "dice", "lighterern", "bong", "shield", "papertow"]>>
 <<set $nextPassage to "Scene3E">>
 <<set $nextPassageString to "Leave ERNESTO’S APARTMENT">>
@@ -2098,8 +2080,8 @@ IN YOUR BACKPACK
 
 /* [[Leave ERNESTO’S APARTMENT|Scene3E]] */
 
-:: backpackmenu4 {"position":"1000,950","size":"100,100"}
 
+:: backpackmenu4 {"position":"1000,950","size":"100,100"}
 <<set $availableItems to ["lightergrt", "cash401", "cheetos", "cellphone", "smokes", "jestervest", "orcking", "dice", "lighterern", "bong", "shield", "papertow", "baseball", "spade"]>>
 <<set $nextPassage to "Scene5A">>
 <<set $nextPassageString to "Go to JAN'S CELLAR">>
@@ -2131,8 +2113,8 @@ IN YOUR BACKPACK
 
 /* \[[Go to JAN'S CELLAR|Scene5A]] */
 
-:: backpackmenu7 {"position":"1400,1550","size":"100,100"}
 
+:: backpackmenu7 {"position":"1400,1550","size":"100,100"}
 <<set $availableItems to ["lightergrt", "cheetos", "smokes", "jestervest", "orcking", "dice", "lighterern", "shield", "papertow", "baseball", "spade", "pointer", "trophy", "jesterpant", "burtreyn"]>>
 <<set $nextPassage to "Scene8A">>
 <<set $nextPassageString to "Go to the STRIP MALL">>
