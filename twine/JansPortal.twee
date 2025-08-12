@@ -27,6 +27,7 @@ JansPortal Test V5
 \<<set $shield = $packedItems.includes("shield")>>
 \<<set $cups = $packedItems.includes("cups")>>
 \<<set $cash401 = $packedItems.includes("cash401")>>
+\<<set $cash1 = $packedItems.includes("cash1")>>
 \<<set $pointer = $packedItems.includes("pointer")>>
 \<<set $smokes = $packedItems.includes("smokes")>>
 \<<set $jestervest = $packedItems.includes("jestervest")>>
@@ -36,10 +37,9 @@ JansPortal Test V5
 \<<set $cheetos2 = $packedItems.includes("cheetos2")>>
 \<<set $baseball = $packedItems.includes("baseball")>>
 \<<set $spade = $packedItems.includes("spade")>>
-\<<set $troph = $packedItems.includes("troph")>>
+\<<set $trophy = $packedItems.includes("trophy")>>
 \<<set $jesterpant = $packedItems.includes("jesterpant")>>
 \<<set $burtreyn = $packedItems.includes("burtreyn")>>
-\<<set $cash1 = $packedItems.includes("cash1")>>
 IN YOUR BACKPACK
 <<if $romancand>>• Roman candle<br><</if>>
 \<<if $lighterram>>• Rambo’s lighter<br><</if>>
@@ -52,7 +52,7 @@ IN YOUR BACKPACK
 \<<if $bong>>• Bong<br><</if>>
 \<<if $pointer>>• Laser Pointer<br><</if>>
 \<<if $spade>>• Spade<br><</if>>
-\<<if $troph>>• Softball trophy<br><</if>>
+\<<if $trophy>>• Softball trophy<br><</if>>
 \<<if $burtreyn>>• Burt Reynolds portrait<br><</if>>
 \<<if $jesterpant>>• Jester pants<br><</if>>
 \<<if $baseball>>• Baseball<br><</if>>
@@ -60,6 +60,7 @@ IN YOUR BACKPACK
 \<<if $cellphone>>• Cellphone<br><</if>>
 \<<if $cups>>• Empty cups<br><</if>>
 \<<if $cash401>>• Stack of $401<br><</if>>
+\<<if $cash1>>• One dollar<br><</if>>
 \<<if $smokes>>• Greta’s smokes<br><</if>>
 \<<if $jestervest>>• Jester vest<br><</if>>
 \<<if $orcking>>• Orc King figurine<br><</if>>
@@ -1958,7 +1959,7 @@ for Interactive Tragedy, Limited
 <<set $cheetos2 = false>>
 <<set $baseball = false>>
 <<set $spade = false>>
-<<set $troph = false>>
+<<set $trophy = false>>
 <<set $jesterpant = false>>
 <<set $burtreyn = false>>
 <<set $cash1 = true>>
@@ -1981,170 +1982,108 @@ for Interactive Tragedy, Limited
 
 /* <<newinventory $backpack "Backpack">> */
 
-
-:: backpackmenu12 {"position":"1025,2500","size":"100,100"}
-<<set $availableItems to ["lightergrt", "smokes", "orcking", "dice", "lighterern", "shield", "papertow", "cheetos", "baseball", "pointer", "spade", "trophy", "burtreyn", "romancand", "lighterram", "matchbook", "lollipops", "fleacollar", "fabreeze"]>>
-<<set $nextPassage to "Scene12B">>
-<<set $nextPassageString to "Leave MA'S HOUSE">>
-
-<div id="backpack-game-container">
-    <canvas id="backpack-canvas"></canvas>
-    <div id="ui-overlay">
-        <div id="object-counter">
-            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
-        </div>
-    </div>
-    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
-    <button id="reset-btn" class="game-btn secondary">Reset</button>
-    <button id="done-btn" class="game-btn primary" disabled>Done</button>
-</div>
-
-<<done>>
-<<script>>
-    // Hide Twine UI and make fullscreen
-    document.getElementById('ui-bar').style.display = 'none';
-    document.querySelector('.passage').classList.add('backpack-active');
-    
-    // Start the game
-    setTimeout(function() {
-        BackpackMinigame.start(State.variables.availableItems);
-    }, 100);
-<</script>>
-<</done>>
-
-\[[Leave MA'S HOUSE|Scene12B]]
-
-
 :: backpackmenu2 {"position":"1275,150","size":"100,100"}
-<<set $availableItems to ["lightergrt", "cash401", "cups", "cellphone", "smokes", "jestervest"]>>
+<<set $lightergrt = true>>
+<<set $cash401 = true>>
+<<set $cups = true>>
+<<set $cellphone = true>>
+<<set $smokes = true>>
+<<set $jestervest = true>>
 <<set $nextPassage to "Scene2A">>
 <<set $nextPassageString to "Leave the BREAKROOM">>
-
-<div id="backpack-game-container">
-    <canvas id="backpack-canvas"></canvas>
-    <div id="ui-overlay">
-        <div id="object-counter">
-            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
-        </div>
-    </div>
-    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
-    <button id="reset-btn" class="game-btn secondary">Reset</button>
-    <button id="done-btn" class="game-btn primary" disabled>Done</button>
-</div>
-
-<<done>>
-<<script>>
-    // Hide Twine UI and make fullscreen
-    document.getElementById('ui-bar').style.display = 'none';
-    document.querySelector('.passage').classList.add('backpack-active');
-    
-    // Start the game
-    setTimeout(function() {
-        BackpackMinigame.start(State.variables.availableItems);
-    }, 100);
-<</script>>
-<</done>>
+<<goto "Backpack setup">>
 
 /* [[Leave the BREAKROOM|Scene2A]] */
 
-
 :: backpackmenu3 {"position":"950,700","size":"100,100"}
-<<set $availableItems to ["lightergrt", "cash401", "cups", "cellphone", "smokes", "jestervest", "orcking", "dice", "lighterern", "bong", "shield", "papertow"]>>
+<<set $orcking = true>>
+<<set $dice = true>>
+<<set $lighterern = true>>
+<<set $bong = true>>
+<<set $papertow = true>>
+<<set $shield = true>>
 <<set $nextPassage to "Scene3E">>
 <<set $nextPassageString to "Leave ERNESTO’S APARTMENT">>
-
-<div id="backpack-game-container">
-    <canvas id="backpack-canvas"></canvas>
-    <div id="ui-overlay">
-        <div id="object-counter">
-            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
-        </div>
-    </div>
-    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
-    <button id="reset-btn" class="game-btn secondary">Reset</button>
-    <button id="done-btn" class="game-btn primary" disabled>Done</button>
-</div>
-
-<<done>>
-<<script>>
-    // Hide Twine UI and make fullscreen
-    document.getElementById('ui-bar').style.display = 'none';
-    document.querySelector('.passage').classList.add('backpack-active');
-    
-    // Start the game
-    setTimeout(function() {
-        BackpackMinigame.start(State.variables.availableItems);
-    }, 100);
-<</script>>
-<</done>>
+<<goto "Backpack setup">>
 
 /* [[Leave ERNESTO’S APARTMENT|Scene3E]] */
 
-
 :: backpackmenu4 {"position":"1000,950","size":"100,100"}
-<<set $availableItems to ["lightergrt", "cash401", "cheetos", "cellphone", "smokes", "jestervest", "orcking", "dice", "lighterern", "bong", "shield", "papertow", "baseball", "spade"]>>
+<<set $baseball = true>>
+<<set $spade = true>>
 <<set $nextPassage to "Scene5A">>
 <<set $nextPassageString to "Go to JAN'S CELLAR">>
-
-<div id="backpack-game-container">
-    <canvas id="backpack-canvas"></canvas>
-    <div id="ui-overlay">
-        <div id="object-counter">
-            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
-        </div>
-    </div>
-    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
-    <button id="reset-btn" class="game-btn secondary">Reset</button>
-    <button id="done-btn" class="game-btn primary" disabled>Done</button>
-</div>
-
-<<done>>
-<<script>>
-    // Hide Twine UI and make fullscreen
-    document.getElementById('ui-bar').style.display = 'none';
-    document.querySelector('.passage').classList.add('backpack-active');
-    
-    // Start the game
-    setTimeout(function() {
-        BackpackMinigame.start(State.variables.availableItems);
-    }, 100);
-<</script>>
-<</done>>
+<<goto "Backpack setup">>
 
 /* \[[Go to JAN'S CELLAR|Scene5A]] */
 
-
 :: backpackmenu7 {"position":"1400,1550","size":"100,100"}
-<<set $availableItems to ["lightergrt", "cheetos", "smokes", "jestervest", "orcking", "dice", "lighterern", "shield", "papertow", "baseball", "spade", "pointer", "trophy", "jesterpant", "burtreyn"]>>
+<<set $pointer = true>>
+<<set $trophy = true>>
+<<set $burtreyn = true>>
 <<set $nextPassage to "Scene8A">>
 <<set $nextPassageString to "Go to the STRIP MALL">>
+<<goto "Backpack setup">>
+
+/* \[[Go to the STRIP MALL|Scene8A]] */
+
+:: backpackmenu12 {"position":"1025,2500","size":"100,100"}
+<<set $romancand = true>>
+<<set $lighterram = true>>
+<<set $matchbook = true>>
+<<set $lollipops = true>>
+<<set $fleacollar = true>>
+<<set $fabreeze = true>>
+<<set $nextPassage to "Scene12B">>
+<<set $nextPassageString to "Leave MA'S HOUSE">>
+<<goto "Backpack setup">>
+
+/* \[[Leave MA'S HOUSE|Scene12B]] */
+
+:: Backpack setup
+<<set $availableItems to []>>
+\<<if $romancand>><<run $availableItems.push("romancand")>><</if>>
+\<<if $lighterram>><<run $availableItems.push("lighterram")>><</if>>
+\<<if $lightergrt>><<run $availableItems.push("lightergrt")>><</if>>
+\<<if $matchbook>><<run $availableItems.push("matchbook")>><</if>>
+\<<if $lollipops>><<run $availableItems.push("lollipops")>><</if>>
+\<<if $fleacollar>><<run $availableItems.push("fleacollar")>><</if>>
+\<<if $fabreeze>><<run $availableItems.push("fabreeze")>><</if>>
+\<<if $cheetos>><<run $availableItems.push("cheetos")>><</if>>
+\<<if $cheetos2>><<run $availableItems.push("cheetos2")>><</if>>
+\<<if $bong>><<run $availableItems.push("bong")>><</if>>
+\<<if $pointer>><<run $availableItems.push("pointer")>><</if>>
+\<<if $spade>><<run $availableItems.push("spade")>><</if>>
+\<<if $trophy>><<run $availableItems.push("trophy")>><</if>>
+\<<if $burtreyn>><<run $availableItems.push("burtreyn")>><</if>>
+\<<if $jesterpant>><<run $availableItems.push("jesterpant")>><</if>>
+\<<if $baseball>><<run $availableItems.push("baseball")>><</if>>
+\<<if $lighterern>><<run $availableItems.push("lighterern")>><</if>>
+\<<if $cellphone>><<run $availableItems.push("cellphone")>><</if>>
+\<<if $cups>><<run $availableItems.push("cups")>><</if>>
+\<<if $cash401>><<run $availableItems.push("cash401")>><</if>>
+\<<if $cash1>><<run $availableItems.push("cash1")>><</if>>
+\<<if $smokes>><<run $availableItems.push("smokes")>><</if>>
+\<<if $jestervest>><<run $availableItems.push("jestervest")>><</if>>
+\<<if $orcking>><<run $availableItems.push("orcking")>><</if>>
+\<<if $dice>><<run $availableItems.push("dice")>><</if>>
+\<<if $shield>><<run $availableItems.push("shield")>><</if>>
+\<<if $papertow>><<run $availableItems.push("papertow")>><</if>>
 
 <div id="backpack-game-container">
     <canvas id="backpack-canvas"></canvas>
-    <div id="ui-overlay">
-        <div id="object-counter">
-            <span id="placed-count">0</span> / <span id="total-count">0</span> items packed
-        </div>
-    </div>
-    <!-- FIXED: Buttons outside ui-overlay for proper visibility -->
     <button id="reset-btn" class="game-btn secondary">Reset</button>
     <button id="done-btn" class="game-btn primary" disabled>Done</button>
 </div>
 
 <<done>>
 <<script>>
-    // Hide Twine UI and make fullscreen
-    document.getElementById('ui-bar').style.display = 'none';
-    document.querySelector('.passage').classList.add('backpack-active');
-    
     // Start the game
     setTimeout(function() {
         BackpackMinigame.start(State.variables.availableItems);
     }, 100);
 <</script>>
 <</done>>
-
-/* \[[Go to the STRIP MALL|Scene8A]] */
 
 
 :: scrapped 9b {"position":"625,1950","size":"100,100"}

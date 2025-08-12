@@ -1,57 +1,35 @@
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Game-specific styles only - no Twine overrides */
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    overflow: hidden; /* Prevent scrollbars */
-}
-
-/* Game Wrapper - FIXED for proper centering */
-#game-wrapper {
+/* Game Container - fixed size, properly centered */
+#backpack-game-container {
+    position: fixed;
+    width: 1640px;
+    height: 940px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: white;
     border-radius: 12px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     padding: 20px;
-    width: 100%;
-    max-width: 1640px; /* Slightly larger to accommodate 1600px canvas + padding */
-    margin: 0 auto;
+    box-sizing: border-box;
 }
 
-/* Game Container - FIXED for proper aspect ratio */
-#game-container {
-    position: relative;
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    /* Maintain 16:9 aspect ratio */
-    aspect-ratio: 16 / 9;
-}
-
-/* Canvas Styling - FIXED for responsive sizing */
+/* Canvas Styling - properly centered within container */
 #backpack-canvas {
     display: block;
-    width: 100%;
-    height: 100%;
-    max-width: 1600px;
-    max-height: 900px;
-    border: 3px solid #4a5568;
+    width: 1600px;
+    height: 900px;
+    border: 4px solid #4a5568;
     border-radius: 8px;
     background: #f7fafc;
     cursor: grab;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    /* Center the canvas */
-    margin: 0 auto;
+    /* Center perfectly within the 20px padding */
+    position: absolute;
+    top: 16px;
+    left: 16px;
 }
 
 #backpack-canvas.dragging {
@@ -148,30 +126,25 @@ body {
     transform: translateY(-1px);
 }
 
-/* Responsive Design - IMPROVED */
-@media (max-width: 1680px) {
-    #game-wrapper {
-        padding: 15px;
-    }
+/* Fixed positioning for buttons when in Twine */
+#backpack-game-container #reset-btn {
+    position: absolute !important;
+    top: 20px !important;
+    left: 20px !important;
+    z-index: 1000 !important;
 }
 
-@media (max-width: 1280px) {
-    #game-wrapper {
-        padding: 10px;
-    }
-    
-    #game-container {
-        /* Aspect ratio is maintained automatically */
-    }
+#backpack-game-container #done-btn {
+    position: absolute !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
 }
 
+/* Responsive Design - simplified since container is already responsive */
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-    
-    #game-wrapper {
-        padding: 10px;
+    #backpack-game-container {
+        margin: 10px auto;
         border-radius: 8px;
     }
     

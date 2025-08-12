@@ -88,13 +88,13 @@ const ITEM_DATABASE = {
         sprite: 'bong',
         description: 'A glass bong.'
     },
-    'burtreynolds': {
+    'burtreyn': {
         id: 'burtreynolds',
         name: 'Burt Reynolds',
         width: 2,
         height: 2,
         color: 'hsl(70, 70%, 60%)',
-        sprite: 'burtreynolds',
+        sprite: 'burtreyn',
         description: 'A Burt Reynolds photo.'
     },
     'cash1': {
@@ -241,13 +241,13 @@ const ITEM_DATABASE = {
         sprite: 'orcking',
         description: 'A mysterious orc king figurine.'
     },
-    'papertowels': {
+    'papertow': {
         id: 'papertowels',
         name: 'Paper towels',
         width: 2,
         height: 3,
         color: 'hsl(320, 70%, 60%)',
-        sprite: 'papertowels',
+        sprite: 'papertow',
         description: 'A roll of paper towels.'
     },
     'pointer': {
@@ -259,13 +259,13 @@ const ITEM_DATABASE = {
         sprite: 'pointer',
         description: 'A laser pointer.'
     },
-    'romancandel': {
+    'romancand': {
         id: 'romancandel',
         name: 'Roman candle',
         width: 1,
         height: 5,
         color: 'hsl(360, 70%, 60%)',
-        sprite: 'romancandel',
+        sprite: 'romancand',
         description: 'A roman candle firework.'
     },
     'shield': {
@@ -302,7 +302,7 @@ const ITEM_DATABASE = {
         height: 3,
         color: 'hsl(170, 70%, 60%)',
         sprite: 'trophy',
-        description: 'A shiny trophy.'
+        description: 'A softball trophy.'
     }
 };
 
@@ -408,68 +408,6 @@ ${story}
 /* Embedded game styles */
 ${cssContent}
 
-/* Additional Twine-specific styles */
-.passage {
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-#backpack-game-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-/* Hide Twine UI elements */
-#ui-header, #ui-bar {
-    display: none !important;
-}
-
-/* Ensure canvas maintains aspect ratio in Twine */
-#backpack-canvas {
-    width: 100%;
-    height: 100%;
-    max-width: 1600px;
-    max-height: 900px;
-    object-fit: contain;
-}
-
-.passage .backpack-active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-/* FIXED: Ensure buttons are visible and properly positioned */
-#backpack-game-container #reset-btn {
-    position: fixed !important;
-    top: 20px !important;
-    left: 20px !important;
-    z-index: 1000 !important;
-    display: block !important;
-    visibility: visible !important;
-}
-
-#backpack-game-container #done-btn {
-    position: fixed !important;
-    top: 20px !important;
-    right: 20px !important;
-    z-index: 1000 !important;
-    display: block !important;
-    visibility: visible !important;
-}
-
-/* Ensure canvas scales properly */
-#backpack-canvas {
-    max-width: 100%;
-    height: auto;
-}
-
 :: BackpackGameScript [script]
 /* Fixed Backpack Minigame with Scaling Support */
 (function() {
@@ -543,13 +481,6 @@ ${cssContent}
                     // Store results in Twine variables
                     State.variables.packedItems = Object.keys(placedObjects);
                     State.variables.packedCount = Object.keys(placedObjects).length;
-                    
-                    // Hide game and navigate
-                    document.getElementById('backpack-game-container').style.display = 'none';
-                    
-                    // Re-enable Twine UI
-                    document.getElementById('ui-bar').style.display = '';
-                    document.querySelector('.passage').classList.remove('backpack-active');
                     
                     // Navigate to next passage
                     const nextPassage = /*State.variables.nextPassage ||*/ 'BackpackComplete';
