@@ -90,7 +90,7 @@ const ITEM_DATABASE = {
     },
     'burtreynolds': {
         id: 'burtreynolds',
-        name: 'Burtreynolds',
+        name: 'Burt Reynolds',
         width: 2,
         height: 2,
         color: 'hsl(70, 70%, 60%)',
@@ -99,16 +99,16 @@ const ITEM_DATABASE = {
     },
     'cash1': {
         id: 'cash1',
-        name: 'Cash1',
+        name: 'One dollar',
         width: 1,
         height: 1,
         color: 'hsl(90, 70%, 60%)',
         sprite: 'cash1',
-        description: 'A small stack of cash.'
+        description: 'A single dollar bill.'
     },
     'cash401': {
         id: 'cash401',
-        name: 'Cash401',
+        name: 'Cash',
         width: 1,
         height: 2,
         color: 'hsl(110, 70%, 60%)',
@@ -162,7 +162,7 @@ const ITEM_DATABASE = {
     },
     'fleacollar': {
         id: 'fleacollar',
-        name: 'Fleacollar',
+        name: 'Flea collar',
         width: 1,
         height: 1,
         color: 'hsl(160, 70%, 60%)',
@@ -171,7 +171,7 @@ const ITEM_DATABASE = {
     },
     'jesterpant': {
         id: 'jesterpant',
-        name: 'Jesterpant',
+        name: 'Jester pants',
         width: 3,
         height: 1,
         color: 'hsl(130, 70%, 60%)',
@@ -180,7 +180,7 @@ const ITEM_DATABASE = {
     },
     'jestervest': {
         id: 'jestervest',
-        name: 'Jestervest',
+        name: 'Jester vest',
         width: 3,
         height: 1,
         color: 'hsl(180, 70%, 60%)',
@@ -189,30 +189,30 @@ const ITEM_DATABASE = {
     },
     'lighterern': {
         id: 'lighterern',
-        name: 'Lighterern',
+        name: 'Ernesto\'s lighter',
         width: 1,
         height: 1,
         color: 'hsl(200, 70%, 60%)',
         sprite: 'lighterern',
-        description: 'A lighter (ern style).'
+        description: 'This is Ernesto\'s lighter.'
     },
     'lightergrt': {
         id: 'lightergrt',
-        name: 'Lightergrt',
+        name: 'Greta\'s lighter',
         width: 1,
         height: 1,
         color: 'hsl(220, 70%, 60%)',
         sprite: 'lightergrt',
-        description: 'A lighter (grt style).'
+        description: 'This is Greta\'s lighter.'
     },
     'lighterram': {
         id: 'lighterram',
-        name: 'Lighterram',
+        name: 'Rambo\'s lighter',
         width: 1,
         height: 1,
         color: 'hsl(240, 70%, 60%)',
         sprite: 'lighterram',
-        description: 'A lighter (ram style).'
+        description: 'This is Rambo\'s lighter.'
     },
     'lollipops': {
         id: 'lollipops',
@@ -234,7 +234,7 @@ const ITEM_DATABASE = {
     },
     'orcking': {
         id: 'orcking',
-        name: 'Orcking',
+        name: 'Orc king',
         width: 1,
         height: 1,
         color: 'hsl(300, 70%, 60%)',
@@ -243,7 +243,7 @@ const ITEM_DATABASE = {
     },
     'papertowels': {
         id: 'papertowels',
-        name: 'Papertowels',
+        name: 'Paper towels',
         width: 2,
         height: 3,
         color: 'hsl(320, 70%, 60%)',
@@ -252,7 +252,7 @@ const ITEM_DATABASE = {
     },
     'pointer': {
         id: 'pointer',
-        name: 'Pointer',
+        name: 'Laser pointer',
         width: 1,
         height: 1,
         color: 'hsl(340, 70%, 60%)',
@@ -261,7 +261,7 @@ const ITEM_DATABASE = {
     },
     'romancandel': {
         id: 'romancandel',
-        name: 'Romancandel',
+        name: 'Roman candle',
         width: 1,
         height: 5,
         color: 'hsl(360, 70%, 60%)',

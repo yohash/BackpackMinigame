@@ -283,7 +283,7 @@ class InputHandler {
                 // Invalid placement - return to original position
                 obj.pixelX = this.dragStartPosition.x;
                 obj.pixelY = this.dragStartPosition.y;
-                this.game.showFeedback(`Can't place ${obj.name} here`, 'error');
+                this.game.showFeedback(`Invalid placement`, 'error');
                 console.log(`Failed to place ${obj.name} in backpack - returning to original position`);
             }
         } else {

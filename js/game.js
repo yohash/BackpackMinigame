@@ -757,7 +757,7 @@ class BackpackGame {
         this.checkContinueButton();
         
         // Show feedback
-        this.showFeedback(`${obj.name} packed!`, 'success');
+        //this.showFeedback(`${obj.name} packed!`, 'success');
     }
     
     /**
