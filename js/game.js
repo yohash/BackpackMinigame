@@ -1,37 +1,38 @@
 /**
  * BackpackGame - Main game controller
- * POLISHED VERSION: Updated UI layout and hover display
+ * SCALED VERSION: Added responsive scaling with coordinate remapping
  */
 class BackpackGame {
     constructor(canvasId, config) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
-        // In the constructor, after binding other methods:
-        this.handleResize = this.handleResize.bind(this);
-
-        // Add resize listener
-        window.addEventListener('resize', this.handleResize);
-
+        
+        // Scaling properties
+        this.baseWidth = 1600;
+        this.baseHeight = 900;
+        this.scale = 1;
+        this.offsetX = 0;
+        this.offsetY = 0;
+        
         // Game configuration - properly merge config
         this.config = {
-            backpackWidth: 5,  // Now 5x5 for the irregular grid
+            backpackWidth: 5,
             backpackHeight: 5,
-            cellSize: 100, // Fixed 100px grid cells
-            gridXOffset: 0, // Default offset for grid positioning
-            gridYOffset: 0, // Default offset for grid positioning
+            cellSize: 100, // Base cell size at 1:1 scale
+            gridXOffset: 0,
+            gridYOffset: 0,
             padding: 60,
             gridLineWidth: 1,
             gridLineColor: '#e2e8f0',
             backpackColor: '#ffffff',
             backpackBorderColor: '#4a5568',
             stagingAreaPadding: 20,
-            // Default grid mask - 1 means usable, 0 means blocked
             gridMask: [
-                [0, 1, 1, 1, 1],  // Row 0: First cell blocked
-                [0, 1, 1, 1, 1],  // Row 1: First cell blocked
-                [0, 1, 1, 1, 1],  // Row 2: First cell blocked
-                [1, 1, 1, 1, 1],  // Row 3: All cells usable
-                [1, 1, 1, 1, 1]   // Row 4: All cells usable
+                [0, 1, 1, 1, 1],
+                [0, 1, 1, 1, 1],
+                [0, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1]
             ]
         };
         
@@ -39,9 +40,6 @@ class BackpackGame {
         if (config) {
             Object.assign(this.config, config);
         }
-        
-        // Ensure cellSize stays at 100px
-        this.config.cellSize = 100;
         
         // Game state
         this.state = {
@@ -59,10 +57,10 @@ class BackpackGame {
             feedbackType: 'info',
             backpackNativeWidth: 0,
             backpackNativeHeight: 0,
-            hoveredObject: null  // NEW: Track hovered object
+            hoveredObject: null
         };
         
-        // Calculate grid dimensions
+        // Calculate base grid dimensions (at 1:1 scale)
         this.gridPixelWidth = this.config.backpackWidth * this.config.cellSize;
         this.gridPixelHeight = this.config.backpackHeight * this.config.cellSize;
         
@@ -72,7 +70,7 @@ class BackpackGame {
         this.gridX = 0;
         this.gridY = 0;
         
-        // Initialize subsystems (these will be defined in other files)
+        // Initialize subsystems
         this.gridSystem = null;
         this.objectManager = null;
         this.renderer = null;
@@ -84,6 +82,115 @@ class BackpackGame {
         this.handleObjectPlaced = this.handleObjectPlaced.bind(this);
         this.handleContinue = this.handleContinue.bind(this);
         this.handleReset = this.handleReset.bind(this);
+        this.handleResize = this.handleResize.bind(this);
+        
+        // Set up resize listener
+        window.addEventListener('resize', this.handleResize);
+        
+        // Initial setup
+        this.updateCanvasSize();
+    }
+    
+    /**
+     * Update canvas size and calculate scale
+     */
+    updateCanvasSize() {
+        const container = this.canvas.parentElement || document.body;
+        const containerRect = container.getBoundingClientRect();
+        const maxWidth = Math.min(containerRect.width - 40, this.baseWidth);
+        const maxHeight = Math.min(containerRect.height - 40, this.baseHeight);
+        
+        // Calculate scale to fit while maintaining aspect ratio
+        const scaleX = maxWidth / this.baseWidth;
+        const scaleY = maxHeight / this.baseHeight;
+        const newScale = Math.min(scaleX, scaleY, 1); // Cap at 1 to prevent upscaling
+        
+        // Only update if scale changed significantly (improves performance)
+        if (Math.abs(this.scale - newScale) > 0.01) {
+            this.scale = newScale;
+            
+            // Calculate actual canvas size
+            const canvasWidth = Math.floor(this.baseWidth * this.scale);
+            const canvasHeight = Math.floor(this.baseHeight * this.scale);
+            
+            // Set canvas display size
+            this.canvas.style.width = canvasWidth + 'px';
+            this.canvas.style.height = canvasHeight + 'px';
+            
+            // Only reset internal resolution if needed (improves performance)
+            if (this.canvas.width !== this.baseWidth || this.canvas.height !== this.baseHeight) {
+                this.canvas.width = this.baseWidth;
+                this.canvas.height = this.baseHeight;
+                
+                // Update positions after canvas resize
+                this.updatePositions();
+            }
+        }
+    }
+    
+    /**
+     * Update all positions after scaling
+     */
+    updatePositions() {
+        // Recalculate backpack and grid positions
+        if (this.state.sprites['backpack']) {
+            this.state.backpackNativeWidth = this.state.sprites['backpack'].width;
+            this.state.backpackNativeHeight = this.state.sprites['backpack'].height;
+            
+            // Center the backpack image
+            this.backpackX = (this.baseWidth - this.state.backpackNativeWidth) / 2;
+            this.backpackY = (this.baseHeight - this.state.backpackNativeHeight) / 2 - 30;
+            
+            // Center the grid on the backpack with offsets
+            this.gridX = this.backpackX + (this.state.backpackNativeWidth - this.gridPixelWidth) / 2 + this.config.gridXOffset;
+            this.gridY = this.backpackY + (this.state.backpackNativeHeight - this.gridPixelHeight) / 2 + this.config.gridYOffset;
+        } else {
+            // Fallback if no backpack sprite
+            this.backpackX = (this.baseWidth - this.gridPixelWidth) / 2;
+            this.backpackY = (this.baseHeight - this.gridPixelHeight) / 2 - 30;
+            this.gridX = this.backpackX + this.config.gridXOffset;
+            this.gridY = this.backpackY + this.config.gridYOffset;
+        }
+        
+        // Reposition staging objects if game is running
+        if (this.state.isRunning) {
+            this.positionStagingObjects();
+        }
+    }
+    
+    /**
+     * Handle window resize events
+     */
+    handleResize() {
+        // Debounce resize events
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            this.updateCanvasSize();
+            // Force a re-render
+            if (this.state.isRunning) {
+                this.render();
+            }
+        }, 100);
+    }
+    
+    /**
+     * Convert screen coordinates to game coordinates
+     */
+    screenToGame(screenX, screenY) {
+        return {
+            x: screenX / this.scale,
+            y: screenY / this.scale
+        };
+    }
+    
+    /**
+     * Convert game coordinates to screen coordinates
+     */
+    gameToScreen(gameX, gameY) {
+        return {
+            x: gameX * this.scale,
+            y: gameY * this.scale
+        };
     }
     
     /**
@@ -92,9 +199,6 @@ class BackpackGame {
     startGame() {
         console.log('Starting Backpack Game...');
         console.log('Grid offsets - X:', this.config.gridXOffset, 'Y:', this.config.gridYOffset);
-        
-        // Set up canvas dimensions
-        this.setupCanvas();
         
         // Initialize subsystems
         this.initializeSubsystems();
@@ -119,70 +223,7 @@ class BackpackGame {
             console.error('Failed to start game:', error);
         });
     }
-
-    /**
-     * Set up canvas dimensions with proper aspect ratio
-     */
-    setupCanvas() {
-        // Get container dimensions
-        const container = this.canvas.parentElement;
-        const containerWidth = container.clientWidth;
-        const containerHeight = container.clientHeight;
-        
-        // Calculate dimensions maintaining 16:9 aspect ratio
-        const targetAspectRatio = 16 / 9;
-        const containerAspectRatio = containerWidth / containerHeight;
-        
-        let canvasWidth, canvasHeight;
-        
-        if (containerAspectRatio > targetAspectRatio) {
-            // Container is wider than 16:9
-            canvasHeight = Math.min(containerHeight, 900);
-            canvasWidth = canvasHeight * targetAspectRatio;
-        } else {
-            // Container is taller than 16:9
-            canvasWidth = Math.min(containerWidth, 1600);
-            canvasHeight = canvasWidth / targetAspectRatio;
-        }
-        
-        // Set internal canvas resolution
-        this.canvas.width = canvasWidth;
-        this.canvas.height = canvasHeight;
-        
-        // If backpack sprite is loaded, use its native dimensions
-        if (this.state.sprites['backpack']) {
-            this.state.backpackNativeWidth = this.state.sprites['backpack'].width;
-            this.state.backpackNativeHeight = this.state.sprites['backpack'].height;
-            
-            // Center the backpack image
-            this.backpackX = (this.canvas.width - this.state.backpackNativeWidth) / 2;
-            this.backpackY = (this.canvas.height - this.state.backpackNativeHeight) / 2 - 30;
-            
-            // Center the grid on the backpack with offsets
-            this.gridX = this.backpackX + (this.state.backpackNativeWidth - this.gridPixelWidth) / 2 + this.config.gridXOffset;
-            this.gridY = this.backpackY + (this.state.backpackNativeHeight - this.gridPixelHeight) / 2 + this.config.gridYOffset;
-        } else {
-            // Fallback if no backpack sprite - center based on grid size
-            this.backpackX = (this.canvas.width - this.gridPixelWidth) / 2;
-            this.backpackY = (this.canvas.height - this.gridPixelHeight) / 2 - 30;
-            this.gridX = this.backpackX + this.config.gridXOffset;
-            this.gridY = this.backpackY + this.config.gridYOffset;
-        }
-    }
-
-    /**
-     * Handle window resize events
-     */
-    handleResize() {
-        // Debounce resize events
-        clearTimeout(this.resizeTimeout);
-        this.resizeTimeout = setTimeout(() => {
-            this.setupCanvas();
-            // Reposition staging objects if needed
-            this.positionStagingObjects();
-        }, 100);
-    }
-
+    
     /**
      * Initialize all game subsystems
      */
@@ -207,6 +248,10 @@ class BackpackGame {
         if (typeof InputHandler !== 'undefined') {
             this.inputHandler = new InputHandler(this.canvas, this);
         }
+        
+        if (typeof DebugConsole !== 'undefined' && window.testObjects) {
+            this.debugConsole = new DebugConsole(this);
+        }
     }
     
     /**
@@ -227,7 +272,7 @@ class BackpackGame {
         console.log('All assets loaded');
         
         // Recalculate positions now that backpack sprite is loaded
-        this.setupCanvas();
+        this.updatePositions();
     }
     
     /**
@@ -266,7 +311,7 @@ class BackpackGame {
             pixelY: 0,
             width: objData.width || 1,
             height: objData.height || 1,
-            description: objData.description || ''  // Ensure description exists
+            description: objData.description || ''
         }));
         
         // Update UI counters
@@ -316,19 +361,19 @@ class BackpackGame {
                 placedOnLeft++;
                 
                 // Wrap to new column if needed
-                if (obj.pixelY + obj.height * this.config.cellSize > this.canvas.height - 100) {
+                if (obj.pixelY + obj.height * this.config.cellSize > this.baseHeight - 100) {
                     currentX += 160;
                     placedOnLeft = 0;
                     currentY = 100;
                 }
             } else {
                 // Right side
-                obj.pixelX = this.canvas.width - 250 - (obj.width * this.config.cellSize);
+                obj.pixelX = this.baseWidth - 250 - (obj.width * this.config.cellSize);
                 obj.pixelY = currentY + placedOnRight * 140;
                 placedOnRight++;
                 
                 // Wrap to new column if needed
-                if (obj.pixelY + obj.height * this.config.cellSize > this.canvas.height - 100) {
+                if (obj.pixelY + obj.height * this.config.cellSize > this.baseHeight - 100) {
                     placedOnRight = 0;
                     currentY = 100;
                 }
@@ -363,9 +408,9 @@ class BackpackGame {
         this.state.lastFrameTime = timestamp;
         
         // Clear canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.baseWidth, this.baseHeight);
         
-        // Render game
+        // Render game at base resolution
         this.render();
         
         // Continue loop
@@ -376,11 +421,14 @@ class BackpackGame {
      * Main render method
      */
     render() {
+        // Save context state
+        this.ctx.save();
+        
+        // Draw everything at base resolution (1600x900)
+        // The canvas CSS sizing handles the visual scaling
+        
         // Draw backpack background
         this.drawBackpack();
-        
-        // DON'T draw blocked cells indicator - removed for clean look
-        // this.drawBlockedCells();
         
         // Draw grid
         this.drawGrid();
@@ -404,15 +452,11 @@ class BackpackGame {
         // Draw feedback message
         this.drawFeedback();
         
-        // NEW: Draw object info display
+        // Draw object info display
         this.drawObjectInfo();
-    }
-    
-    /**
-     * REMOVED: No longer drawing blocked cell indicators
-     */
-    drawBlockedCells() {
-        // Intentionally empty - we don't want visual indicators
+        
+        // Restore context state
+        this.ctx.restore();
     }
     
     /**
@@ -456,9 +500,9 @@ class BackpackGame {
      * Draw the grid lines for irregular grid (cleaned up)
      */
     drawGrid() {
-        this.ctx.strokeStyle = '#2d3748'; // Darker color for better visibility
+        this.ctx.strokeStyle = '#2d3748';
         this.ctx.lineWidth = this.config.gridLineWidth;
-        this.ctx.globalAlpha = 0.5; // Semi-transparent over sprite
+        this.ctx.globalAlpha = 0.5;
         
         // Draw individual cell borders for valid cells only
         for (let y = 0; y < this.config.backpackHeight; y++) {
@@ -473,13 +517,12 @@ class BackpackGame {
                     
                     this.ctx.beginPath();
                     
-                    // Draw top border if needed
+                    // Draw borders intelligently
                     if (y === 0 || !this.config.gridMask[y-1] || this.config.gridMask[y-1][x] === 0) {
                         this.ctx.moveTo(cellX, cellY);
                         this.ctx.lineTo(cellX + this.config.cellSize, cellY);
                     }
                     
-                    // Draw right border if needed
                     if (x === this.config.backpackWidth - 1 || 
                         !this.config.gridMask[y][x+1] || 
                         this.config.gridMask[y][x+1] === 0) {
@@ -487,7 +530,6 @@ class BackpackGame {
                         this.ctx.lineTo(cellX + this.config.cellSize, cellY + this.config.cellSize);
                     }
                     
-                    // Draw bottom border if needed
                     if (y === this.config.backpackHeight - 1 || 
                         !this.config.gridMask[y+1] || 
                         this.config.gridMask[y+1][x] === 0) {
@@ -495,7 +537,6 @@ class BackpackGame {
                         this.ctx.lineTo(cellX, cellY + this.config.cellSize);
                     }
                     
-                    // Draw left border if needed
                     if (x === 0 || !this.config.gridMask[y][x-1] || this.config.gridMask[y][x-1] === 0) {
                         this.ctx.moveTo(cellX, cellY + this.config.cellSize);
                         this.ctx.lineTo(cellX, cellY);
@@ -532,9 +573,9 @@ class BackpackGame {
             }
         }
         
-        this.ctx.globalAlpha = 1.0; // Reset alpha
+        this.ctx.globalAlpha = 1.0;
     }
-
+    
     /**
      * Draw object information display
      */
@@ -544,32 +585,21 @@ class BackpackGame {
         if (!objectToShow) return;
         
         // Position: centered below the backpack
-        const infoX = this.canvas.width / 2;
+        const infoX = this.baseWidth / 2;
         const infoY = this.gridY + this.gridPixelHeight + 60;
-        
-        // Draw background box for better visibility
-        const name = objectToShow.name || objectToShow.id;
-        const description = objectToShow.description || '';
-        
-        // Measure text to create background
-        this.ctx.font = 'bold 24px Arial';
-        const nameWidth = this.ctx.measureText(name).width;
-        this.ctx.font = '16px Arial';
-        const descWidth = description ? this.ctx.measureText(description).width : 0;
-        const maxWidth = Math.max(nameWidth, descWidth);
         
         // Draw name (large)
         this.ctx.font = 'bold 24px Arial';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'top';
         this.ctx.fillStyle = '#2d3748';
-        this.ctx.fillText(name, infoX, infoY);
+        this.ctx.fillText(objectToShow.name || objectToShow.id, infoX, infoY);
         
-        // Draw description (small) - FIXED to ensure it displays
-        if (description && description.length > 0) {
+        // Draw description (small)
+        if (objectToShow.description && objectToShow.description.length > 0) {
             this.ctx.font = '16px Arial';
             this.ctx.fillStyle = '#718096';
-            this.ctx.fillText(description, infoX, infoY + 30);
+            this.ctx.fillText(objectToShow.description, infoX, infoY + 30);
         }
     }
     
@@ -579,6 +609,10 @@ class BackpackGame {
     drawObject(obj, isDragging = false) {
         const width = obj.width * this.config.cellSize;
         const height = obj.height * this.config.cellSize;
+        
+        if (isDragging) {
+            this.ctx.globalAlpha = 0.7;
+        }
         
         // Use sprite if available, otherwise draw colored rectangle
         if (this.state.sprites[obj.sprite]) {
@@ -612,7 +646,7 @@ class BackpackGame {
         }
         
         if (isDragging) {
-            this.ctx.globalAlpha = 0.7;
+            this.ctx.globalAlpha = 1.0;
         }
     }
     
@@ -648,7 +682,6 @@ class BackpackGame {
         if (!overlapsGrid) return;
         
         // Calculate grid position using nearest grid snap point
-        // Add half cell size to get the nearest grid cell
         const snapX = obj.pixelX + this.config.cellSize / 2;
         const snapY = obj.pixelY + this.config.cellSize / 2;
         const gridPos = this.pixelToGrid(snapX, snapY);
@@ -711,16 +744,16 @@ class BackpackGame {
                 if (this.config.gridMask && 
                     this.config.gridMask[checkY] && 
                     this.config.gridMask[checkY][checkX] === 0) {
-                    return false; // Can't place on blocked cells
+                    return false;
                 }
                 
                 // Check if cell is already occupied or blocked
                 const cellValue = this.state.grid[checkY][checkX];
                 if (cellValue !== null && cellValue !== 'blocked') {
-                    return false; // Cell is occupied by another object
+                    return false;
                 }
                 if (cellValue === 'blocked') {
-                    return false; // Cell is blocked
+                    return false;
                 }
             }
         }
@@ -756,9 +789,6 @@ class BackpackGame {
         // Update UI
         this.updateObjectCounter();
         this.checkContinueButton();
-        
-        // Show feedback
-        //this.showFeedback(`${obj.name} packed!`, 'success');
     }
     
     /**
@@ -779,7 +809,6 @@ class BackpackGame {
      * Check if continue button should be enabled
      */
     checkContinueButton() {
-        // Check both possible button IDs
         const continueBtn = document.getElementById('continue-btn') || document.getElementById('done-btn');
         if (continueBtn) {
             // Enable if at least one object is placed
@@ -795,12 +824,10 @@ class BackpackGame {
         this.state.feedbackMessage = message;
         this.state.feedbackType = type;
         
-        // Clear any existing timeout
         if (this.state.feedbackTimeout) {
             clearTimeout(this.state.feedbackTimeout);
         }
         
-        // Set timeout to clear message
         this.state.feedbackTimeout = setTimeout(() => {
             this.state.feedbackMessage = '';
         }, 2000);
@@ -812,16 +839,14 @@ class BackpackGame {
     drawFeedback() {
         if (!this.state.feedbackMessage) return;
         
-        // Set font and measure text
         this.ctx.font = '18px Arial';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'bottom';
         
-        // Draw background for better visibility
         const textWidth = this.ctx.measureText(this.state.feedbackMessage).width;
         const padding = 12;
-        const bgX = (this.canvas.width - textWidth) / 2 - padding;
-        const bgY = this.canvas.height - 50;
+        const bgX = (this.baseWidth - textWidth) / 2 - padding;
+        const bgY = this.baseHeight - 50;
         
         // Draw semi-transparent background
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -836,11 +861,11 @@ class BackpackGame {
             this.ctx.fillStyle = '#e2e8f0';
         }
         
-        // Draw text at bottom center
+        // Draw text
         this.ctx.fillText(
             this.state.feedbackMessage,
-            this.canvas.width / 2,
-            this.canvas.height - 25
+            this.baseWidth / 2,
+            this.baseHeight - 25
         );
     }
     
@@ -897,10 +922,47 @@ class BackpackGame {
     }
     
     /**
+     * Update objects (for debug console)
+     */
+    updateObjects(newObjects) {
+        // Update the objects list
+        this.config.objects = newObjects;
+        
+        // Recreate game state with new objects
+        this.createGameState();
+        
+        // Clear placed objects
+        this.state.placedObjects = [];
+        
+        // Clear grid
+        this.state.grid = this.createGrid(
+            this.config.backpackWidth,
+            this.config.backpackHeight
+        );
+        
+        // Reposition objects
+        this.positionStagingObjects();
+        
+        // Update UI
+        this.updateObjectCounter();
+        this.checkContinueButton();
+    }
+    
+    /**
      * End the game
      */
     endGame() {
         this.state.isRunning = false;
+        window.removeEventListener('resize', this.handleResize);
+        
+        if (this.inputHandler) {
+            this.inputHandler.destroy();
+        }
+        
+        if (this.debugConsole) {
+            this.debugConsole.destroy();
+        }
+        
         console.log('Game ended');
     }
 }
