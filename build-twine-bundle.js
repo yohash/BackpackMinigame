@@ -77,7 +77,7 @@ const ITEM_DATABASE = {
         height: 1,
         color: 'hsl(50, 70%, 60%)',
         sprite: 'baseball',
-        description: 'A baseball.'
+        description: 'You never got a hit'
     },
     'bong': {
         id: 'bong',
@@ -86,43 +86,43 @@ const ITEM_DATABASE = {
         height: 4,
         color: 'hsl(20, 70%, 60%)',
         sprite: 'bong',
-        description: 'A glass bong.'
+        description: 'Purple haze, man'
     },
     'burtreyn': {
         id: 'burtreynolds',
-        name: 'Burt Reynolds',
+        name: 'Framed Portrait',
         width: 2,
         height: 2,
         color: 'hsl(70, 70%, 60%)',
-        sprite: 'burtreyn',
-        description: 'A Burt Reynolds photo.'
+        sprite: 'burtreynolds',
+        description: 'The other Burt Reynolds'
     },
     'cash1': {
         id: 'cash1',
-        name: 'One dollar',
+        name: 'One Dollar',
         width: 1,
         height: 1,
         color: 'hsl(90, 70%, 60%)',
         sprite: 'cash1',
-        description: 'A single dollar bill.'
+        description: 'Doesn\'t buy shit'
     },
     'cash401': {
         id: 'cash401',
-        name: 'Cash',
+        name: '$401',
         width: 1,
         height: 2,
         color: 'hsl(110, 70%, 60%)',
         sprite: 'cash401',
-        description: 'A large stack of cash.'
+        description: 'That\'s a lot of cash'
     },
     'cellphone': {
         id: 'cellphone',
-        name: 'Cellphone',
+        name: 'Cell Phone',
         width: 1,
         height: 2,
         color: 'hsl(60, 70%, 60%)',
         sprite: 'cellphone',
-        description: 'A modern cellphone.'
+        description: 'The only game it has is Snake'
     },
     'cheetos': {
         id: 'cheetos',
@@ -131,25 +131,25 @@ const ITEM_DATABASE = {
         height: 2,
         color: 'hsl(80, 70%, 60%)',
         sprite: 'cheetos',
-        description: 'A bag of Cheetos snacks.'
+        description: 'Not even Flamin Hot'
     },
     'cups': {
         id: 'cups',
-        name: 'Cups',
+        name: 'Smoothie Cups',
         width: 1,
         height: 3,
         color: 'hsl(100, 70%, 60%)',
         sprite: 'cups',
-        description: 'A stack of plastic cups.'
+        description: 'Just a pile of work'
     },
     'dice': {
         id: 'dice',
-        name: 'Dice',
+        name: '6-sided Die',
         width: 1,
         height: 1,
         color: 'hsl(120, 70%, 60%)',
         sprite: 'dice',
-        description: 'A 6-sided dice.'
+        description: 'Supposedly lucky'
     },
     'fabreeze': {
         id: 'fabreeze',
@@ -158,61 +158,61 @@ const ITEM_DATABASE = {
         height: 3,
         color: 'hsl(140, 70%, 60%)',
         sprite: 'fabreeze',
-        description: 'A can of Fabreeze air freshener.'
+        description: 'Ancient Meadow scent'
     },
     'fleacollar': {
         id: 'fleacollar',
-        name: 'Flea collar',
+        name: 'Flea Collar',
         width: 1,
         height: 1,
         color: 'hsl(160, 70%, 60%)',
         sprite: 'fleacollar',
-        description: 'A flea collar for pets.'
+        description: 'With pink rhinestones'
     },
     'jesterpant': {
         id: 'jesterpant',
-        name: 'Jester pants',
+        name: 'Jester Pants',
         width: 3,
         height: 1,
         color: 'hsl(130, 70%, 60%)',
         sprite: 'jesterpant',
-        description: 'A pair of jester pants.'
+        description: 'Polyester always gives you swamp crack'
     },
     'jestervest': {
         id: 'jestervest',
-        name: 'Jester vest',
+        name: 'Jester Vest',
         width: 3,
         height: 1,
         color: 'hsl(180, 70%, 60%)',
         sprite: 'jestervest',
-        description: 'A colorful jester vest.'
+        description: 'When you need to look your fruitiest'
     },
     'lighterern': {
         id: 'lighterern',
-        name: 'Ernesto\'s lighter',
+        name: 'Lighter',
         width: 1,
         height: 1,
         color: 'hsl(200, 70%, 60%)',
         sprite: 'lighterern',
-        description: 'This is Ernesto\'s lighter.'
+        description: 'You ganked it from Ernesto'
     },
     'lightergrt': {
         id: 'lightergrt',
-        name: 'Greta\'s lighter',
+        name: 'Lighter',
         width: 1,
         height: 1,
         color: 'hsl(220, 70%, 60%)',
         sprite: 'lightergrt',
-        description: 'This is Greta\'s lighter.'
+        description: 'Obviously belongs to Greta'
     },
     'lighterram': {
         id: 'lighterram',
-        name: 'Rambo\'s lighter',
+        name: 'Lighter',
         width: 1,
         height: 1,
         color: 'hsl(240, 70%, 60%)',
         sprite: 'lighterram',
-        description: 'This is Rambo\'s lighter.'
+        description: 'This one is from Rambo'
     },
     'lollipops': {
         id: 'lollipops',
@@ -221,7 +221,7 @@ const ITEM_DATABASE = {
         height: 1,
         color: 'hsl(260, 70%, 60%)',
         sprite: 'lollipops',
-        description: 'A handful of lollipops.'
+        description: 'Fruit punch flavor'
     },
     'matchbook': {
         id: 'matchbook',
@@ -230,61 +230,61 @@ const ITEM_DATABASE = {
         height: 1,
         color: 'hsl(280, 70%, 60%)',
         sprite: 'matchbook',
-        description: 'A small matchbook.'
+        description: 'Start a fire without a spark'
     },
     'orcking': {
         id: 'orcking',
-        name: 'Orc king',
+        name: 'Orc King',
         width: 1,
         height: 1,
         color: 'hsl(300, 70%, 60%)',
         sprite: 'orcking',
-        description: 'A mysterious orc king figurine.'
+        description: 'Gwarkcrotch the Disgustful'
     },
     'papertow': {
         id: 'papertowels',
-        name: 'Paper towels',
+        name: 'Paper Towels',
         width: 2,
         height: 3,
         color: 'hsl(320, 70%, 60%)',
-        sprite: 'papertow',
-        description: 'A roll of paper towels.'
+        sprite: 'papertowels',
+        description: 'Extra absorbent'
     },
     'pointer': {
         id: 'pointer',
-        name: 'Laser pointer',
+        name: 'Laser Pointer',
         width: 1,
         height: 1,
         color: 'hsl(340, 70%, 60%)',
         sprite: 'pointer',
-        description: 'A laser pointer.'
+        description: 'Good for cats or presentations'
     },
     'romancand': {
         id: 'romancandel',
-        name: 'Roman candle',
+        name: 'Roman Candle',
         width: 1,
         height: 5,
         color: 'hsl(360, 70%, 60%)',
-        sprite: 'romancand',
-        description: 'A roman candle firework.'
+        sprite: 'romancandel',
+        description: 'The Wizard Whanger'
     },
     'shield': {
         id: 'shield',
-        name: 'Shield',
+        name: 'Shield of Ernesto',
         width: 3,
         height: 5,
         color: 'hsl(30, 70%, 60%)',
         sprite: 'shield',
-        description: 'A small shield.'
+        description: 'You broke it in half'
     },
     'smokes': {
         id: 'smokes',
-        name: 'Smokes',
+        name: 'Cigarettes',
         width: 1,
         height: 2,
         color: 'hsl(60, 70%, 60%)',
         sprite: 'smokes',
-        description: 'A pack of cigarettes.'
+        description: 'Pack of smokes belonging to Greta.'
     },
     'spade': {
         id: 'spade',
@@ -293,16 +293,16 @@ const ITEM_DATABASE = {
         height: 3,
         color: 'hsl(150, 70%, 60%)',
         sprite: 'spade',
-        description: 'A garden spade.'
+        description: 'For gardening gnomes'
     },
     'trophy': {
         id: 'trophy',
-        name: 'Trophy',
+        name: 'Softball Trophy',
         width: 2,
         height: 3,
         color: 'hsl(170, 70%, 60%)',
         sprite: 'trophy',
-        description: 'A softball trophy.'
+        description: 'You won it sitting on the bench'
     }
 };
 

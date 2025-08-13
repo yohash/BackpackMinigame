@@ -116,7 +116,7 @@ Thank you for playing. More Interactive Tragedies can be found at:
 <a href="https://www.interactivetragedy.com" target="_blank" rel="noopener noreferrer">interactivetragedy.com</a>
 <a href="https://store.steampowered.com/franchise/InterTragedy" target="_blank" rel="noopener noreferrer">Steam</a>
 
-[[Play again.|StartScreen]]
+[[PLAY AGAIN|StartScreen]]
 [[CREDITS]]
 
 
@@ -173,7 +173,7 @@ She suddenly clocks that you are holding bulletproof BODY ARMOR. Her eyes go wid
 
 GRETA: Look, Bert, I’m sorry. About your paycheck. And firing you. It was three strikes—that comes from corporate. Whatever you’re planning, please…
 
-You think of Jan's cellar door, and panic. 
+You think of JAN'S PORTAL and panic. 
 
 BERT: Did Ernesto tell you my plan?
 
@@ -195,7 +195,8 @@ BERT: Greta. I forgive you.
 <<if $smokes>>You pull GRETA'S SMOKES out of your BACKPACK and return them to her.<<else>>BERT: Can I share a smoke with you?
 
 GREAT hesitates, glances at the BODY ARMOR, and hands you a smoke.<</if>>
-<<if $lightergrt || $lighterern>>BERT: Here's a light.
+<<if $lightergrt || $lighterern>>
+BERT: Here's a light.
 
 They nod as you use the LIGHTER to light their cigarettes. You try to catch GOTH GRRL's eye, but she won't look at you.<<else>>BERT: Got a light?
 
@@ -205,11 +206,12 @@ GRETA: Is that my lighter?
 She snatches it from your hand. 
 
 GRETA: God Bert, you need to change.<<else>><</if>>
+
 Suddenly GOTH GRRL wrinkles her nose. So does GRETA. Then you taste it too. 
 
 GRETA: BERT, what the actual fuck? Did you dip these in shit?
 
-Seems everything that was in the BARN got tainted. The girls turn and stomp off,<</if>>flinging their cigarettes over their shoulders. You feel <<if $ANGER>>satisfied<<else>>hopeless<</if>>. Then you notice the lit cigarettes rolling toward the trailer. The one filled with fireworks.
+Seems everything that was in the BARN got tainted. The girls turn and stomp off,<</if>>flinging their cigarettes over their shoulders. You feel <<if $ANGER>>satisfied<<else>>hopeless<</if>>. Then you notice the lit cigarettes rolling toward the trailer. The one filled with FIREWORKS.
 
 BERT: Shit!
 
@@ -219,16 +221,15 @@ You leap after them, trying to stomp them out before they roll underneath the...
 
 
 :: Scene11A {"position":"850,2300","size":"100,100"}
-\:: Scene11A
 DRAGON’S BREATH FIREWORKS
 
-Whew. All cigarettes out. You're wiping the flopsweat from your face when you hear a familiar voice…
+After some frantic stomping, you manage to put the cigarettes out. You're wiping the flopsweat from your face when you hear a familiar voice…
 
 JEFFREY: No smoking.
 
 His Little Lordship sits in the trailer, surrounded by empty smoothie cups and fireworks—WHIZARD WHANGER, DRAGON OF DOOMSDAY, and EXPLODING ARCHER—priced $2–$401.
 
-Except the ROMAN CANDLES on the front counter, under a sign that reads “On sale. $1. Fireballs.” They’re next to some LIGHTERS and MATCHES. You pull your crumpled dollar from RAMBO out of your backpack and point to <<if typeof $items === "undefined">><<set $items = ["MATCHES","LIGHTER","ROMAN CANDLE"]>><<set $lastItemMsg = null>><</if>><<if $lastItemMsg>><<print $lastItemMsg>><br><br><<link "Push it down">><<goto "Scene11B">><</link>><<else>><<link "\n\n... the MATCHES">><<set $lastItemMsg = "the MATCHES.\n\nBERT: I’ll take a matchbook.\n\nJEFFREY pulls it back off the counter, out of your reach. You feel your face flush. But he's a kid, so you…">><<set $matchbook = true>><<set $items = []>><<goto "Scene11A">><</link>><br><<link "... the LIGHTER.">><<set $lastItemMsg = "the LIGHTER\n\nBERT: I’ll take a lighter.\n\nJEFFREY pulls it back off the counter, out of your reach. You feel your face flush. But he's a kid, so you…">><<set $lighterram = true>><<set $items = []>><<goto "Scene11A">><</link>><br><<link "... the ROMAN CANDLE.">><<set $lastItemMsg = "the ROMAN CANDLE\n\nBERT: I’ll take one Roman candle.\n\nJEFFREY pulls it back off the counter, out of your reach. You feel your face flush. But he's a kid, so you…">><<set $romancand = true>><<set $items = []>><<goto "Scene11A">><</link>><</if>>
+Except the ROMAN CANDLES on the front counter, under a sign that reads “On sale. $1. Fireballs.” They’re next to some LIGHTERS and MATCHES. You pull your crumpled DOLLAR from RAMBO out of your backpack and point to <<if typeof $items === "undefined">><<set $items = ["MATCHES","LIGHTER","ROMAN CANDLE"]>><<set $lastItemMsg = null>><</if>><<if $lastItemMsg>><<print $lastItemMsg>><br><br><<link "Push it down">><<goto "Scene11B">><</link>><<else>><<link "\n\n... the MATCHES">><<set $lastItemMsg = "the MATCHES\n\nBERT: I’ll take a matchbook.\n\nJEFFREY pulls it back off the counter, out of your reach. You feel your face flush. But he's a kid, so you…">><<set $matchbook = true>><<set $items = []>><<goto "Scene11A">><</link>><br><<link "... the LIGHTER">><<set $lastItemMsg = "the LIGHTER\n\nBERT: I’ll take a lighter.\n\nJEFFREY pulls it back off the counter, out of your reach. You feel your face flush. But he's a kid, so you…">><<set $lighterram = true>><<set $items = []>><<goto "Scene11A">><</link>><br><<link "... the ROMAN CANDLE">><<set $lastItemMsg = "the ROMAN CANDLE\n\nBERT: I’ll take one Roman candle.\n\nJEFFREY pulls it back off the counter, out of your reach. You feel your face flush. But he's a kid, so you…">><<set $romancand = true>><<set $items = []>><<goto "Scene11A">><</link>><</if>>
 
 
 :: Scene11B {"position":"950,2300","size":"100,100"}
@@ -238,7 +239,7 @@ BERT: Who’s in charge here?
 
 JEFFREY: Dad’s gone. Buy something or leave. Sale’s over.
 
-Jeffrey tips the $1 sale sign face-down. Rolling your eyes, you plunk your last dollar on the counter, pick up the <<if $romancand>>ROMAN CANDLE<<elseif $matchbook>>MATCHBOOK<<else>>LIGHTER<</if>>, and turn to go.<<set $cash1 = false>>
+Jeffrey tips the $1 sale sign face-down. Rolling your eyes, you plunk your last DOLLAR on the counter, pick up the <<if $romancand>>ROMAN CANDLE<<elseif $matchbook>>MATCHBOOK<<else>>LIGHTER<</if>>, and turn to go.<<set $cash1 = false>>
 
 JEFFREY: <<if $THREWcups>>I saw you throw a cup at a dog.<<else>>I saw you bark at those dogs.<</if>>
 
@@ -249,7 +250,7 @@ You face flushes again. You don’t have to answer to this little shit anymore. 
 
 
 :: Scene11BAnger {"position":"1075,2350","size":"100,100"}
-You reach for him, furious. He dodges. So you <<if $romancand>>brandish your ROMAN CANDLE like a sword and try and poke JEFFREY with it.<<else>>pick up a ROMAN CANDLE from the box on the counter and try to whack JEFFREY on the head with it.<</if??
+You reach for him, furious. He dodges. So you <<if $romancand>>brandish your ROMAN CANDLE like a sword and swat at JEFFREY with it.<<else>>pick up a ROMAN CANDLE from the box on the counter and try to whack JEFFREY on the head with it.<</if??
 
 JEFFREY: <<if not $romancand>>THEEEEFF!! <<else>><</if>>DAAAAAAAD!!
 
@@ -263,7 +264,7 @@ You calmly unlatch the flip up window cover of the trailer, and lower the plank 
 
 JEFFREY: DAAAAAAAD!!
 
-The real RAMBO bursts forth from GUNZ ’N AMMO and roars like an armed grizzly bear. You grasp your backpack and run as fast as you can from the parking lot, thankful you’re wearing the BODY ARMOR.
+The real RAMBO bursts forth from GUNZ ’N AMMO and roars like an armed grizzly bear. You grasp your BACKPACK and run as fast as you can from the parking lot, thankful you’re wearing the BODY ARMOR.
 
 [[Back to MA'S HOUSE|Scene12A]]
 
@@ -271,7 +272,7 @@ The real RAMBO bursts forth from GUNZ ’N AMMO and roars like an armed grizzly 
 :: Scene12A {"position":"900,2500","size":"100,100"}
 MA REYNOLD'S HOUSE
 
-When you return to MA’s house, she’s not there. You take the opportunity to make your final preparations before heading back to Jan's cellar door. You open MA’s kitchen pantry, looking for anything that might help in a castle siege.
+When you return to MA’s house, she’s not there. You take the opportunity to make your final preparations before heading back to JAN's CELLAR DOOR. You open MA’s kitchen pantry, looking for anything that might help in a castle siege.
 
 The shelves are barren. You forgot that her almost every meal is cigarettes. All that remains in the pantry are some old LOLLIPOPS, a rhinestone-studded pink FLEA COLLAR that used to belong to NED's cat, and a can of FABREEZE. <<set $romancand = true>><<set $lighterram = true>><<set $matchbook = true>><<set $lollipops = true>><<set $fleacollar = true>><<set $fabreeze = true>>
 
@@ -289,19 +290,39 @@ NED: Stay here for $400. But I don’t think you’ve paid. I can check your acc
 
 BERT: You can’t control everybody with Excel.
 
-He pops a Cheeto in his mouth and eyes <<if $bodyarmor>>the BODY ARMOR sticking out of your BACKPACK.<<else>>the BODY ARMOR you left on the floor.<</if>>
+He pops a Cheeto in his mouth and eyes <<if $bodyarmor>>your BODY ARMOR.<<else>>the BODY ARMOR you left on the floor.<</if>>
 
 NED: Is someone after you? Do you need protection from the subterranean sheep next door?
 
-MA told him. Now you're doubly annoyed. <<if $bodyarmor>>To freak him out, you take the bulletproof vest out of your BACKPACK and put it on. You grab MA’s TIE-DYED ROBE off the back of the kitchen chair and drape it over your BODY ARMOR.<<else>>But you do need a costume. You grab MA’s TIE-DYED ROBE off the back of the kitchen chair and put it on.<</if>> Looking past NED, you notice the sun is setting behind Jan's house. Time to go.
+MA told him. Now you're doubly annoyed. You don't want anyone knowing what you are up to. <<if $bodyarmor>>You grab MA’s TIE-DYED ROBE off the back of the kitchen chair and drape it over your BODY ARMOR.<<else>>But you do need a costume. You grab MA’s TIE-DYED ROBE off the back of the kitchen chair and put it on.<</if>> Looking past NED, you notice the sun is setting behind Jan's house. Time to go.
 
-You turn to NED, who is clearly about to comment on your new fashion choice.
+You turn to NED, who is clearly about to comment on your new fashion choice. You're already mad. 
 
+[[Push it down|Scene12CSupress]]
+[[Let it Out|Scene12CAnger]]
+
+[[Push it down|Scene13A][$ANGRY = false]]
+[[Let it Out|Scene13A][$ANGRY = true]]
+
+
+
+
+:: Scene12CAnger {"position":"1275,2450","size":"100,100"}
+<<if $pick === "Anger">>BERT: Know what, Ned? I’ve got another place to stay. You’re just Ma’s employee. Unpaid. Go fuck yourself.<br><br>You shove past NED, snatching the CHEETO bag out of his hand. NED looks startled at your sudden show of force.<br><br><<set $cheetos2 = true>>[[Go to JAN'S CELLAR|Scene13A]]<</if>><<if $pick === "Supress">>BERT: Know what, Ned? Have a great day.<br><br>You breeze past NED. He looks startled at your sudden show of politeness.<br><br>[[Go to JAN'S CELLAR|Scene13A]]<</if>><<if !$pick>>
+
+
+:: Scene12CSupress {"position":"1275,2575","size":"100,100"}
 <<if $pick === "Anger">>BERT: Know what, Ned? I’ve got another place to stay. You’re just Ma’s employee. Unpaid. Go fuck yourself.<br><br>You shove past NED, snatching the CHEETO bag out of his hand. NED looks startled at your sudden show of force.<br><br><<set $cheetos2 = true>>[[Go to JAN'S CELLAR|Scene13A]]<</if>><<if $pick === "Supress">>BERT: Know what, Ned? Have a great day.<br><br>You breeze past NED. He looks startled at your sudden show of politeness.<br><br>[[Go to JAN'S CELLAR|Scene13A]]<</if>><<if !$pick>>[[Push it down|Scene12B][$pick = "Supress"]]<br>[[Let it Out|Scene12B][$pick = "Anger"]]<</if>>
 
 
 :: Scene13A {"position":"950,2650","size":"100,100"}
-You scramble across the driveway between the two houses, tripping over the ROBE. You look up, to see if JAN is still watching from the upstairs window, but nothing moves. The FOR SALE sign in front of the house is gone.
+<<if $ANGER>>BERT: Know what, Ned? I’ve got another place to stay. You’re just Ma’s employee. Unpaid. Go fuck yourself.
+
+You shove past NED, snatching the CHEETO bag out of his hand. NED looks startled at your sudden show of force.<<set $cheetos2 = true>><<else>>BERT: Know what, Ned? Have a great day.
+
+You breeze past NED. He is so startled at your sudden show of politeness, a Cheeto falls out of his open mouth.<</if>>
+
+You burst out of the door and scramble across the driveway between the two houses, tripping over the ROBE. You look up, to see if JAN is still watching from the upstairs window, but nothing moves. The FOR SALE sign in front of the HOUSE is gone.
 
 The last rays of light are just framing the CELLAR DOOR. The scrawny cat is there again, looking hungry. <<if $cheetos2>>You take off your BACKPACK, and squat down to offer her NED's bag of CHEETOS. <<if $cheetos>>You decide you should keep your own bag of CHEETOS in your BACKPACK. <</if>>She eats them, gratefully.<<elseif $lollipops>>You take off your BACKPACK, looking for something for her to eat. You offer her the LOLLIPOPS but she doesn't seem into them. You hope she's still lucky. <<elseif $cheetos>>You look in your BACKPACK, and hesitate. You decide you should keep your bag of CHEETOS. You might get hungry. <<else>>You take off your BACKPACK, looking for something for her to eat. You don't have any CHEETOS for her. You hope she's still lucky. <</if>>
 
@@ -381,7 +402,7 @@ CICILIA: Told you.
 
 BERT: The mob…
 
-SEWARD: Steadfast fellows! I think may would join us, to approach the castle walls. But some are not convinced you're truly a wizard. Can you produce some of that magic you displayed before?
+SEWARD: Steadfast fellows! Many would join us in our seige of the castle walls. But some are not convinced you're truly a wizard. Can you produce some of that magic you displayed before?
 
 You're ready for this. You reach into your BACKPACK. 
 <<if $smokes || $orcking || $dice || $baseball>><<if $orcking>>
@@ -472,7 +493,7 @@ BERT: No, like the wizard box, or this.
 
 SEWARD: All I can say, mighty one, is that what our King desires, he receives. He stole the castle from the rightful heir. It’s just over that hill. These men will be wanting a battle speech.
 
-SEWARD stops, turns, and screams: HALT! The mob gathers round.
+SEWARD stops, turns, and screams: HALT! The MOB gathers round.
 
 [[Gather your THOUGHTS|Scene14E]]
 
@@ -480,9 +501,9 @@ SEWARD stops, turns, and screams: HALT! The mob gathers round.
 :: Scene14E {"position":"1500,2800","size":"100,100"}
 CASTLE HILL
 
-The MOB is restless. A hush falls over them, as they pack in tight around you.
+The MOB is restless. A hush falls over them, as they pack in tight around you.<<if $papertow || $trophy>>
 
-<<if $papertow || $trophy>>SEWARD: We need a banner of arms!
+SEWARD: We need a banner of arms!
 
 You reach into your BACKPACK, and pull out the <<if $papertow>>PAPER TOWELS<</if>><<if $papertow && $trophy>> and the<</if>><<if $trophy>> TROPHY<</if>>.
 
@@ -677,7 +698,7 @@ JAN: Bert?!
 
 BERT: Yes!
 
-She pulls her beard back up, and whispers something in the KING's ear. The KING peers at you, down over the edge of his high wall. 
+She pulls her beard back up and whispers something in the KING's ear. The KING peers at you, down over the edge of his high wall. 
 
 KING: Hold fire! Bring him to my court.
 
@@ -687,7 +708,7 @@ The ARCHERS stop, and the royal gaurd disperse to fufill the KING's orders. You 
 
 KING: Hold fire! Seize that barbarian.
 
-He points to you. The ARCHERS stop. JAN pulls her beard back up, and whispers something in the KING's ear. They peer down at you, down over the edge of the high wall. 
+He points to you. The ARCHERS stop. JAN pulls her beard back up and whispers something in the KING's ear. They peer down at you, down over the edge of the high wall. 
 
 KING: Bring him to my court.
 
@@ -695,7 +716,7 @@ The royal gaurd disperse to fulfill the KING's orders. You will be saved.
 
 [[You CLOSE YOUR EYES|Ending4]]<<else>> You have nothing of use anymore in BACKPACK. Nothing that could get their attention so high up on that wall. You have come so far, and you were so close to the KING, and now you feel the moment slipping away. 
 
-JAN pulls her beard back up, and whispers something in the KING's ear. They turn, and go back inside. You feel frantic.
+JAN pulls her beard back up and whispers something in the KING's ear. They turn, and go back inside. You feel frantic.
 
 [[You WAVE YOUR ARMS and SHOUT|Ending3]]<</if>>
 
@@ -735,7 +756,7 @@ JEFFREY: Say it.
 
 BERT: Just take the smoothie, kid.
 
-You can feel Ernesto hovering behind you, anxious. His uniform matches yours, but it’s the smallest size. He whispers nervously from the backroom.
+You can feel ERNESTO hovering behind you, anxious. His uniform matches yours, but it’s the smallest size. He whispers nervously from the backroom.
 
 ERNESTO: Dude. You have two strikes already.
 
@@ -745,7 +766,7 @@ BERT: Libation for His Royal Majesty, may your eternal reign be smooth.
 
 JEFFREY: Off with your fat head.
 
-Little King Jeffrey snatches the smoothie out of your hand with a scowl. As the anger starts to rise again, you notice that there is another customer waiting.
+Little KING JEFFREY snatches the smoothie out of your hand with a scowl. As the anger starts to rise again, you notice that there is another customer waiting.
 
 [[Push the anger down|Scene1C]]
 
@@ -777,7 +798,7 @@ BERT: It’s for the order.
 
 TECH BRO: No shit. You remember that. But if you cared about me as a ROYAL GUEST, you should remember your name.
 
-This is the most this asshat has ever talked to you. You look to Ernesto. He shrugs. The TECH BRO crosses his arms, waiting for you to guess. You feel the anger rising inside you.
+This is the most this asshat has ever talked to you. You look to ERNESTO. He shrugs. The TECH BRO crosses his arms, waiting for you to guess. You feel the anger rising inside you.
 
 [[Let it out|Scene1Cpart2]]
 
@@ -789,7 +810,7 @@ Throw the cup, smoothie and all, straight at his stupid muscly chest. His eyebro
 
 One of the peekapoos starts licking it. The other has its nose in the cup, burrowing down into strawberry goo-ness.
 
-Ernesto has pressed his back against the wall, as though you might lash out at him next. You instantly regret everything.
+ERNESTO has pressed his back against the wall, as though you might lash out at him next. You instantly regret everything.
 
 [[Go to the BACKROOM|Scene1D]]
 
@@ -799,7 +820,7 @@ You push the anger down. As best you can. But…
 
 Your fist collapses around the cup. It explodes like a cannon, sending a giant gob of gummy pink smoothie goo splatting all over TECH BRO’s chest.
 
-Ernesto sinks into the backroom, terrified. The peekapoos start lapping the smoothie off the floor.
+ERNESTO sinks into the backroom, terrified. The peekapoos start lapping the smoothie off the floor.
 
 [[Go to the BACKROOM|Scene1D]]
 
@@ -848,7 +869,7 @@ As you try to disappear into the BACKROOM, the real manager emerges. GRETA is 19
 
 GRETA: Third strike, Bert. You’re so fuckin’ fired.
 
-You stand there, frozen in disbelief. Ernesto looks like he might cry.
+You stand there, frozen in disbelief. ERNESTO looks like he might cry.
 
 GRETA: Pack your shit. Five minutes.
 
@@ -862,11 +883,11 @@ In the backroom, you mutter to yourself as you pack up your things. Jack of All 
 
 You almost tear your striped Fruity Jester vest while ripping it off. It’s so stained you’ll probably have to pay for it. You’re glad to remember you wore your BALROG T-shirt underneath today. His flame-red face is a rage-quitting mood.
 
-You can hear the TECH BRO yelling at Greta. She’s offering him coupons. You feel the anger rising, but there’s nothing to do.
+You can hear the TECH BRO yelling at GRETA. She’s offering him coupons. You feel the anger rising, but there’s nothing to do.
 
 GRETA: Hurry up, Burt!
 
-You want to get back at her somehow. On the table you see her lighter and pack of clove cigarettes. Right next to the till count she was about to deposit in the safe... hundreds of dollars in a white envelope. 
+You want to get back at her somehow. On the table you see her lighter and pack of clove cigarettes. Right next to the till count she was about to deposit in the safe... hundreds of dollars in a yellow envelope. 
 
 What do you put in your backpack?<<set $lightergrt = true>><<set $cellphone = true>><<set $cups = true>><<set $cash401 = true>><<set $smokes = true>><<set $jestervest = true>>
 
@@ -961,17 +982,17 @@ GOTH GRRL: Got a smoke?
 
 <<if $smokes>>As it turns out, you do! You fumble around in your backpack till you find the back of Greta’s smokes. You open the pack with a tremble. With two long black fingernails the GOTH GRRL plucks a cigarette from the pack, without looking at you. She pops it between her lips, black lipstick. 
 
-GOTH GRRL: Got a light?
+GOTH GRRL: Got a light?<<if $lightergrt>>
 
-<<if $lightergrt>>You have that too! Now you’re really trembling, as you flick the lighter again and again, trying to get it to light. 
+You have that too! Now you’re really trembling, as you flick the lighter again and again, trying to get it to light. 
 
-She grabs it from you, lights her cigarette with one flick. And walks past you both, nose upturned, without saying thanks. 
+She grabs it from you, lights her cigarette with one flick. And walks past you both, nose upturned, without saying thanks. <<else>>
 
-<<else>>Why would you take the cigarettes but leave the lighter? You sadly shake your head no. 
+Why would you take the cigarettes but leave the lighter? You sadly shake your head no. 
 
-She rolls her eyes, turns up her nose, and brushes past you both. <</if>>
+She rolls her eyes, turns up her nose, and brushes past you both. <</if><<else>>
 
-<<else>>BERT: No, but Greta...
+BERT: No, but Greta...
 
 GOTH GRRL: Yeah, no shit. 
 
@@ -986,9 +1007,11 @@ that place at all without you.
 
 ERNESTO: Just go to my apartment. We have the game tonight anyway.
 
-You spend the rest of the afternoon in the park across the street from Ernesto’s apartment. <<if $cellphone>>Your cellphone is dead, and you can’t change it until you’re inside.<<else>>You realize you left your cellphone in the backroom. That was dumb. No going back now.<</if>>
+You spend the rest of the afternoon in the park across the street from ERNESTO’s apartment. <<if $cellphone>>Your CELLPHONE is dead, and you can’t change it until you’re inside.<<else>>You realize you left your CELLPHONE in the backroom. That was dumb. No going back now.<</if>><<if $lightergrt && $smokes>>
 
-<<if $lightergrt && $smokes>>You light up one of Greta's cigarettes. Just to spite her.<<else>><</if>> You think about what kind of job you could get that doesn’t require any skill or work, that pays an infinite amount, and would garner you undying respect and adulation.
+You light up one of GRETA's cigarettes. Just to spite her.<<else>><</if>> 
+
+You think about what kind of job you could get that doesn’t require any skill or work, that pays an infinite amount, and would garner you undying respect and adulation.
 
 You try not to feel angry.
 
@@ -998,11 +1021,11 @@ You try not to feel angry.
 :: Scene3A {"position":"450,700","size":"100,100"}
 ERNESTO’S APARTMENT
 
-It is nice of Ernesto to let you crash his apartment. Even if the couch is half-busted and you know there will be springs in your back all night. Everything you have is in your backpack, stashed in the least-dirty corner. <<if $cellphone>>At least you can charge your phone here.<<else>>Except your cellphone. You’re still kicking yourself for leaving it behind.<</if>> <<if not $cellphone && not $cash401>>You could have used that money to buy a new one.<<else>><</if>><<if not $cash401>> You keep thinking about that pile of cash in the backpack.<<else>><</if>>
+It is nice of ERNESTO to let you crash his apartment. Even if the couch is half-busted and you know there will be springs in your back all night. Everything you have is in your BACKPACK, stashed in the least-dirty corner. <<if $cellphone>>At least you can charge your phone here.<<else>>Except your CELLPHONE. You’re still kicking yourself for leaving it behind.<</if>> <<if not $cellphone && not $cash401>>You could have used that MONEY to buy a new one.<<else>><</if>><<if not $cash401>> You keep thinking about that pile of CASH in your BACKPACK.<<else>><</if>>
 
-It always feels a bit creepy to sleep here. ERNESTO is in too deep. There’s a replica medieval shield and two crossed swords hung on the wall above an elaborate display case full of small-scale fantasy figurines. The orcs are painted meticulously with slime. On Ernesto’s coffee table the Diabolical Dungeons game board is surrounded by WolfOut Energy cans and food wrappers.
+It always feels a bit creepy to sleep here. ERNESTO is in too deep. There’s a replica medieval SHIELD and two crossed swords hung on the wall above an elaborate display case full of small-scale fantasy figurines. The ORC KING is painted meticulously with slime. On ERNESTO’s coffee table the Diabolical Dungeons game board is surrounded by WolfOut Energy cans and food wrappers.
 
-You all have been at it for an hour, but it feels like aeons. DUNGEON MASTER DAN carefully arranges the pieces for the next sequence, clicking the plastic drawbridge into place on the set’s miniature castle. FRED coughs out smoke and passes you a ridiculous purple BONG. You don’t want him to know it’s yours, from the last time you were here. <<if $lightergrt>>You use Greta’s lighter to light it and try not to think about her.<<else>>You take a long draw.<</if>>
+You all have been at it for an hour, but it feels like aeons. DUNGEON MASTER DAN carefully arranges the pieces for the next sequence, clicking the plastic drawbridge into place on the set’s miniature castle. FRED coughs out smoke and passes you a ridiculous purple BONG. You don’t want him to know it’s yours, from the last time you were here. <<if $lightergrt>>You use GRETA'S LIGHTER to light it and try not to think about her.<<else>>You take a long draw.<</if>>
 
 [[Make your next move|Scene3B]]
 
@@ -1054,7 +1077,7 @@ BERT: See, it was leaning six.
 
 DUNGEON MASTER DAN: You’re a cheater.
 
-Ernesto starts frantically unspooling paper towels.
+ERNESTO starts frantically unspooling paper towels.
 
 ERNESTO: My landlord is gonna kill me!
 
@@ -1069,7 +1092,7 @@ You feel the blood rushing to your cheeks.
 
 
 :: Scene3DAnger {"position":"825,625","size":"100,100"}
-If this stupid game doesn’t have any rules, why should you? You jump up and lunge at DUNGEON MASTER DAN, but he skitters out of the way, and you lurch into ERNESTO’s display case of table-top figurines. The replica swords come clattering down and the medieval shield cracks neatly in half, making a horrible noise. 
+If this stupid game doesn’t have any rules, why should you? You jump up and lunge at DUNGEON MASTER DAN, but he skitters out of the way, and you lurch into ERNESTO’s display case of table-top figurines. The replica swords come clattering down and the medieval SHIELD cracks neatly in half, making a horrible noise. 
 
 Everyone freezes and looks at ERNESTO, still on his knees mopping up bong water. You have destroyed his holy shrine. You actually feel really bad.  
 
@@ -1089,7 +1112,7 @@ It’s pointless. These kids are beneath you anyway.
 
 BERT: You all are beneath me. 
 
-ERNESTO, hands shaking, picks up your backpack from the corner, and hands it to you. 
+ERNESTO, hands shaking, picks up your BACKPACK from the corner, and hands it to you. 
 
 BERT: I mean, this game is beneath me. You know...
 
@@ -1099,7 +1122,7 @@ ERNESTO just points to the door. Time to pack up. <<set $jestervest = true>><<se
 
 
 :: Scene3E {"position":"1075,700","size":"100,100"}
-You put your backpack on, sighing. Ernesto holds the door open for you. He looks like he might cry. The other two won’t even look at you. They’re all kids anyway. With their stupid game. You shuffle out of the door. Then you remember you’ve got nowhere to go. You turn back to ERNESTO to ask...
+You put your BACKPACK on, sighing. ERNESTO holds the door open for you. He looks like he might cry. The other two won’t even look at you. They’re all kids anyway. With their stupid game. You shuffle out of the door. Then you remember you’ve got nowhere to go. You turn back to ERNESTO to ask...
 
 BERT: Please?
 
@@ -1113,7 +1136,7 @@ MA’S HOUSE
 
 You find yourself on the front porch of your two-story, dilapidated childhood home. Nowhere else to go. 
 
-<<if $orcking>>You pull the tiny Orc King from your backpack. It's face is distorted into a hideous  grimace. You press it right up against the tiny peephole, and ring the doorbell. 
+<<if $orcking>>You pull the tiny ORC KING from your backpack. It's face is distorted into a hideous grimace. You press it right up against the tiny peephole, and ring the doorbell. 
 
 MA REYNOLDS: AAAHHHHHH. Also: Fuck off. 
 
@@ -1124,7 +1147,7 @@ MA REYNOLDS: If that's what you've done to your face, you're no son of mine.
 You hear her stomp away back into the house. She's not going to open the door now.
 
 You knock. Wait. Knock again. A crack. 
-<<else>>You hesitate, then sharply pound on the door. An extended amount of muffled cursing behind the door. Finally, it cracks open, still chained from the inside, and your Ma’s leathery face appears, cigarette pinched between her thin lips.
+<<else>>You hesitate, then sharply pound on the door. An extended amount of muffled cursing behind the door. Finally, it cracks open, still chained from the inside, and your MA’s leathery face appears, cigarette pinched between her thin lips.
 
 MA REYNOLDS: I’m asleep.
 
@@ -1134,8 +1157,7 @@ MA REYNOLDS: I already gave your allowance.
 <<if $cash401>>
 BERT: I have money...
 <<else>><</if>>
-She slams the door. You knock. Wait. Knock again. A crack.
-<</if>>
+She slams the door. You knock. Wait. Knock again. A crack.<</if>>
 
 MA REYNOLDS: You smell like <<if $bong>>a bong. And<<else>><</if>> Ernesto's apartment.
 
@@ -1143,7 +1165,7 @@ BERT: I got kicked out.
 
 MA REYNOLDS: Try to find an apartment that doesn't stink this time.
 
-She begins to close the door again. 
+She starts to close the door again. 
 
 [[Push it open|Scene4BAnger]]
 [[Let it close|Scene4BSupress]]
@@ -1154,14 +1176,14 @@ You stick your foot in the door. She continues to try and push it shut. You winc
 
 BERT: ...and I lost my job.
 
-She opens the door a crack, still chained from the inside. She looks you up and down, raises a painted eyebrow at your striped jester work pants.
+She opens the door a crack, still chained from the inside. She looks you up and down, raises a painted eyebrow at your striped jester work PANTS.
 
 MA REYNOLDS: Still a push-over. Goes back to that time you peed yourself at your
 birthday party and then...
 
 NED: Who is it? No customers after 9!
 
-NED used to be an accountant and still wears a bowtie every day. Ever since your Ma married him, she’s had even less patience for you. She ducks inside for a second, closing the door. Finally, it cracks open a final time. Her thin arm snakes out, dangling a bag of Cheetos.
+NED used to be an accountant and still wears a bowtie every day. Ever since your Ma married him, she’s had even less patience for you. She ducks inside for a second, closing the door. Finally, it cracks open a final time. Her thin arm snakes out, dangling a bag of CHEETOS.
 
 MA REYNOLDS: Cellar’s open.
 
@@ -1189,7 +1211,7 @@ NED: Cheetos in the mailbox.
 
 BERT: What...?
 
-You open up the mailbox next to the front door. There is a bag of Cheetos inside. You have questions, but you can hear NED and MA shouting at each other upstairs now. They're not coming back. You sigh. 
+You open up the mailbox next to the front door. There is a bag of CHEETOS inside. You have questions, but you can hear NED and MA shouting at each other upstairs now. They're not coming back. You sigh. 
 
 [[Go around back|Scene4C]]
 
@@ -1199,25 +1221,25 @@ You trudge around to the back of the house, past the familiar rusted lawn furnit
 
 You try to pull them open. Locked. You look around for something to use. All you can find is a BASEBALL from when you were a kid and an old rusted SPADE. Probably from the same time, you can barely remember when MA last tried gardening. 
 
-Nothing else to do. <<if $bong>>You sit on the cellar doors, take the BONG out of your backpack. There still seems to be half a burnt bowl loaded.<<if $lightergrt || $lighterern>>You take out the lighter, light the bowl, and blow a big cloud of smoke into the night.<<else>>Then you realize you've failed to bring a lighter. That was dumb. You put the BONG back in your backpack.<</if>><<else>><</if>><<if $cellphone>>You scroll on your phone while eating the bag of Cheetos, covering the screen in orange Cheeto dust.<<else>>You open the bag of Cheetos and eat them mechanically. You don't even have your phone.<</if>> No messages, no notifications, no likes. You lie back, under the stars, <<if $bong>>and feel the weed start to relax you.<<else>> and contemplate the vastness of the universe. Anything could happen, right?<</if>> Everything is fine, really. 
+Nothing else to do. <<if $bong>>You sit on the cellar doors, take the BONG out of your backpack. There still seems to be half a burnt bowl loaded.<<if $lightergrt || $lighterern>>You take out the LIGHTER, light the bowl, and blow a big cloud of smoke into the night.<<else>>Then you realize you've failed to bring a LIGHTER. That was dumb. You put the BONG back in your backpack.<</if>><<else>><</if>><<if $cellphone>>You scroll on your phone while eating the bag of CHEETOS, covering the screen in orange Cheeto dust.<<else>>You open the bag of CHEETOS and eat them mechanically. You don't even have your CELL PHONE.<</if>> No messages, no notifications, no likes. You lie back, under the stars, <<if $bong>>and feel the weed start to relax you.<<else>> and contemplate the vastness of the universe. Anything could happen, right?<</if>> Everything is fine, really. 
 
-<<if $dice>>You roll the 6-sided die. It's a one. You roll again. It's a one.<<else>><</if>>
+<<if $dice>>You roll the 6-sided DIE. It's a one. You roll again. It's a one.<<else>><</if>>
 
-You doze off, wake up<<if $bong && ($lightergrt || $lighterern), take another bong rip<<else>>, eat another Cheeto<</if>>. <<if $dice>>You roll the die again. Another one.<<else>><</if>>Time passes... 
+You doze off, wake up<<if $bong && ($lightergrt || $lighterern)>>, take another BONG rip<<else>>, eat another Cheeto<</if>>. <<if $dice>>You roll the DIE again. Another one.<<else>><</if>>Time passes... 
 
 [[You fall ASLEEP.|Scene4D]]
 
 
 :: Scene4D {"position":"875,950","size":"100,100"}
-You startle awake at a lick on your hand. A tiny, scrawny cat <<if $cellphone>>has licked your phone clean of Cheeto dust and moved on to your fingers<<else>>has licked your fingers clean of Cheeto dust and is sniffling the bag<</if>>. Ignoring a coughing fit, you dig down into the bag. You offer a Cheeto to the cat, who takes it in her mouth, and trots off towards the house next door. 
+You startle awake at a lick on your hand. A tiny, scrawny cat <<if $cellphone>>has licked your CELL PHONE clean of Cheeto dust and moved on to your fingers<<else>>has licked your fingers clean of Cheeto dust and is sniffling the bag<</if>>. Ignoring a coughing fit, you dig down into the bag. You offer a Cheeto to the cat, who takes it in her mouth, and trots off towards the HOUSE next door. 
 
 You stand up and stare into the middle distance. Light is coming back into the sky. Life has come to this, then. 
 
-A sudden jingling of the cat’s collar draws your attention to the house next door. It’s identical, but even more run-down than MA’s. JAN’s house. MA’s mortal enemy. But something is different: there’s a FOR SALE sign in the yard. The curtains are open. It looks like JAN has finally moved. Or died. You can only ever remember her having white hair. 
+A sudden jingling of the cat’s collar draws your attention to the next HOUSE over. It’s identical, but even more run-down than MA’s. JAN’s HOUSE. MA’s long-time mortal enemy. But something is different: there’s a FOR SALE sign in the yard. The curtains are open. It looks like JAN has finally moved. Or died. You can only ever remember her having white hair. 
 
-You can see inside her house, for the first time, and it’s surreal: it matches the house you grew up in , but it’s complete empty. Then, the first rays of the rising sun crest and illuminate a matching CELLAR DOOR, in JAN’s backyard. The cat scampers behind it, leading you on. 
+You can see inside her HOUSE, for the first time, and it’s surreal: it matches the house you grew up in , but it’s complete empty. Then, the first rays of the rising sun crest and illuminate a matching CELLAR DOOR, in JAN’s backyard. The cat scampers behind it, leading you on. 
 
-Maybe you can stay in there, instead. It’s cold, you need to sleep, and clearly you’re not getting inside Ma’s house. Or cellar. You’ve scattered your things around the back yard. In the pre-dawn light, you gather them up to pack your bag... <<set $cheetos = true>><<set $baseball = true>><<set $spade = true>>
+Maybe you can stay in there, instead. It’s cold, you need to sleep, and clearly you’re not getting inside MA’s house. Or cellar. You’ve scattered your things around the back yard. In the pre-dawn light, you gather them up to pack your bag... <<set $cheetos = true>><<set $baseball = true>><<set $spade = true>>
 
 [[Open your BACKPACK|backpackmenu4]]
 
@@ -1225,11 +1247,11 @@ Maybe you can stay in there, instead. It’s cold, you need to sleep, and clearl
 :: Scene5A {"position":"550,1200","size":"100,100"}
 JAN'S CELLAR
 
-After crossing the driveway into Jan's yard, you stop, clutch the straps of your backpack and look up at her darkened house. Your eye just catches some movement in an upper-story window. You think for a second, that it is JAN, watching you, but it can’t be, if she’s gone. 
+After crossing the driveway into JAN's yard, you stop, clutch the straps of your BACKPACK and look up at her darkened HOUSE. Your eye just catches some movement in an upper-story window. You think for a second, that it is JAN, watching you, but it can’t be, if she’s gone. 
 
 You set your backpack on the edge of her older, rustier cellar doors. You pull, hard, and the lock breaks aways easily - it’s open. Framed by the early morning light, the cellar inside is pitch black. 
 
-Suddenly the cat skitters out, and knocks your backpack into the dark. You bend forward, reaching after it, and step through the frame. Your foot expects to find the stairs, but instead, there’s nothing, and you tumble forward, head first...
+Suddenly the cat skitters out, and knocks your BACKPACK into the dark. You bend forward, reaching after it, and step through the frame. Your foot expects to find the stairs, but instead, there’s nothing, and you tumble forward, head first...
 
 [[... in to the DARKNESS.|Scene5B]]
 
@@ -1237,11 +1259,11 @@ Suddenly the cat skitters out, and knocks your backpack into the dark. You bend 
 :: Scene5B {"position":"675,1200","size":"100,100"}
 The fall was just far enough, that you somersaulted to land on your ass. It really hurts, you’ll have a bruise on your tailbone. But you're lucky you didn’t land on your head. 
 
-You start feeling around in the dark for your backpack. <<if $lightergrt || $lighterern>>It’s got that lighter inside.<<else>>Why didn't you bring that lighter?<</if>>Your hand reaches something soft... but too soft. An old blanket? You feel in the other direction, and find it. 
+You start feeling around in the dark for your BACKPACK. <<if $lightergrt || $lighterern>>It’s got that LIGHTER inside.<<else>>Why didn't you bring that LIGHTER?<</if>>Your hand reaches something soft... but too soft. An old blanket? You feel in the other direction, and find it. 
 
-<<if $lightergrt || $lighterern>>You get the lighter out, and you’re just about to turn it on when you hear...<<else>>You find your backpack and start unzipping it when you hear...<</if>> baa-ing? A sheep? There’s sheep in here?!
+<<if $lightergrt || $lighterern>>You get the LIGHTER out, and you’re just about to turn it on when you hear...<<else>>You find your BACKPACK and start unzipping it when you hear...<</if>> baa-ing? A sheep? JAN has sheep in here?!
 
-You reach again, for the soft thing, and it bleats! You jump up, and see a tiny crack of light in the far wall. Freaked out, you sling your backpack and rush towards it.
+You reach again, for the soft thing, and it bleats! You jump up, and see a tiny crack of light in the far wall. Freaked out, you sling your BACKPACK on and rush towards it.
 
 The light forms the outline of a closed door, daylight filtering in. You squelch your way toward it, desperate, through the shuffling and bleating around you. Definitely sheep. Definitely shit. Flies buzz madly. You have to get away from the smell. 
 
@@ -1259,9 +1281,9 @@ BERT: Oh. Shit.
 
 You look down, your sneakers are covered in sheep shit. 
 
-You’re not dreaming. <<if $bong && ($lightergrt || $lighterern)>>You’re not high (anymore). <<else>><</if>>You just found a portal to medieval times. 
+You’re not dreaming. <<if $bong && ($lightergrt || $lighterern)>>You’re not high (anymore). <<else>><</if>>You just found a PORTAL to medieval times. 
 
-You look around in wonder. The air is fresh, there’s sparkling dew on the grass, butterflies, it’s like a movie. You hear voices, coming from inside the hut. 
+You look around in wonder. The air is fresh, there’s sparkling dew on the grass, butterflies, it’s like a movie. You hear voices, coming from inside the HUT. 
 
 [[Go to PEASANT’S HUT. |Scene5D]]
 
@@ -1297,13 +1319,13 @@ SEWARD cranks the pitchfork back to deliver a death blow.
 
 
 :: Scene5E {"position":"1050,1200","size":"100,100"}
-<<if $lightergrt || $lighterern>>You reach inside the backpack and pull out the LIGHTER.  Cowering in fear, you flick the wheel of your LIGHTER and a flame appears. <<elseif $orcking>>You reach inside the backpack and pull out the miniature ORC KING. You hold him up.
+<<if $lightergrt || $lighterern>>You reach inside the backpack and pull out the LIGHTER. Cowering in fear, you flick the wheel of your LIGHTER and a flame appears. <<elseif $orcking>>You reach inside the BACKPACK and pull out the miniature ORC KING. You hold him up.
   
-BERT: I have captured and miniaturized this demon from foreign lands!<<elseif $baseball>>You reach inside the backpack and pull out the BASEBALL. 
+BERT: I have captured and miniaturized this demon from foreign lands!<<elseif $baseball>>You reach inside the BACKPACK and pull out the BASEBALL. 
  
-BERT:Do not make my wizard ball angry! It's red threads are... the veins of my enemies.<<elseif $smokes>>You reach inside the backpack and pull out the SMOKES.
+BERT:Do not make my wizard ball angry! It's red threads are... the veins of my enemies.<<elseif $smokes>>You reach inside the BACKPACK and pull out the SMOKES.
   
-BERT: I bring with me the elder Scrolls of Smokeland. <<elseif $spade>>You reach inside the backpack and pull out the SPADE. The blad is small and rusty. But the handle is a translucent plastic, that catches the light just so. They seem mesmerized. <<elseif $cellphone>>You reach inside the backpack and pull out the CELLPHONE. The screen lights up, a bright square of colored icons. You turn on the flashlight features and wave it frantcially around the room.<<else>>You unzip the bag as loudly as you possibly can. 
+BERT: I bring with me the elder Scrolls of Smokeland. <<elseif $spade>>You reach inside the BACKPACK and pull out the SPADE. The blade is small and rusty. But the handle is a translucent plastic, that catches the light just so. They seem mesmerized. <<elseif $cellphone>>You reach inside the BACKPACK and pull out the CELLPHONE. The screen lights up, a bright square of colored icons. You turn on the flashlight features and wave it frantcially around the room.<<else>>You unzip the BACKPACK as loudly as you possibly can. 
   
 BERT: This backpack leads to the future! <</if>>
 
@@ -1319,7 +1341,7 @@ SEWARD: Our apologies, mighty one. You bless our home with your presence.
 
 BERT: I am a Wizard. Yes. Level 6, actually. My name is…  
 
-You need a better name. A wizard name. <<if $lightergrt>>You look at the lighter. It’s from<<else>>You wrack your brain for the scariest thing you can think of. Jack of All Fruits is the only thing that pops into your mind's eye. But then, next to it you see<</if>> the GUNZ ‘N AMMO store…  
+You need a better name. A wizard name. <<if $lightergrt>>You look at the LIGHTER. It's GRETA's, for her smoke breaks right in front of>>It’s from<<elseif $lighterern>>You look at the LIGHTER. It's ERNESTO's, he got it at>><<else>>You wrack your brain for the scariest thing you can think of. JACK OF ALL FRUITS is the only thing that pops into your mind's eye. But then, next to it you see<</if>> the GUNZ ‘N AMMO store…  
 
 BERT: RAMBO. RAMBO of… Strip… Mall… shire.  
 
@@ -1369,7 +1391,7 @@ CICILIA: See, SEWARD? Bravery.
 
 SEWARD: As you wish, oh Mighty One.  
 
-He gestures for you to leave the HUT. CICILIA raises an eyebrow as you pass by. Seductively? Did you read that right? Suddenly, you want to return here. <<if $bong>>You reach in your backpack, and pull out the BONG.  
+He gestures for you to leave the HUT. CICILIA raises an eyebrow as you pass by. Seductively? Did you read that right? Suddenly, you want to return here. <<if $bong>>You reach in your BACKPACK, and pull out the BONG.  
 
 BERT: Can you keep an eye on my…  
 
@@ -1433,7 +1455,7 @@ BERT: I bring scrolls from the future!<<elseif $spade>>You take out your SPADE  
 
 BERT: I'm a wizard! Level 6! I demand to speak to your…
 
-ZHWING—a bolt whistles by your head and thunks into the ground. Then ZING—ZAP—two more. Fuck! Those are real! <<if $shield>>You try and tug the half-broken shield out of your BACKPACK, but it is stuck, and the arrows are landing closer now. <<else>><</if>><<if $jestervest>>An arrow whips through the edge of your JESTER VEST ripping a clean hole in the polyester. <<else>><</if>>You turn and RUN. And run. And run.
+ZHWING—an arrow whistles by your head and thunks into the ground. Then ZING—ZAP—two more. Fuck! Those are real! <<if $shield>>You try and tug the half-broken shield out of your BACKPACK, but it is stuck, and the arrows are landing closer now. <<else>><</if>><<if $jestervest>>An arrow whips through the edge of your JESTER VEST ripping a clean hole in the polyester. <<else>><</if>>You turn and RUN. And run. And run.
 
 Until you’re out of breath, which is not that far, really. Just over the hill. But at least you’re out of arrow range. You try to catch your breath, try to think. You can’t stay here. This place is crazy.
 
@@ -1455,15 +1477,15 @@ BERT: Where is...
 
 CICILIA: He’s told the others of your arrival. And your intentions.
 
-You look out the door. It’s an angry mob of villagers. They even have pitchforks and torches. No joke. You look at CICILIA. Her babies start screaming. Damn. You're going to have to run again. You take a deep breath.
+You look out the door. It’s an angry MOB of villagers. They even have pitchforks and torches. No joke. You look at CICILIA. Her babies start screaming. Damn. You're going to have to run again. You take a deep breath.
 
 [[Make for the BARN.|Scene6D]]
 
 
 :: Scene6D {"position":"975,1350","size":"100,100"}
-You burst out of the HUT, ducking in the hope that somehow the mob doesn’t spot you. They do, and start to rush after you. Already winded, you break into a loping run<<if $cellphone>> and pull your CELL PHONE out of your pocket. You struggle to dial 911 while running. You stop to press send and see there’s no signal. That makes sense. No cell service in medieval times.<<else>>.<</if>>
+You burst out of the HUT, ducking in the hope that somehow the MOB doesn’t spot you. They do, and start to rush after you. Already winded, you break into a loping run<<if $cellphone>> and pull your CELL PHONE out of your pocket. You struggle to dial 911 while running. You stop to press send and see there’s no signal. That makes sense. No cell service in medieval times.<<else>>.<</if>>
 
-The mob is closing in. You dive into the BARN and slip, face-planting into sheep shit. You wrestle yourself up again, trying to wipe it out of your eyes. In the ceiling, you spot a door. The cellar door. The one you fell in through. The ceiling is low, but the edge is still just out of reach. 
+The MOB is closing in. You dive into the BARN and slip, face-planting into sheep shit. You wrestle yourself up again, trying to wipe it out of your eyes. In the ceiling, you spot a door. The CELLAR DOOR. The one you fell in through. The ceiling is low, but the edge is still just out of reach. 
 
 You drop your BACKPACK to lighten your load. You step on a sheep’s back, it emits a loud BAAAAA of objection, but you manage to pull yourself up and grip the edge of the door frame. 
 
@@ -1471,24 +1493,23 @@ You drop your BACKPACK to lighten your load. You step on a sheep’s back, it em
 
 
 :: Scene6E {"position":"1100,1350","size":"100,100"}
-You wrench yourself through the door, and look around to see... the same medieval sky. On top of the roof, you see the mob surrounding the BARN. <<if $item>>You throw your CELL PHONE at them, uselessly.<<else>><</if>><<set $cellphone = false>><<set $LEFTcellphone = true>>
-
+You wrench yourself through the door, and look around to see... the same medieval sky. On top of the roof, you see the MOB surrounding the BARN. <<if $item>>You throw your CELL PHONE at them, uselessly.<<else>><</if>><<set $cellphone = false>><<set $LEFTcellphone = true>>
 
 BERT: Fuck!
 
-You drop back inside. The mob is bashing at the BARN door. You push sheep up against it, trying to keep them out. But they immediately run to the far side of the pen. 
+You drop back inside. The MOB is bashing at the BARN door. You push sheep up against it, trying to keep them out. But they immediately run to the far side of the pen. 
 
-You search in your BACKPACK, desperate for something, anything, that you could use against the advancing villagers. <<if $spade>>You pick the SPADE, open the door, and brandish it.<<elseif $papertow>>You pick the PAPER TOWELS, open the door, and brandish the roll.<<elseif $cash401>>You pick the CASH, open the door, and brandish the stack of bills.<<elseif $shield>>You pick the SHIELD, open the door, and brandish it.<<elseif $baseball>>You pick the BASEBALL, open the door, and cock it back, like you'll bean them with it.<<elseif $orcking>>You pick the ORC KING, open the door, and brandish it, making orc noises.<<else>>There's nothing good. You open the door to see if they are still there.<</if>> The Mob roars. You slam the door.
+You search in your BACKPACK, desperate for something, anything, that you could use against the advancing villagers. <<if $spade>>You pick the SPADE, open the door, and brandish it.<<elseif $papertow>>You pick the PAPER TOWELS, open the door, and brandish the roll.<<elseif $cash401>>You pick the CASH, open the door, and brandish the stack of bills.<<elseif $shield>>You pick the SHIELD, open the door, and brandish it.<<elseif $baseball>>You pick the BASEBALL, open the door, and cock it back, like you'll bean them with it.<<elseif $orcking>>You pick the ORC KING, open the door, and brandish it, making orc noises.<<else>>There's nothing good. You open the door to see if they are still there.<</if>> The MOB roars. You slam the door.
 
 That didn’t work. You strap the BACKPACK across your front again, hoping it’ll protect against the stab of pitchforks. When you do, the sunlight above you suddenly goes dark. You duck, thinking at first that the villagers have climbed onto the roof and are blocking out the light. 
 
-When no one drops down into the barn, you look up: the door in the roof is still open, but now you can see a starry sky through the frame. Even though the daylight still shines though the cracks in the barn walls. The lights of a plane slowly blink overhead. It’s the portal. Home. 
+When no one drops down into the barn, you look up: the door in the roof is still open, but now you can see a starry sky through the frame. Even though the daylight still shines though the cracks in the barn walls. The lights of a plane slowly blink overhead. It’s the PORTAL. Home. Your BACKPACK is the key. 
 
 [[Go through the CELLAR DOOR.|Scene6F]]
 
 
 :: Scene6F {"position":"1225,1350","size":"100,100"}
-You try to climb a sheep again, which slips away. You grab another, humping it into position. You clamor on top, again pull yourself up through the door frame, your feet dangling. The mob is inside the BARN. Someone stabs your shoe with a pitchfork. It falls off. You scream. 
+You try to climb a sheep again, which slips away. You grab another, humping it into position. You clamor on top, again pull yourself up through the door frame, your feet dangling. The MOB is inside the BARN. Someone stabs your shoe with a pitchfork. It falls off. You scream. 
 
 With all your strength, which is barely enough, you pull yourself...
 
@@ -1518,13 +1539,13 @@ BERT: I… door… Serfs…
 
 OPERATOR: Caller, what’s your emergency?
 
-You realize you can’t explain what’s happened. And there’s not a mob behind you, now. And you’re out of breath. You hang up the phone.
+You realize you can’t explain what’s happened. And there’s not a MOB behind you, now. And you’re out of breath. You hang up the phone.
 
 Maybe you hit your head when you fell into the cellar? And it was all a bad dream? As though in answer, a bit of straw falls from your hair. It sticks in the sheep shit that’s covering the one shoe you have left. Definitely real.
 
 MA REYNOLDS: Jesus Christ on a Stick, Bert. You shit yourself in your sleep? Take a shower.
 
-You know you've got something to prove to MA where you've been. 
+You've got to prove to MA where you've been... 
 
 [[Search your BACKPACK|Scene7C]]
 
@@ -1532,11 +1553,11 @@ You know you've got something to prove to MA where you've been.
 :: Scene7C {"position":"900,1550","size":"100,100"}
 But there's nothing in your BACKPACK from medieval times. You failed to bring anything back. 
 
-You start to explain instead. JAN's cellar, the sheep, the castle, Cicilia, and where did her extra baby come from? MA keeps her distance, using one hand to hold her nose and the other to hurry you along. In the end, she just throws up her hands.
+You start to explain instead. JAN's cellar, the sheep, the castle, CICILIA, and where did her extra baby come from? MA keeps her distance, using one hand to hold her nose and the other to hurry you along. In the end, she just throws up her hands.
 
 MA REYNOLDS: Sounds like you’ve been smoking too much. No more allowance. Need to sell this shit anyhow.
 
-She gathers her tie-dye bathrobe around her and turns to bag weed from an enormous pile on her kitchen counter. This has been her profession ever since she got with NED–weed dealer. You would object, but she’s actually your weed dealer.
+She gathers her tie-dye bathrobe around her and turns to bag weed from an enormous pile on her kitchen counter. She's been dealing ever since she got with NED. You would object, but she’s actually your weed dealer.
 
 BERT: But Jan’s house?
 
@@ -1584,7 +1605,7 @@ MA REYNOLDS: Where you'd get that?
 
 BERT: My, uh... final paycheck.
 
-She snatches the wad of cash from you. You suddenly realize that you probably do have a final paycheck waiting for you. Great, you'll be able to pay rent to MA twice, at least. <<set $cash401 = false>>
+She snatches the wad of CASH from you. You suddenly realize that you probably do have a final paycheck waiting for you. Great, you'll be able to pay rent to MA twice, at least. <<set $cash401 = false>>
 
 Without turning, MA waves you upstairs. You take off your one shoe and carry it so you don't track sheep shit up the stairs. You hold up the piece of straw to show her.
 
@@ -1596,7 +1617,7 @@ BERT: I could do the distribution. Instead of Ned.
 
 MA REYNOLDS: He knows how to use Excel! TECHNOLOGY, Bert—that’s a skill. Ned’s not a grubby little grasper like you. Anyone who wants power should be immediately disqualified. Like cops.
 
-Technology. Power. You feel an idea start to form somewhere in the back of your mind.
+Power. Technology. You feel an idea start to form somewhere in the back of your mind.
 
 BERT: Ma? Don’t tell anyone about me and Jan's cellar door, OK?
 
@@ -1608,7 +1629,7 @@ Her cackle follows you down the hall.
 
 
 :: Scene7Enocash {"position":"1150,1475","size":"100,100"}
-<<if $STOLEcash401>>The stolen CASH in your BACKPACK has been nagging at your conscience. But you're not about to turn it over to MA.<<else>>Maybe you should've stolen that money from work.<</if>>
+<<if $STOLEcash401>>The stolen CASH in your BACKPACK has been nagging at your conscience. But you're not about to turn it over to MA.<<else>>Maybe you should've stolen that MONEY from work.<</if>>
 
 BERT: I’ve been banished from the strip mall.
 
@@ -1628,7 +1649,7 @@ BERT: I could do the distribution. Instead of Ned.
 
 MA REYNOLDS: He knows how to use Excel! TECHNOLOGY, Bert—that’s a skill. Ned’s not a grubby little grasper like you. Anyone who wants power should be immediately disqualified. Like cops.
 
-Technology. Power. You feel an idea start to form somewhere in the back of your mind.
+Power. Technology. You feel an idea start to form somewhere in the back of your mind.
 
 BERT: Ma? Don’t tell anyone about me and Jan's cellar door, OK?
 
@@ -1640,13 +1661,13 @@ Her cackle follows you down the hall.
 
 
 :: Scene7F {"position":"1275,1550","size":"100,100"}
-You undress in the bathroom upstairs, pulling off the Balrog shirt and your striped jester pants. The bright red, yellow, and blue pattern fills you with dread. You'd rather face the castle again than return to Jack of All Fruits. 
+You undress in the bathroom upstairs, pulling off the Balrog shirt and your striped jester PANTS. The bright red, yellow, and blue pattern fills you with dread. You'd rather face the castle again than return to JACK OF ALL FRUITS. 
 
 In the shower, you watch sheep shit run in streaks down the drain. You marvel that it must be 1000 years old. If only you had brought back better proof. 
 
-After the shower, you retreat to your childhood bedroom. Someone else might guess that MA kept your childhood bedroom exactly as it was out of fondness or nostalgia, but you know it's just because she was too lazy to deal with it. Boxes and unused workout equipment are arrayed around the small single bed. 
+After the shower, you retreat to your childhood bedroom. Someone else might guess that MA kept your childhood bedroom exactly as it was out of fondness or nostalgia, but you know it's just because she was too lazy to deal with it. Boxes and unused workout equipment are scattered around the race-car bed. 
 
-On the wardrobe, covered in dust, is one of your old softball trophies and another framed portrait of Burt Reyonds. You turn it face down. 
+On the wardrobe, covered in dust, is one of your old SOFTBALL TROPHIES and another FRAMED PORTRAIT of Burt Reyonds. You turn it face down. 
 
 You lie down on the bed. You are very tired. 
 
@@ -1662,7 +1683,7 @@ There's a LASER POINTER in the slipper. NED is so weird. You take it out and put
 :: Scene8A {"position":"700,1800","size":"100,100"}
 JACK OF ALL FRUITS
 
-You hover in the parking lot for over thirty minutes before finally mustering the strength to set foot back inside Jack of All Fruits. You approach the counter sheepishly. ERNESTO stands behind the counter and stops the smoothie machine mid-pour when he sees you. He goes pale, like you’re a ghost.
+You hover in the parking lot for over thirty minutes before finally mustering the strength to set foot back inside JACK OF ALL FRUITS. You approach the counter sheepishly. ERNESTO stands behind the counter and stops the smoothie machine mid-pour when he sees you. He goes pale, like you’re a ghost.
 
 ERNESTO: Greta already hired someone else.
 
@@ -1686,7 +1707,7 @@ ERNESTO: Or a shield. Like the one you broke, which I got at my first Ren Fair. 
 
 
 :: Scene8B {"position":"825,1800","size":"100,100"}
-<<if $cash401>>You can't give the money to ERNESTO either. It's too much.
+<<if $cash401>>You can't give the MONEY to ERNESTO either. It's too much.
 
 <<else>>BERT: <<if $shield>>Look, Ernesto. I have it! I'm going to get it fixed, I promise, OK?
 
@@ -1726,7 +1747,7 @@ GRETA: No, dipshit. The business. Jack of All Fruits.
 
 BERT: It was an accident.
 
-GRETA makes her famous face of fake pity.
+She makes her famous face of fake pity.
 
 BERT: Do I, um, get a final check? It should be, like, two weeks.
 
@@ -1752,7 +1773,7 @@ You feel furious. You wrestle your <<if $jestervest && $jesterpant>>PANTS and VE
 
 BERT: Why is it half?!
 
-GRETA: Uniform deposit. You never return it.
+GRETA: Uniform deposit. You never returned it.
 
 You feel furious. That's an outrageous price for a stupid little costume that didn't even fit. You grab the CHECK. <</if>>
 
@@ -1765,7 +1786,7 @@ You can feel the fury spreading across your face.
 
 
 :: Scene8D {"position":"1075,1800","size":"100,100"}
-<<if $ANGRY>>You're about to grab the entire cash register when<<else>>You bite dwn on your tongue really hard. You think it's bleeding. You turn to go when<</if>> suddenly Greta’s goth grrl friend appears behind her, pencil-thin eyebrow raised. She’s wearing a jester uniform with fishnets underneath, and you instantly wilt at her hotness.
+<<if $ANGRY>>You're about to grab the entire cash register when<<else>>You bite down on your tongue really hard. You think it's bleeding. You turn to go when<</if>> suddenly GRETA’s GOTH GRRL friend appears behind her, pencil-thin eyebrow raised. She’s wearing a jester uniform with fishnets underneath, and you instantly wilt at her hotness.
 
 GOTH GRRL: Smoke break before we start?
 
@@ -1777,15 +1798,13 @@ GRETA: Are those mine? <<if $STOLEcash401>>Are you like, a klepto or something? 
 
 She grabs the pack of SMOKES away from you.<<set $smokes = false>>
 
-BERT: Is she always so grabby?<<else>>BERT: You know, in actual Gothic times, when young women came of age, they had to…<</if>>
+BERT: Is she always so grabby?<<else>>BERT: You know, in actual Gothic times, when young women came of age, if there was a King, they had to…<</if>>
 
 GRETA: BERT. Do NOT talk to my friends.
 
 GOTH GRRL: Ew, wait. What’s that smell?
 
-<<if $jestervest || $jesterpant>>Everyone looks at your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>shit<</if>> on the counter. 
-
-Greta lifts the <<if $jestervest>>torn VEST<<elseif $jesterpant>>ruined PANTS<<else>>shit<</if>>, nostrils flaring.
+<<if $jestervest || $jesterpant>>Everyone looks at your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>shit<</if>> on the counter. GRETA lifts the <<if $jestervest>>torn VEST<<elseif $jesterpant>>ruined PANTS<<else>>shit<</if>>, nostrils flaring.
 
 GRETA: Did you… shit in your work <<if $jestervest && $jesterpant>>uniform<<elseif $jestervest>>vest<<elseif $jesterpant>>pants<<else>>shit<</if>>?<<else>>You look down at your shoe. The one covered in sheep shit. 
 
@@ -1795,13 +1814,13 @@ BERT: No. Of course not. I’m sorry. What happened was…
 
 GOTH GRRL: Grody to the Maximus. I can NOT work in these conditions.
 
-GRETA: I don’t have to deal with your sicko revenge fantasy. Fucking get out.
+GRETA: We don’t have to deal with your sicko revenge fantasy. Fucking get out.
 
 She holds her nose and points at the door.<<if $jestervest || $jesterpant>>
 
 GRETA: Take the <<if $jestervest && $jesterpant>>uniform<<elseif $jestervest>>vest<<elseif $jesterpant>>pants<<else>>shit<</if>> with you!
 
-You stuff the CHECK and the shame in your BACKPACK.<<else>><</if>><<set $check = true>>
+You stuff the CHECK<<if $jestervest && $jesterpant>>, UNIFORM,<<elseif $jestervest>>, VEST,<<elseif $jesterpant>>, PANTS,<<else>><</if>> and the shame in your BACKPACK.<<else>><</if>><<set $check = true>>
 
 GRETA: Fucking dumpster human.
 
@@ -1880,7 +1899,8 @@ RAMBO: Got money?
 
 <<if not $cash401>>BERT: No, no I don't.
 
-RAMBO grunts.<<else>><</if>>
+RAMBO grunts.
+<<else>><</if>>
 <<if $cash401>>
 [[Open your BACKPACK|Scene9B]]<<else>>[[Return to the STRIP MALL PARKING LOT|Scene8E]]<</if>>
 
@@ -1908,7 +1928,7 @@ What does that mean? Maybe it does stop arrows. You hand him the entire wad of s
 
 RAMBO: Too much. And I don’t take ones. Freemasons. Knights Templar. 1118.
 
-He points at the pyramid with the eye on the front of the bill. You nod like you get it, and stuff the dollar into your backpack pocket.<<set $cash401 = false>><<set $cash1 = true>><<set $bodyarmor = true>>
+He points at the pyramid with the eye on the front of the bill. You nod like you get it, and stuff the DOLLAR into your backpack pocket.<<set $cash401 = false>><<set $cash1 = true>><<set $bodyarmor = true>>
 
 [[Return to the STRIP MALL PARKING LOT|Scene10A]]
 
@@ -1916,22 +1936,24 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 :: StartScreen {"position":"175,150","size":"100,100"}
 JansPortal
 
-**Key art**
+<img src="images/jansportal_keyart.png" alt="JansPortal" />
+
 By Zach Dodson
 for Interactive Tragedy, Limited
 
 
-[[START.|Scene1A]]
+[[START|Scene1A]]
+
 [[CREDITS]]
 [[CONTENT WARNING]]
 
-
-
+/%
 [[Test Backpack 2|backpackmenu2]]
 [[Test Backpack 3|backpackmenu3]]
 [[Test Backpack 4|backpackmenu4]]
 [[Test Backpack 7|backpackmenu7]]
 [[Test Backpack 12|backpackmenu12]]
+%/
 
 
 :: StoryInit [startup] {"position":"50,150","size":"100,100"}
@@ -1983,12 +2005,6 @@ for Interactive Tragedy, Limited
 /* <<newinventory $backpack "Backpack">> */
 
 :: backpackmenu2 {"position":"1275,150","size":"100,100"}
-<<set $lightergrt = true>>
-<<set $cash401 = true>>
-<<set $cups = true>>
-<<set $cellphone = true>>
-<<set $smokes = true>>
-<<set $jestervest = true>>
 <<set $nextPassage to "Scene2A">>
 <<set $nextPassageString to "Leave the BREAKROOM">>
 <<goto "Backpack setup">>
@@ -1996,12 +2012,6 @@ for Interactive Tragedy, Limited
 /* [[Leave the BREAKROOM|Scene2A]] */
 
 :: backpackmenu3 {"position":"950,700","size":"100,100"}
-<<set $orcking = true>>
-<<set $dice = true>>
-<<set $lighterern = true>>
-<<set $bong = true>>
-<<set $papertow = true>>
-<<set $shield = true>>
 <<set $nextPassage to "Scene3E">>
 <<set $nextPassageString to "Leave ERNESTO’S APARTMENT">>
 <<goto "Backpack setup">>
@@ -2009,8 +2019,6 @@ for Interactive Tragedy, Limited
 /* [[Leave ERNESTO’S APARTMENT|Scene3E]] */
 
 :: backpackmenu4 {"position":"1000,950","size":"100,100"}
-<<set $baseball = true>>
-<<set $spade = true>>
 <<set $nextPassage to "Scene5A">>
 <<set $nextPassageString to "Go to JAN'S CELLAR">>
 <<goto "Backpack setup">>
@@ -2018,9 +2026,6 @@ for Interactive Tragedy, Limited
 /* \[[Go to JAN'S CELLAR|Scene5A]] */
 
 :: backpackmenu7 {"position":"1400,1550","size":"100,100"}
-<<set $pointer = true>>
-<<set $trophy = true>>
-<<set $burtreyn = true>>
 <<set $nextPassage to "Scene8A">>
 <<set $nextPassageString to "Go to the STRIP MALL">>
 <<goto "Backpack setup">>
@@ -2028,65 +2033,14 @@ for Interactive Tragedy, Limited
 /* \[[Go to the STRIP MALL|Scene8A]] */
 
 :: backpackmenu12 {"position":"1025,2500","size":"100,100"}
-<<set $romancand = true>>
-<<set $lighterram = true>>
-<<set $matchbook = true>>
-<<set $lollipops = true>>
-<<set $fleacollar = true>>
-<<set $fabreeze = true>>
 <<set $nextPassage to "Scene12B">>
 <<set $nextPassageString to "Leave MA'S HOUSE">>
 <<goto "Backpack setup">>
 
 /* \[[Leave MA'S HOUSE|Scene12B]] */
 
-:: Backpack setup
-<<set $availableItems to []>>
-\<<if $romancand>><<run $availableItems.push("romancand")>><</if>>
-\<<if $lighterram>><<run $availableItems.push("lighterram")>><</if>>
-\<<if $lightergrt>><<run $availableItems.push("lightergrt")>><</if>>
-\<<if $matchbook>><<run $availableItems.push("matchbook")>><</if>>
-\<<if $lollipops>><<run $availableItems.push("lollipops")>><</if>>
-\<<if $fleacollar>><<run $availableItems.push("fleacollar")>><</if>>
-\<<if $fabreeze>><<run $availableItems.push("fabreeze")>><</if>>
-\<<if $cheetos>><<run $availableItems.push("cheetos")>><</if>>
-\<<if $cheetos2>><<run $availableItems.push("cheetos2")>><</if>>
-\<<if $bong>><<run $availableItems.push("bong")>><</if>>
-\<<if $pointer>><<run $availableItems.push("pointer")>><</if>>
-\<<if $spade>><<run $availableItems.push("spade")>><</if>>
-\<<if $trophy>><<run $availableItems.push("trophy")>><</if>>
-\<<if $burtreyn>><<run $availableItems.push("burtreyn")>><</if>>
-\<<if $jesterpant>><<run $availableItems.push("jesterpant")>><</if>>
-\<<if $baseball>><<run $availableItems.push("baseball")>><</if>>
-\<<if $lighterern>><<run $availableItems.push("lighterern")>><</if>>
-\<<if $cellphone>><<run $availableItems.push("cellphone")>><</if>>
-\<<if $cups>><<run $availableItems.push("cups")>><</if>>
-\<<if $cash401>><<run $availableItems.push("cash401")>><</if>>
-\<<if $cash1>><<run $availableItems.push("cash1")>><</if>>
-\<<if $smokes>><<run $availableItems.push("smokes")>><</if>>
-\<<if $jestervest>><<run $availableItems.push("jestervest")>><</if>>
-\<<if $orcking>><<run $availableItems.push("orcking")>><</if>>
-\<<if $dice>><<run $availableItems.push("dice")>><</if>>
-\<<if $shield>><<run $availableItems.push("shield")>><</if>>
-\<<if $papertow>><<run $availableItems.push("papertow")>><</if>>
 
-<div id="backpack-game-container">
-    <canvas id="backpack-canvas"></canvas>
-    <button id="reset-btn" class="game-btn secondary">Reset</button>
-    <button id="done-btn" class="game-btn primary" disabled>Done</button>
-</div>
-
-<<done>>
-<<script>>
-    // Start the game
-    setTimeout(function() {
-        BackpackMinigame.start(State.variables.availableItems);
-    }, 100);
-<</script>>
-<</done>>
-
-
-:: scrapped 9b {"position":"625,1950","size":"100,100"}
+:: scrapped 9b {"position":"500,1925","size":"100,100"}
 You point at the...
 BODY ARMOR, a GUN, and a FLAMETHROWER.
 
