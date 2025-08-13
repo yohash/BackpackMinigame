@@ -135,7 +135,7 @@ You look up at the CASTLE. You never managed to see the KING. SEWARD and his MOB
 
 You feel that familiar anger rise. But only for a fleeting moment. There's nothing to do with that feeling now. 
 
-As you lose consciousness, you think back on the choices you've made. <<if not $romancandle>>You wish you had brought something to make more of an impression on the denizens of the CASTLE. <<else>><</if>><<if $romancand && not ($lighterram || $lighterern || $lightergrt || $matchbook)>>Why wouldn't you have brought something to light the ROMAN CANDLE with? You feel stupid. <<else>><</if>>You try and retrace your steps, regretting every decision you've made, as the new world you’ve found goes black.
+As you lose consciousness, you think back on the choices you've made. <<if not $romancand>>You wish you had brought something to make more of an impression on the denizens of the CASTLE. <<else>><</if>><<if $romancand && not ($lighterram || $lighterern || $lightergrt || $matchbook)>>Why wouldn't you have brought something to light the ROMAN CANDLE with? You feel stupid. <<else>><</if>>You try and retrace your steps, regretting every decision you've made, as the new world you’ve found goes black.
 
 [[THE END|EndScreen]]
 

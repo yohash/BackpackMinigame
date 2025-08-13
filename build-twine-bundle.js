@@ -89,7 +89,7 @@ const ITEM_DATABASE = {
         description: 'Purple haze, man'
     },
     'burtreyn': {
-        id: 'burtreynolds',
+        id: 'burtreyn',
         name: 'Framed Portrait',
         width: 2,
         height: 2,
@@ -260,7 +260,7 @@ const ITEM_DATABASE = {
         description: 'Good for cats or presentations'
     },
     'romancand': {
-        id: 'romancandel',
+        id: 'romancand',
         name: 'Roman Candle',
         width: 1,
         height: 5,
