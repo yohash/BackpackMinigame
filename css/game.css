@@ -1,17 +1,23 @@
 /* Backpack Minigame Styles - Responsive Version */
 /* No Twine overrides - game-specific styles only */
 
-/* Game Container - responsive with aspect ratio preservation */
+/* Game Container - responsive with flexbox for vertical centering */
 #backpack-game-container {
     position: relative;
     width: 100%;
     max-width: 1640px;
+    min-height: 500px; /* Ensure minimum height for vertical centering */
     margin: 0 auto;
     background: white;
     border-radius: 12px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     padding: 20px;
     box-sizing: border-box;
+    /* Use flexbox to center the wrapper vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* For Twine integration - ensure proper centering in passages */
@@ -19,14 +25,15 @@
     margin: 20px auto;
 }
 
-/* Canvas Container - maintains aspect ratio */
+/* Canvas Container - maintains aspect ratio and centers content */
 .canvas-wrapper {
     position: relative;
     width: 100%;
     max-width: 1600px;
-    margin: 0 auto;
     /* Use aspect-ratio property for better performance */
     aspect-ratio: 16 / 9;
+    /* Ensure the wrapper takes up its calculated space */
+    display: block;
 }
 
 /* Fallback for browsers without aspect-ratio support */
@@ -35,15 +42,13 @@
         padding-bottom: 56.25%; /* 16:9 aspect ratio */
         height: 0;
     }
-    
-    .canvas-wrapper #backpack-canvas {
-        position: absolute !important;
-    }
 }
 
-/* Canvas Styling - responsive with proper scaling */
+/* Canvas Styling - fills parent completely */
 #backpack-canvas {
-    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     border: 4px solid #4a5568;
@@ -61,10 +66,10 @@
     cursor: grabbing;
 }
 
-/* UI Elements - positioned relative to container */
+/* UI Elements - positioned relative to game container, not wrapper */
 #object-counter {
     position: absolute;
-    top: 30px;
+    top: 40px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(255, 255, 255, 0.95);
@@ -89,7 +94,7 @@
     color: #4a5568;
 }
 
-/* Control Buttons - responsive positioning */
+/* Control Buttons - positioned absolute to game container */
 #reset-btn,
 #done-btn {
     position: absolute;
@@ -103,11 +108,12 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     z-index: 100;
+    pointer-events: auto;
 }
 
 #reset-btn {
-    top: 30px;
-    left: 30px;
+    top: 40px;
+    left: 40px;
     background: #e2e8f0;
     color: #4a5568;
 }
@@ -118,8 +124,8 @@
 }
 
 #done-btn {
-    top: 30px;
-    right: 30px;
+    top: 40px;
+    right: 40px;
     background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
     color: white;
     box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
@@ -159,29 +165,30 @@
 @media (max-width: 768px) {
     #backpack-game-container {
         margin: 10px;
-        padding: 10px;
+        padding: 15px;
         border-radius: 8px;
+        min-height: 400px;
     }
     
     #reset-btn,
     #done-btn {
         padding: 8px 16px;
         font-size: 13px;
-        top: 20px;
+        top: 30px;
     }
     
     #reset-btn {
-        left: 20px;
+        left: 30px;
     }
     
     #done-btn {
-        right: 20px;
+        right: 30px;
     }
     
     #object-counter {
         font-size: 0.9em;
         padding: 6px 12px;
-        top: 20px;
+        top: 30px;
     }
     
     #placed-count,
@@ -194,29 +201,30 @@
 @media (max-width: 480px) {
     #backpack-game-container {
         margin: 5px;
-        padding: 5px;
+        padding: 10px;
         border-radius: 6px;
+        min-height: 300px;
     }
     
     #reset-btn,
     #done-btn {
         padding: 6px 12px;
         font-size: 11px;
-        top: 15px;
+        top: 20px;
     }
     
     #reset-btn {
-        left: 15px;
+        left: 20px;
     }
     
     #done-btn {
-        right: 15px;
+        right: 20px;
     }
     
     #object-counter {
         font-size: 0.8em;
         padding: 4px 10px;
-        top: 15px;
+        top: 20px;
     }
 }
 

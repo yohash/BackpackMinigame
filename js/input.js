@@ -54,8 +54,8 @@ class InputHandler {
         const canvasX = event.clientX - rect.left;
         const canvasY = event.clientY - rect.top;
         
-        // Convert from screen space to game space using the game's scale
-        // The canvas is displayed at scale, but internally it's always baseWidth x baseHeight
+        // The canvas fills its wrapper which maintains aspect ratio
+        // Convert from displayed size to internal game coordinates
         const gameX = (canvasX / rect.width) * this.game.baseWidth;
         const gameY = (canvasY / rect.height) * this.game.baseHeight;
         
@@ -76,7 +76,8 @@ class InputHandler {
         const canvasX = touch.clientX - rect.left;
         const canvasY = touch.clientY - rect.top;
         
-        // Convert from screen space to game space using the game's scale
+        // The canvas fills its wrapper which maintains aspect ratio
+        // Convert from displayed size to internal game coordinates
         const gameX = (canvasX / rect.width) * this.game.baseWidth;
         const gameY = (canvasY / rect.height) * this.game.baseHeight;
         

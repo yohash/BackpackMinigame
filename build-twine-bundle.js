@@ -444,11 +444,11 @@ ${cssContent}
      */
     function createCanvasWrapper(canvasId) {
         const canvas = document.getElementById(canvasId);
-        if (!canvas) return;
+        if (!canvas) return false;
         
         // Check if wrapper already exists
         if (canvas.parentElement && canvas.parentElement.classList.contains('canvas-wrapper')) {
-            return;
+            return true;
         }
         
         // Create wrapper
@@ -458,6 +458,15 @@ ${cssContent}
         // Insert wrapper and move canvas into it
         canvas.parentNode.insertBefore(wrapper, canvas);
         wrapper.appendChild(canvas);
+        
+        // Ensure canvas is positioned to fill wrapper
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        
+        return true;
     }
     
     /**
@@ -474,7 +483,10 @@ ${cssContent}
         container.classList.add('loading');
         
         // Ensure canvas has wrapper
-        createCanvasWrapper('backpack-canvas');
+        if (!createCanvasWrapper('backpack-canvas')) {
+            console.error('Failed to create canvas wrapper');
+            return false;
+        }
         
         return true;
     }

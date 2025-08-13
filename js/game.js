@@ -13,8 +13,6 @@ class BackpackGame {
         this.scale = 1;
         this.offsetX = 0;
         this.offsetY = 0;
-        
-        // Game configuration - properly merge config
         this.config = {
             backpackWidth: 5,
             backpackHeight: 5,
@@ -86,45 +84,42 @@ class BackpackGame {
         
         // Set up resize listener
         window.addEventListener('resize', this.handleResize);
-        
-        // Initial setup
-        this.updateCanvasSize();
     }
     
     /**
      * Update canvas size and calculate scale
      */
     updateCanvasSize() {
-        const container = this.canvas.parentElement || document.body;
-        const containerRect = container.getBoundingClientRect();
-        const maxWidth = Math.min(containerRect.width - 40, this.baseWidth);
-        const maxHeight = Math.min(containerRect.height - 40, this.baseHeight);
+        // Get the wrapper element which maintains aspect ratio
+        const wrapper = this.canvas.parentElement;
+        if (!wrapper || !wrapper.classList.contains('canvas-wrapper')) {
+            console.warn('Canvas wrapper not found, scaling may not work properly');
+            return;
+        }
         
-        // Calculate scale to fit while maintaining aspect ratio
-        const scaleX = maxWidth / this.baseWidth;
-        const scaleY = maxHeight / this.baseHeight;
-        const newScale = Math.min(scaleX, scaleY, 1); // Cap at 1 to prevent upscaling
+        // Get actual rendered size of the wrapper
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const displayWidth = wrapperRect.width;
+        const displayHeight = wrapperRect.height;
         
-        // Only update if scale changed significantly (improves performance)
-        if (Math.abs(this.scale - newScale) > 0.01) {
-            this.scale = newScale;
+        // Calculate scale based on wrapper size vs base dimensions
+        this.scale = Math.min(displayWidth / this.baseWidth, displayHeight / this.baseHeight, 1);
+        
+        // Canvas should fill its wrapper completely
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.top = '0';
+        this.canvas.style.left = '0';
+        this.canvas.style.width = '100%';
+        this.canvas.style.height = '100%';
+        
+        // Set internal canvas resolution to base dimensions
+        // This ensures we always render at the same resolution internally
+        if (this.canvas.width !== this.baseWidth || this.canvas.height !== this.baseHeight) {
+            this.canvas.width = this.baseWidth;
+            this.canvas.height = this.baseHeight;
             
-            // Calculate actual canvas size
-            const canvasWidth = Math.floor(this.baseWidth * this.scale);
-            const canvasHeight = Math.floor(this.baseHeight * this.scale);
-            
-            // Set canvas display size
-            this.canvas.style.width = canvasWidth + 'px';
-            this.canvas.style.height = canvasHeight + 'px';
-            
-            // Only reset internal resolution if needed (improves performance)
-            if (this.canvas.width !== this.baseWidth || this.canvas.height !== this.baseHeight) {
-                this.canvas.width = this.baseWidth;
-                this.canvas.height = this.baseHeight;
-                
-                // Update positions after canvas resize
-                this.updatePositions();
-            }
+            // Update positions after canvas resize
+            this.updatePositions();
         }
     }
     
@@ -200,6 +195,9 @@ class BackpackGame {
         console.log('Starting Backpack Game...');
         console.log('Grid offsets - X:', this.config.gridXOffset, 'Y:', this.config.gridYOffset);
         
+        // Ensure canvas is properly set up first
+        this.updateCanvasSize();
+        
         // Initialize subsystems
         this.initializeSubsystems();
         
@@ -213,6 +211,9 @@ class BackpackGame {
             
             // Set up UI
             this.setupUI();
+            
+            // Do another size update after everything is loaded
+            this.updateCanvasSize();
             
             // Start game loop
             this.state.isRunning = true;
@@ -811,7 +812,6 @@ class BackpackGame {
     checkContinueButton() {
         const continueBtn = document.getElementById('continue-btn') || document.getElementById('done-btn');
         if (continueBtn) {
-            // Enable if at least one object is placed
             //continueBtn.disabled = this.state.placedObjects.length === 0;
             continueBtn.disabled = false;
         }
