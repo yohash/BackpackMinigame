@@ -94,7 +94,7 @@ const ITEM_DATABASE = {
         width: 2,
         height: 2,
         color: 'hsl(70, 70%, 60%)',
-        sprite: 'burtreynolds',
+        sprite: 'burtreyn',
         description: 'The other Burt Reynolds'
     },
     'cash1': {
@@ -247,7 +247,7 @@ const ITEM_DATABASE = {
         width: 2,
         height: 3,
         color: 'hsl(320, 70%, 60%)',
-        sprite: 'papertowels',
+        sprite: 'papertow',
         description: 'Extra absorbent'
     },
     'pointer': {
@@ -265,7 +265,7 @@ const ITEM_DATABASE = {
         width: 1,
         height: 5,
         color: 'hsl(360, 70%, 60%)',
-        sprite: 'romancandel',
+        sprite: 'romancand',
         description: 'The Wizard Whanger'
     },
     'shield': {

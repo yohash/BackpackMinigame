@@ -194,7 +194,7 @@ BERT: Greta. I forgive you.
 
 <<if $smokes>>You pull GRETA'S SMOKES out of your BACKPACK and return them to her.<<else>>BERT: Can I share a smoke with you?
 
-GREAT hesitates, glances at the BODY ARMOR, and hands you a smoke.<</if>>
+GRETA hesitates, glances at the BODY ARMOR, and hands you a smoke.<</if>>
 <<if $lightergrt || $lighterern>>
 BERT: Here's a light.
 
@@ -250,7 +250,7 @@ You face flushes again. You don’t have to answer to this little shit anymore. 
 
 
 :: Scene11BAnger {"position":"1075,2350","size":"100,100"}
-You reach for him, furious. He dodges. So you <<if $romancand>>brandish your ROMAN CANDLE like a sword and swat at JEFFREY with it.<<else>>pick up a ROMAN CANDLE from the box on the counter and try to whack JEFFREY on the head with it.<</if??
+You reach for him, furious. He dodges. So you <<if $romancand>>brandish your ROMAN CANDLE like a sword and swat at JEFFREY with it.<<else>>pick up a ROMAN CANDLE from the box on the counter and try to whack JEFFREY on the head with it.<</if>>
 
 JEFFREY: <<if not $romancand>>THEEEEFF!! <<else>><</if>>DAAAAAAAD!!
 
@@ -990,7 +990,7 @@ She grabs it from you, lights her cigarette with one flick. And walks past you b
 
 Why would you take the cigarettes but leave the lighter? You sadly shake your head no. 
 
-She rolls her eyes, turns up her nose, and brushes past you both. <</if><<else>>
+She rolls her eyes, turns up her nose, and brushes past you both. <</if>><<else>>
 
 BERT: No, but Greta...
 
