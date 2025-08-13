@@ -2039,6 +2039,51 @@ for Interactive Tragedy, Limited
 
 /* \[[Leave MA'S HOUSE|Scene12B]] */
 
+:: Backpack setup
+<<set $availableItems to []>>
+\<<if $romancand>><<run $availableItems.push("romancand")>><</if>>
+\<<if $lighterram>><<run $availableItems.push("lighterram")>><</if>>
+\<<if $lightergrt>><<run $availableItems.push("lightergrt")>><</if>>
+\<<if $matchbook>><<run $availableItems.push("matchbook")>><</if>>
+\<<if $lollipops>><<run $availableItems.push("lollipops")>><</if>>
+\<<if $fleacollar>><<run $availableItems.push("fleacollar")>><</if>>
+\<<if $fabreeze>><<run $availableItems.push("fabreeze")>><</if>>
+\<<if $cheetos>><<run $availableItems.push("cheetos")>><</if>>
+\<<if $cheetos2>><<run $availableItems.push("cheetos2")>><</if>>
+\<<if $bong>><<run $availableItems.push("bong")>><</if>>
+\<<if $pointer>><<run $availableItems.push("pointer")>><</if>>
+\<<if $spade>><<run $availableItems.push("spade")>><</if>>
+\<<if $trophy>><<run $availableItems.push("trophy")>><</if>>
+\<<if $burtreyn>><<run $availableItems.push("burtreyn")>><</if>>
+\<<if $jesterpant>><<run $availableItems.push("jesterpant")>><</if>>
+\<<if $baseball>><<run $availableItems.push("baseball")>><</if>>
+\<<if $lighterern>><<run $availableItems.push("lighterern")>><</if>>
+\<<if $cellphone>><<run $availableItems.push("cellphone")>><</if>>
+\<<if $cups>><<run $availableItems.push("cups")>><</if>>
+\<<if $cash401>><<run $availableItems.push("cash401")>><</if>>
+\<<if $cash1>><<run $availableItems.push("cash1")>><</if>>
+\<<if $smokes>><<run $availableItems.push("smokes")>><</if>>
+\<<if $jestervest>><<run $availableItems.push("jestervest")>><</if>>
+\<<if $orcking>><<run $availableItems.push("orcking")>><</if>>
+\<<if $dice>><<run $availableItems.push("dice")>><</if>>
+\<<if $shield>><<run $availableItems.push("shield")>><</if>>
+\<<if $papertow>><<run $availableItems.push("papertow")>><</if>>
+
+<div id="backpack-game-container">
+    <canvas id="backpack-canvas"></canvas>
+    <button id="reset-btn" class="game-btn secondary">Reset</button>
+    <button id="done-btn" class="game-btn primary" disabled>Done</button>
+</div>
+
+<<done>>
+<<script>>
+    // Start the game
+    setTimeout(function() {
+        BackpackMinigame.start(State.variables.availableItems);
+    }, 100);
+<</script>>
+<</done>>
+
 
 :: scrapped 9b {"position":"500,1925","size":"100,100"}
 You point at the...

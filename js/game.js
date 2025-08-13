@@ -782,7 +782,8 @@ class BackpackGame {
         const continueBtn = document.getElementById('continue-btn') || document.getElementById('done-btn');
         if (continueBtn) {
             // Enable if at least one object is placed
-            continueBtn.disabled = this.state.placedObjects.length === 0;
+            //continueBtn.disabled = this.state.placedObjects.length === 0;
+            continueBtn.disabled = false;
         }
     }
     
