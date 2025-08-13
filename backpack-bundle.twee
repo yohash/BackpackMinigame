@@ -136,7 +136,7 @@ You look up at the CASTLE. You never managed to see the KING. SEWARD and his MOB
 
 You feel that familiar anger rise. But only for a fleeting moment. There's nothing to do with that feeling now. 
 
-As you lose consciousness, you think back on the choices you've made. <<if not $romancandle>>You wish you had brought something to make more of an impression on the denizens of the CASTLE. <<else>><</if>><<if $romancand && not ($lighterram || $lighterern || $lightergrt || $matchbook)>>Why wouldn't you have brought something to light the ROMAN CANDLE with? You feel stupid. <<else>><</if>>You try and retrace your steps, regretting every decision you've made, as the new world you’ve found goes black.
+As you lose consciousness, you think back on the choices you've made. <<if not $romancand>>You wish you had brought something to make more of an impression on the denizens of the CASTLE. <<else>><</if>><<if $romancand && not ($lighterram || $lighterern || $lightergrt || $matchbook)>>Why wouldn't you have brought something to light the ROMAN CANDLE with? You feel stupid. <<else>><</if>>You try and retrace your steps, regretting every decision you've made, as the new world you’ve found goes black.
 
 [[THE END|EndScreen]]
 
@@ -156,7 +156,7 @@ The ARCHERS notch their bows, and take aim at you. You try and retrace your step
 :: Ending4 {"position":"1675,3075","size":"100,100"}
 You feel all the anger you have been holding dissipate. Things will change for you now, certainly. As long as someone can staunch the blood still oozing out of you. 
 
-As you start to lose consciousness, you think back on the choices you've made. <<if not $bodyarmor || $shield>>You wish you had brought something to protect you against all those arrows. Why did you leave the BODY ARMOR behind?? <<else>><</if>><<if not $cheetos || $spade>>You wish you had been able to save SEWARD from those ravenous dogs. He was only ever helpful to you. His last gesture was to lure those animals away from you. You didn't have anything with you to save him in turn. <<else>>You wish you hadn't gotten SEWARD involved in such a mess. But at least he didn't die.<</if>><<if $burtreyn || $pointer>>You brought everything you needed to gain auidence with the KING. <<if $pointer>>If only you had brought something for JAN as well. No matter, it's the KING that counts. <</if>>You know he will bring you inside, and reward you richly.
+As you start to lose consciousness, you think back on the choices you've made. <<if not $bodyarmor || $shield>>You wish you had brought something to protect you against all those arrows. Why did you leave the BODY ARMOR behind?? <<else>><</if>><<if not $cheetos || $spade>>You wish you had been able to save SEWARD from those ravenous dogs. He was only ever helpful to you. His last gesture was to lure those animals away from you. You didn't have anything with you to save him in turn. <<else>>You wish you hadn't gotten SEWARD involved in such a mess. But at least he didn't die.<</if>><<if $burtreyn || $pointer>>You brought everything you needed to gain auidence with the KING. <</if>><<if $pointer>>If only you had brought something for JAN as well. No matter, it's the KING that counts. <</if>>You know he will bring you inside, and reward you richly.
 
 You smile, just faintly, as the new world you’ve found goes black.
 
@@ -298,9 +298,6 @@ NED: Is someone after you? Do you need protection from the subterranean sheep ne
 MA told him. Now you're doubly annoyed. You don't want anyone knowing what you are up to. <<if $bodyarmor>>You grab MA’s TIE-DYED ROBE off the back of the kitchen chair and drape it over your BODY ARMOR.<<else>>But you do need a costume. You grab MA’s TIE-DYED ROBE off the back of the kitchen chair and put it on.<</if>> Looking past NED, you notice the sun is setting behind Jan's house. Time to go.
 
 You turn to NED, who is clearly about to comment on your new fashion choice. You're already mad. 
-
-[[Push it down|Scene12CSupress]]
-[[Let it Out|Scene12CAnger]]
 
 [[Push it down|Scene13A][$ANGRY = false]]
 [[Let it Out|Scene13A][$ANGRY = true]]
@@ -1935,6 +1932,50 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 
 
 :: StartScreen {"position":"175,150","size":"100,100"}
+<<set $romancand = false>>
+\<<set $lighterram = false>>
+\<<set $lighterern = false>>
+\<<set $lightergrt = false>>
+\<<set $matchbook = false>>
+\<<set $cellphone = false>>
+\<<set $lollipops = false>>
+\<<set $fleacollar = false>>
+\<<set $fabreeze = false>>
+\<<set $cheetos = false>>
+\<<set $bong = false>>
+\<<set $shield = false>>
+\<<set $cups = false>>
+\<<set $cash401 = false>>
+\<<set $pointer = false>>
+\<<set $smokes = false>>
+\<<set $jestervest = false>>
+\<<set $orcking = false>>
+\<<set $dice = false>>
+\<<set $papertow = false>>
+\<<set $cheetos = false>>
+\<<set $cheetos2 = false>>
+\<<set $baseball = false>>
+\<<set $spade = false>>
+\<<set $trophy = false>>
+\<<set $jesterpant = false>>
+\<<set $burtreyn = false>>
+\<<set $cash1 = true>>
+\
+\<<set $backpack = []>>
+\
+\<<set $check = false>>
+\<<set $bodyarmor = true>>
+\
+\<<set $LEFTbong = false>>
+\<<set $LEFTcellphone = false>>
+\<<set $STOLEcash401 = false>>
+\<<set $THREWcups = false>>
+\<<set $ANGRY = false>>
+\
+\<<set $mobmen = 0>>
+\
+\<<set $nextPassageString = "">>
+
 JansPortal
 
 <img src="images/jansportal_keyart.png" alt="JansPortal" />
@@ -1958,50 +1999,6 @@ for Interactive Tragedy, Limited
 
 
 :: StoryInit [startup] {"position":"50,150","size":"100,100"}
-<<set $romancand = false>>
-<<set $lighterram = false>>
-<<set $lighterern = false>>
-<<set $lightergrt = false>>
-<<set $matchbook = false>>
-<<set $cellphone = false>>
-<<set $lollipops = false>>
-<<set $fleacollar = false>>
-<<set $fabreeze = false>>
-<<set $cheetos = false>>
-<<set $bong = false>>
-<<set $shield = false>>
-<<set $cups = false>>
-<<set $cash401 = false>>
-<<set $pointer = false>>
-<<set $smokes = false>>
-<<set $jestervest = false>>
-<<set $orcking = false>>
-<<set $dice = false>>
-<<set $papertow = false>>
-<<set $cheetos = false>>
-<<set $cheetos2 = false>>
-<<set $baseball = false>>
-<<set $spade = false>>
-<<set $trophy = false>>
-<<set $jesterpant = false>>
-<<set $burtreyn = false>>
-<<set $cash1 = true>>
-
-<<set $backpack = []>>
-
-<<set $check = false>>
-<<set $bodyarmor = true>>
-
-<<set $LEFTbong = false>>
-<<set $LEFTcellphone = false>>
-<<set $STOLEcash401 = false>>
-<<set $THREWcups = false>>
-<<set $ANGRY = false>>
-
-<<set $mobmen = 0>>
-
-<<set $nextPassageString = "">>
-
 
 /* <<newinventory $backpack "Backpack">> */
 
@@ -2365,7 +2362,7 @@ ul.simple-inventory-list{margin:0 auto;padding:0}.simple-inventory-listing{list-
     "description": "Purple haze, man"
   },
   "burtreyn": {
-    "id": "burtreynolds",
+    "id": "burtreyn",
     "name": "Framed Portrait",
     "width": 2,
     "height": 2,
@@ -2518,7 +2515,7 @@ ul.simple-inventory-list{margin:0 auto;padding:0}.simple-inventory-listing{list-
     "description": "Gwarkcrotch the Disgustful"
   },
   "papertow": {
-    "id": "papertowels",
+    "id": "papertow",
     "name": "Paper Towels",
     "width": 2,
     "height": 3,
@@ -2536,7 +2533,7 @@ ul.simple-inventory-list{margin:0 auto;padding:0}.simple-inventory-listing{list-
     "description": "Good for cats or presentations"
   },
   "romancand": {
-    "id": "romancandel",
+    "id": "romancand",
     "name": "Roman Candle",
     "width": 1,
     "height": 5,
@@ -3531,6 +3528,7 @@ class BackpackGame {
         
         if (continueBtn) {
             continueBtn.addEventListener('click', this.handleContinue);
+            continueBtn.disabled = false;
         }
         
         if (resetBtn) {

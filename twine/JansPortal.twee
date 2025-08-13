@@ -155,7 +155,7 @@ The ARCHERS notch their bows, and take aim at you. You try and retrace your step
 :: Ending4 {"position":"1675,3075","size":"100,100"}
 You feel all the anger you have been holding dissipate. Things will change for you now, certainly. As long as someone can staunch the blood still oozing out of you. 
 
-As you start to lose consciousness, you think back on the choices you've made. <<if not $bodyarmor || $shield>>You wish you had brought something to protect you against all those arrows. Why did you leave the BODY ARMOR behind?? <<else>><</if>><<if not $cheetos || $spade>>You wish you had been able to save SEWARD from those ravenous dogs. He was only ever helpful to you. His last gesture was to lure those animals away from you. You didn't have anything with you to save him in turn. <<else>>You wish you hadn't gotten SEWARD involved in such a mess. But at least he didn't die.<</if>><<if $burtreyn || $pointer>>You brought everything you needed to gain auidence with the KING. <<if $pointer>>If only you had brought something for JAN as well. No matter, it's the KING that counts. <</if>>You know he will bring you inside, and reward you richly.
+As you start to lose consciousness, you think back on the choices you've made. <<if not $bodyarmor || $shield>>You wish you had brought something to protect you against all those arrows. Why did you leave the BODY ARMOR behind?? <<else>><</if>><<if not $cheetos || $spade>>You wish you had been able to save SEWARD from those ravenous dogs. He was only ever helpful to you. His last gesture was to lure those animals away from you. You didn't have anything with you to save him in turn. <<else>>You wish you hadn't gotten SEWARD involved in such a mess. But at least he didn't die.<</if>><<if $burtreyn || $pointer>>You brought everything you needed to gain auidence with the KING. <</if>><<if $pointer>>If only you had brought something for JAN as well. No matter, it's the KING that counts. <</if>>You know he will bring you inside, and reward you richly.
 
 You smile, just faintly, as the new world you’ve found goes black.
 
@@ -1931,6 +1931,50 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 
 
 :: StartScreen {"position":"175,150","size":"100,100"}
+<<set $romancand = false>>
+\<<set $lighterram = false>>
+\<<set $lighterern = false>>
+\<<set $lightergrt = false>>
+\<<set $matchbook = false>>
+\<<set $cellphone = false>>
+\<<set $lollipops = false>>
+\<<set $fleacollar = false>>
+\<<set $fabreeze = false>>
+\<<set $cheetos = false>>
+\<<set $bong = false>>
+\<<set $shield = false>>
+\<<set $cups = false>>
+\<<set $cash401 = false>>
+\<<set $pointer = false>>
+\<<set $smokes = false>>
+\<<set $jestervest = false>>
+\<<set $orcking = false>>
+\<<set $dice = false>>
+\<<set $papertow = false>>
+\<<set $cheetos = false>>
+\<<set $cheetos2 = false>>
+\<<set $baseball = false>>
+\<<set $spade = false>>
+\<<set $trophy = false>>
+\<<set $jesterpant = false>>
+\<<set $burtreyn = false>>
+\<<set $cash1 = true>>
+\
+\<<set $backpack = []>>
+\
+\<<set $check = false>>
+\<<set $bodyarmor = true>>
+\
+\<<set $LEFTbong = false>>
+\<<set $LEFTcellphone = false>>
+\<<set $STOLEcash401 = false>>
+\<<set $THREWcups = false>>
+\<<set $ANGRY = false>>
+\
+\<<set $mobmen = 0>>
+\
+\<<set $nextPassageString = "">>
+
 JansPortal
 
 <img src="images/jansportal_keyart.png" alt="JansPortal" />
@@ -1954,50 +1998,6 @@ for Interactive Tragedy, Limited
 
 
 :: StoryInit [startup] {"position":"50,150","size":"100,100"}
-<<set $romancand = false>>
-<<set $lighterram = false>>
-<<set $lighterern = false>>
-<<set $lightergrt = false>>
-<<set $matchbook = false>>
-<<set $cellphone = false>>
-<<set $lollipops = false>>
-<<set $fleacollar = false>>
-<<set $fabreeze = false>>
-<<set $cheetos = false>>
-<<set $bong = false>>
-<<set $shield = false>>
-<<set $cups = false>>
-<<set $cash401 = false>>
-<<set $pointer = false>>
-<<set $smokes = false>>
-<<set $jestervest = false>>
-<<set $orcking = false>>
-<<set $dice = false>>
-<<set $papertow = false>>
-<<set $cheetos = false>>
-<<set $cheetos2 = false>>
-<<set $baseball = false>>
-<<set $spade = false>>
-<<set $trophy = false>>
-<<set $jesterpant = false>>
-<<set $burtreyn = false>>
-<<set $cash1 = true>>
-
-<<set $backpack = []>>
-
-<<set $check = false>>
-<<set $bodyarmor = true>>
-
-<<set $LEFTbong = false>>
-<<set $LEFTcellphone = false>>
-<<set $STOLEcash401 = false>>
-<<set $THREWcups = false>>
-<<set $ANGRY = false>>
-
-<<set $mobmen = 0>>
-
-<<set $nextPassageString = "">>
-
 
 /* <<newinventory $backpack "Backpack">> */
 

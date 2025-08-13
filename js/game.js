@@ -345,6 +345,7 @@ class BackpackGame {
         
         if (continueBtn) {
             continueBtn.addEventListener('click', this.handleContinue);
+            continueBtn.disabled = false;
         }
         
         if (resetBtn) {

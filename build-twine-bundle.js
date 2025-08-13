@@ -242,7 +242,7 @@ const ITEM_DATABASE = {
         description: 'Gwarkcrotch the Disgustful'
     },
     'papertow': {
-        id: 'papertowels',
+        id: 'papertow',
         name: 'Paper Towels',
         width: 2,
         height: 3,
