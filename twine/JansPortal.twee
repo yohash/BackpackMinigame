@@ -298,9 +298,6 @@ MA told him. Now you're doubly annoyed. You don't want anyone knowing what you a
 
 You turn to NED, who is clearly about to comment on your new fashion choice. You're already mad. 
 
-[[Push it down|Scene12CSupress]]
-[[Let it Out|Scene12CAnger]]
-
 [[Push it down|Scene13A][$ANGRY = false]]
 [[Let it Out|Scene13A][$ANGRY = true]]
 
