@@ -1,5 +1,5 @@
 :: StoryTitle
-JansPortal Test V5
+JansPortal Test V7
 
 
 :: StoryData
@@ -10,6 +10,52 @@ JansPortal Test V5
   "start": "StartScreen",
   "zoom": 1
 }
+
+
+:: Backpack setup {"position":"0,0","size":"100,100"}
+<<set $availableItems to []>>
+\<<if $romancand>><<run $availableItems.push("romancand")>><</if>>
+\<<if $lighterram>><<run $availableItems.push("lighterram")>><</if>>
+\<<if $lightergrt>><<run $availableItems.push("lightergrt")>><</if>>
+\<<if $matchbook>><<run $availableItems.push("matchbook")>><</if>>
+\<<if $lollipops>><<run $availableItems.push("lollipops")>><</if>>
+\<<if $fleacollar>><<run $availableItems.push("fleacollar")>><</if>>
+\<<if $fabreeze>><<run $availableItems.push("fabreeze")>><</if>>
+\<<if $cheetos>><<run $availableItems.push("cheetos")>><</if>>
+\<<if $cheetos2>><<run $availableItems.push("cheetos2")>><</if>>
+\<<if $bong>><<run $availableItems.push("bong")>><</if>>
+\<<if $pointer>><<run $availableItems.push("pointer")>><</if>>
+\<<if $spade>><<run $availableItems.push("spade")>><</if>>
+\<<if $trophy>><<run $availableItems.push("trophy")>><</if>>
+\<<if $burtreyn>><<run $availableItems.push("burtreyn")>><</if>>
+\<<if $jesterpant>><<run $availableItems.push("jesterpant")>><</if>>
+\<<if $baseball>><<run $availableItems.push("baseball")>><</if>>
+\<<if $lighterern>><<run $availableItems.push("lighterern")>><</if>>
+\<<if $cellphone>><<run $availableItems.push("cellphone")>><</if>>
+\<<if $cups>><<run $availableItems.push("cups")>><</if>>
+\<<if $cash401>><<run $availableItems.push("cash401")>><</if>>
+\<<if $cash1>><<run $availableItems.push("cash1")>><</if>>
+\<<if $smokes>><<run $availableItems.push("smokes")>><</if>>
+\<<if $jestervest>><<run $availableItems.push("jestervest")>><</if>>
+\<<if $orcking>><<run $availableItems.push("orcking")>><</if>>
+\<<if $dice>><<run $availableItems.push("dice")>><</if>>
+\<<if $shield>><<run $availableItems.push("shield")>><</if>>
+\<<if $papertow>><<run $availableItems.push("papertow")>><</if>>
+
+<div id="backpack-game-container">
+    <canvas id="backpack-canvas"></canvas>
+    <button id="reset-btn" class="game-btn secondary">Reset</button>
+    <button id="done-btn" class="game-btn primary" disabled>Done</button>
+</div>
+
+<<done>>
+<<script>>
+    // Start the game
+    setTimeout(function() {
+        BackpackMinigame.start(State.variables.availableItems);
+    }, 100);
+<</script>>
+<</done>>
 
 
 :: BackpackComplete {"position":"25,0","size":"100,100"}
@@ -300,8 +346,6 @@ You turn to NED, who is clearly about to comment on your new fashion choice. You
 
 [[Push it down|Scene13A][$ANGRY = false]]
 [[Let it Out|Scene13A][$ANGRY = true]]
-
-
 
 
 :: Scene12CAnger {"position":"1275,2450","size":"100,100"}
@@ -1988,46 +2032,19 @@ for Interactive Tragedy, Limited
 [[CREDITS]]
 [[CONTENT WARNING]]
 
-/%
+Post-Playtest version
+
 [[Test Backpack 2|backpackmenu2]]
 [[Test Backpack 3|backpackmenu3]]
 [[Test Backpack 4|backpackmenu4]]
 [[Test Backpack 7|backpackmenu7]]
 [[Test Backpack 12|backpackmenu12]]
-%/
+
 
 
 :: StoryInit [startup] {"position":"50,150","size":"100,100"}
-
 /* <<newinventory $backpack "Backpack">> */
 
-:: backpackmenu2 {"position":"1275,150","size":"100,100"}
-<<set $nextPassage to "Scene2A">>
-<<set $nextPassageString to "Leave the BREAKROOM">>
-<<goto "Backpack setup">>
-
-/* [[Leave the BREAKROOM|Scene2A]] */
-
-:: backpackmenu3 {"position":"950,700","size":"100,100"}
-<<set $nextPassage to "Scene3E">>
-<<set $nextPassageString to "Leave ERNESTO’S APARTMENT">>
-<<goto "Backpack setup">>
-
-/* [[Leave ERNESTO’S APARTMENT|Scene3E]] */
-
-:: backpackmenu4 {"position":"1000,950","size":"100,100"}
-<<set $nextPassage to "Scene5A">>
-<<set $nextPassageString to "Go to JAN'S CELLAR">>
-<<goto "Backpack setup">>
-
-/* \[[Go to JAN'S CELLAR|Scene5A]] */
-
-:: backpackmenu7 {"position":"1400,1550","size":"100,100"}
-<<set $nextPassage to "Scene8A">>
-<<set $nextPassageString to "Go to the STRIP MALL">>
-<<goto "Backpack setup">>
-
-/* \[[Go to the STRIP MALL|Scene8A]] */
 
 :: backpackmenu12 {"position":"1025,2500","size":"100,100"}
 <<set $nextPassage to "Scene12B">>
@@ -2036,50 +2053,37 @@ for Interactive Tragedy, Limited
 
 /* \[[Leave MA'S HOUSE|Scene12B]] */
 
-:: Backpack setup
-<<set $availableItems to []>>
-\<<if $romancand>><<run $availableItems.push("romancand")>><</if>>
-\<<if $lighterram>><<run $availableItems.push("lighterram")>><</if>>
-\<<if $lightergrt>><<run $availableItems.push("lightergrt")>><</if>>
-\<<if $matchbook>><<run $availableItems.push("matchbook")>><</if>>
-\<<if $lollipops>><<run $availableItems.push("lollipops")>><</if>>
-\<<if $fleacollar>><<run $availableItems.push("fleacollar")>><</if>>
-\<<if $fabreeze>><<run $availableItems.push("fabreeze")>><</if>>
-\<<if $cheetos>><<run $availableItems.push("cheetos")>><</if>>
-\<<if $cheetos2>><<run $availableItems.push("cheetos2")>><</if>>
-\<<if $bong>><<run $availableItems.push("bong")>><</if>>
-\<<if $pointer>><<run $availableItems.push("pointer")>><</if>>
-\<<if $spade>><<run $availableItems.push("spade")>><</if>>
-\<<if $trophy>><<run $availableItems.push("trophy")>><</if>>
-\<<if $burtreyn>><<run $availableItems.push("burtreyn")>><</if>>
-\<<if $jesterpant>><<run $availableItems.push("jesterpant")>><</if>>
-\<<if $baseball>><<run $availableItems.push("baseball")>><</if>>
-\<<if $lighterern>><<run $availableItems.push("lighterern")>><</if>>
-\<<if $cellphone>><<run $availableItems.push("cellphone")>><</if>>
-\<<if $cups>><<run $availableItems.push("cups")>><</if>>
-\<<if $cash401>><<run $availableItems.push("cash401")>><</if>>
-\<<if $cash1>><<run $availableItems.push("cash1")>><</if>>
-\<<if $smokes>><<run $availableItems.push("smokes")>><</if>>
-\<<if $jestervest>><<run $availableItems.push("jestervest")>><</if>>
-\<<if $orcking>><<run $availableItems.push("orcking")>><</if>>
-\<<if $dice>><<run $availableItems.push("dice")>><</if>>
-\<<if $shield>><<run $availableItems.push("shield")>><</if>>
-\<<if $papertow>><<run $availableItems.push("papertow")>><</if>>
 
-<div id="backpack-game-container">
-    <canvas id="backpack-canvas"></canvas>
-    <button id="reset-btn" class="game-btn secondary">Reset</button>
-    <button id="done-btn" class="game-btn primary" disabled>Done</button>
-</div>
+:: backpackmenu2 {"position":"1275,150","size":"100,100"}
+<<set $nextPassage to "Scene2A">>
+<<set $nextPassageString to "Leave the BREAKROOM">>
+<<goto "Backpack setup">>
 
-<<done>>
-<<script>>
-    // Start the game
-    setTimeout(function() {
-        BackpackMinigame.start(State.variables.availableItems);
-    }, 100);
-<</script>>
-<</done>>
+/* [[Leave the BREAKROOM|Scene2A]] */
+
+
+:: backpackmenu3 {"position":"950,700","size":"100,100"}
+<<set $nextPassage to "Scene3E">>
+<<set $nextPassageString to "Leave ERNESTO’S APARTMENT">>
+<<goto "Backpack setup">>
+
+/* [[Leave ERNESTO’S APARTMENT|Scene3E]] */
+
+
+:: backpackmenu4 {"position":"1000,950","size":"100,100"}
+<<set $nextPassage to "Scene5A">>
+<<set $nextPassageString to "Go to JAN'S CELLAR">>
+<<goto "Backpack setup">>
+
+/* \[[Go to JAN'S CELLAR|Scene5A]] */
+
+
+:: backpackmenu7 {"position":"1400,1550","size":"100,100"}
+<<set $nextPassage to "Scene8A">>
+<<set $nextPassageString to "Go to the STRIP MALL">>
+<<goto "Backpack setup">>
+
+/* \[[Go to the STRIP MALL|Scene8A]] */
 
 
 :: scrapped 9b {"position":"500,1925","size":"100,100"}
