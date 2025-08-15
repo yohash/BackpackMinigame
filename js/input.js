@@ -1,6 +1,6 @@
 /**
  * InputHandler - Manages all user input for the backpack game
- * UPDATED: Added hover tracking for object info display
+ * SCALED VERSION: Added coordinate remapping for responsive scaling
  */
 class InputHandler {
     constructor(canvas, game) {
@@ -45,36 +45,50 @@ class InputHandler {
     }
     
     /**
-     * Get mouse position relative to canvas
+     * Get mouse position relative to canvas, accounting for scaling
      */
     getMousePosition(event) {
         const rect = this.canvas.getBoundingClientRect();
-        const scaleX = this.canvas.width / rect.width;
-        const scaleY = this.canvas.height / rect.height;
+        
+        // Get position relative to the canvas element
+        const canvasX = event.clientX - rect.left;
+        const canvasY = event.clientY - rect.top;
+        
+        // The canvas fills its wrapper which maintains aspect ratio
+        // Convert from displayed size to internal game coordinates
+        const gameX = (canvasX / rect.width) * this.game.baseWidth;
+        const gameY = (canvasY / rect.height) * this.game.baseHeight;
         
         return {
-            x: (event.clientX - rect.left) * scaleX,
-            y: (event.clientY - rect.top) * scaleY
+            x: gameX,
+            y: gameY
         };
     }
     
     /**
-     * Get touch position relative to canvas
+     * Get touch position relative to canvas, accounting for scaling
      */
     getTouchPosition(event) {
         const rect = this.canvas.getBoundingClientRect();
         const touch = event.touches[0] || event.changedTouches[0];
-        const scaleX = this.canvas.width / rect.width;
-        const scaleY = this.canvas.height / rect.height;
+        
+        // Get position relative to the canvas element
+        const canvasX = touch.clientX - rect.left;
+        const canvasY = touch.clientY - rect.top;
+        
+        // The canvas fills its wrapper which maintains aspect ratio
+        // Convert from displayed size to internal game coordinates
+        const gameX = (canvasX / rect.width) * this.game.baseWidth;
+        const gameY = (canvasY / rect.height) * this.game.baseHeight;
         
         return {
-            x: (touch.clientX - rect.left) * scaleX,
-            y: (touch.clientY - rect.top) * scaleY
+            x: gameX,
+            y: gameY
         };
     }
     
     /**
-     * Find object at given position
+     * Find object at given position (in game coordinates)
      */
     getObjectAtPosition(x, y) {
         // Check objects in reverse order (top to bottom)
@@ -225,7 +239,7 @@ class InputHandler {
     }
     
     /**
-     * Update drag position
+     * Update drag position (in game coordinates)
      */
     updateDrag(position) {
         const obj = this.game.state.draggedObject;

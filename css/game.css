@@ -1,60 +1,114 @@
-/* Game-specific styles only - no Twine overrides */
+/* Backpack Minigame Styles - Direct Viewport Approach */
+/* Systematically override Twine's layout constraints */
 
-/* Game Container - fixed size, properly centered */
+/* =============================================== */
+/* DIRECT TWINE STRUCTURE OVERRIDE */
+/* =============================================== */
+
+/* Target ALL Twine layout containers and make them full-width when game is present */
+body:has(#backpack-game-container),
+body.backpack-active {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow-x: hidden !important;
+}
+
+/* Force Twine's main containers to full viewport width */
+body:has(#backpack-game-container) #passages,
+body:has(#backpack-game-container) #story,
+body.backpack-active #passages,
+body.backpack-active #story {
+    max-width: none !important;
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Force the specific passage containing the game to full width */
+body:has(#backpack-game-container) .passage,
+body.backpack-active .passage,
+.passage:has(#backpack-game-container),
+.passage.backpack-passage {
+    max-width: none !important;
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* Hide Twine UI when game is active */
+body:has(#backpack-game-container) #ui-bar,
+body.backpack-active #ui-bar {
+    display: none !important;
+}
+
+/* =============================================== */
+/* GAME CONTAINER - Simple Viewport Fill */
+/* =============================================== */
+
+/* Game Container - completely breaks out of document flow */
 #backpack-game-container {
     position: fixed;
-    width: 1640px;
-    height: 940px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    padding: 20px;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 80px;
+    background: black;
+    box-sizing: border-box;
+    z-index: 9999;
+    /* Center the game content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Canvas Container - maintains 16:9 ratio, fits in available space */
+.canvas-wrapper {
+    position: relative;
+    /* Calculate maximum size that fits viewport while maintaining aspect ratio */
+    width: min(calc(100vw - 40px), calc((100vh - 120px) * 16/9));
+    height: min(calc(100vh - 120px), calc((100vw - 40px) * 9/16));
+    display: block;
     box-sizing: border-box;
 }
 
-/* Canvas Styling - properly centered within container */
+/* Canvas - fills wrapper completely */
 #backpack-canvas {
-    display: block;
-    width: 1600px;
-    height: 900px;
-    border: 4px solid #4a5568;
-    border-radius: 8px;
-    background: #f7fafc;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*border: 4px solid #4a5568;
+    border-radius: 8px;*/
+    background: black;
     cursor: grab;
     image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-    /* Center perfectly within the 20px padding */
-    position: absolute;
-    top: 16px;
-    left: 16px;
+    box-sizing: border-box;
 }
 
 #backpack-canvas.dragging {
     cursor: grabbing;
 }
 
-/* UI Overlay */
-#ui-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: 10;
-}
+/* =============================================== */
+/* UI ELEMENTS - Positioned Relative to Viewport */
+/* =============================================== */
 
-#ui-overlay * {
-    pointer-events: auto;
-}
-
-/* Object Counter */
 #object-counter {
     position: absolute;
-    top: 20px;
+    top: 40px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(255, 255, 255, 0.95);
@@ -63,6 +117,8 @@
     font-weight: 600;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     color: #4a5568;
+    z-index: 10;
+    pointer-events: none;
 }
 
 #placed-count {
@@ -77,17 +133,10 @@
     color: #4a5568;
 }
 
-/* Game Controls */
-#game-controls {
+/* Control Buttons */
+#reset-btn,
+#done-btn {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
-    z-index: 15;
-}
-
-.game-btn {
     padding: 12px 24px;
     font-size: 16px;
     font-weight: 600;
@@ -97,83 +146,203 @@
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    z-index: 100;
+    pointer-events: auto;
 }
 
-.game-btn.primary {
+#reset-btn {
+    top: 40px;
+    left: 40px;
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+#reset-btn:hover {
+    background: #cbd5e0;
+    transform: translateY(-1px);
+}
+
+#done-btn {
+    top: 40px;
+    right: 40px;
     background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
     color: white;
     box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
 }
 
-.game-btn.primary:hover:not(:disabled) {
+#done-btn:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
 }
 
-.game-btn.primary:disabled {
+#done-btn:disabled {
     background: #cbd5e0;
     cursor: not-allowed;
     box-shadow: none;
 }
 
-.game-btn.secondary {
-    background: #e2e8f0;
-    color: #4a5568;
-}
+/* =============================================== */
+/* RESPONSIVE BREAKPOINTS */
+/* =============================================== */
 
-.game-btn.secondary:hover {
-    background: #cbd5e0;
-    transform: translateY(-1px);
-}
-
-/* Fixed positioning for buttons when in Twine */
-#backpack-game-container #reset-btn {
-    position: absolute !important;
-    top: 20px !important;
-    left: 20px !important;
-    z-index: 1000 !important;
-}
-
-#backpack-game-container #done-btn {
-    position: absolute !important;
-    top: 20px !important;
-    right: 20px !important;
-    z-index: 1000 !important;
-}
-
-/* Responsive Design - simplified since container is already responsive */
-@media (max-width: 768px) {
+/* Large screens - optimize for desktop */
+@media (min-width: 1200px) {
+    .canvas-wrapper {
+        width: min(calc(100vw - 80px), calc((100vh - 160px) * 16/9));
+        height: min(calc(100vh - 160px), calc((100vw - 80px) * 9/16));
+    }
+    
     #backpack-game-container {
-        margin: 10px auto;
-        border-radius: 8px;
+        padding: 40px;
+    }
+}
+
+/* Medium screens - tablets landscape */
+@media (max-width: 1199px) and (min-width: 768px) {
+    .canvas-wrapper {
+        width: min(calc(100vw - 40px), calc((100vh - 120px) * 16/9));
+        height: min(calc(100vh - 120px), calc((100vw - 40px) * 9/16));
+    }
+    
+    #backpack-game-container {
+        padding: 20px;
+    }
+    
+    #reset-btn,
+    #done-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    
+    #object-counter {
+        font-size: 0.95em;
+        padding: 8px 16px;
+    }
+}
+
+/* Small screens - tablets portrait and large phones */
+@media (max-width: 767px) and (min-width: 480px) {
+    .canvas-wrapper {
+        width: min(calc(100vw - 30px), calc((100vh - 100px) * 16/9));
+        height: min(calc(100vh - 100px), calc((100vw - 30px) * 9/16));
+    }
+    
+    #backpack-game-container {
+        padding: 15px;
+    }
+    
+    #reset-btn,
+    #done-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+        top: 30px;
+    }
+    
+    #reset-btn {
+        left: 30px;
+    }
+    
+    #done-btn {
+        right: 30px;
     }
     
     #object-counter {
         font-size: 0.9em;
-        padding: 8px 15px;
-        top: 10px;
-    }
-    
-    #game-controls {
-        bottom: 10px;
-        right: 10px;
-        left: 10px;
-        justify-content: center;
-    }
-    
-    .game-btn {
-        padding: 10px 20px;
-        font-size: 14px;
+        padding: 6px 12px;
+        top: 30px;
     }
 }
 
-@media (max-width: 480px) {
-    #game-controls {
-        flex-direction: column;
-        width: calc(100% - 20px);
+/* Mobile phones */
+@media (max-width: 479px) {
+    .canvas-wrapper {
+        width: min(calc(100vw - 20px), calc((100vh - 80px) * 16/9));
+        height: min(calc(100vh - 80px), calc((100vw - 20px) * 9/16));
     }
     
-    .game-btn {
-        width: 100%;
+    #backpack-game-container {
+        padding: 10px;
     }
+    
+    #reset-btn,
+    #done-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+        top: 20px;
+    }
+    
+    #reset-btn {
+        left: 20px;
+    }
+    
+    #done-btn {
+        right: 20px;
+    }
+    
+    #object-counter {
+        font-size: 0.8em;
+        padding: 4px 10px;
+        top: 20px;
+    }
+}
+
+/* =============================================== */
+/* BROWSER COMPATIBILITY FALLBACKS */
+/* =============================================== */
+
+/* For browsers without :has() support - requires manual class addition */
+@supports not selector(:has(*)) {
+    /* Apply the same overrides using .backpack-active class */
+    body.backpack-active {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow-x: hidden !important;
+    }
+    
+    body.backpack-active #passages,
+    body.backpack-active #story {
+        max-width: none !important;
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    body.backpack-active .passage,
+    .passage.backpack-active {
+        max-width: none !important;
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    
+    body.backpack-active #ui-bar {
+        display: none !important;
+    }
+}
+
+/* =============================================== */
+/* LOADING STATE */
+/* =============================================== */
+
+#backpack-game-container.loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+#backpack-game-container.loading::after {
+    content: "Loading...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #4a5568;
+    font-weight: 600;
 }

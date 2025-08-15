@@ -1,8 +1,7 @@
 ﻿/**
  * FINAL BUILD SCRIPT: Bundles the polished Backpack Minigame into Twine
+ * SCALED VERSION: Includes responsive scaling support
  * Run with: node build-twine-bundle.js
- * 
- * IMPORTANT: Replace js/game.js and js/input.js with the polished versions first!
  */
 
 const fs = require('fs');
@@ -17,16 +16,15 @@ const config = {
         'js/grid.js',
         'js/objects.js',
         'js/renderer.js',
-        'js/input.js',   // Use the polished version with hover tracking
-        'js/game.js'      // Use the polished version with UI updates
+        'js/input.js',   // Use the scaled version with coordinate remapping
+        'js/game.js'      // Use the scaled version with responsive support
     ],
     
     cssFiles: [
-        'css/game.css'
+        'css/game.css'    // Use the scaled version
     ],
 
     storyFile: 'twine/JansPortal.twee',
-//    storyFile: 'test/sample-scene.twee',
     
     // All sprite files to embed as base64
     spriteFiles: {
@@ -132,6 +130,15 @@ const ITEM_DATABASE = {
         color: 'hsl(80, 70%, 60%)',
         sprite: 'cheetos',
         description: 'Not even Flamin Hot'
+    },
+    'cheetos2': {
+        id: 'cheetos2',
+        name: 'Cheetos 2',
+        width: 1,
+        height: 2,
+        color: 'hsl(85, 70%, 60%)',
+        sprite: 'cheetos',
+        description: 'Another bag of Cheetos.'
     },
     'cups': {
         id: 'cups',
@@ -330,7 +337,7 @@ function imageToBase64(filepath) {
  * Main build function
  */
 async function build() {
-    console.log('🔨 Building Twine Bundle...\n');
+    console.log('🔨 Building Twine Bundle with Scaling Support...\n');
     
     // ================================
     // 1. COMBINE JAVASCRIPT
@@ -389,7 +396,7 @@ async function build() {
     // ================================
     // 4. CREATE TWEE FILE
     // ================================
-    console.log('\n  Importing story...');
+    console.log('\n📚 Importing story...');
     let story = '';
 
     if (fs.existsSync(config.storyFile)) {
@@ -405,11 +412,11 @@ async function build() {
 ${story}
 
 :: BackpackGameStyles [stylesheet]
-/* Embedded game styles */
+/* Embedded game styles with responsive scaling */
 ${cssContent}
 
 :: BackpackGameScript [script]
-/* Fixed Backpack Minigame with Scaling Support */
+/* Backpack Minigame with Responsive Scaling Support */
 (function() {
     'use strict';
     
@@ -429,6 +436,62 @@ ${cssContent}
     ${jsContent}
     
     // ================================
+    // HELPER FUNCTIONS FOR SCALING
+    // ================================
+    
+    /**
+     * Create wrapper div with proper aspect ratio
+     */
+    function createCanvasWrapper(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return false;
+        
+        // Check if wrapper already exists
+        if (canvas.parentElement && canvas.parentElement.classList.contains('canvas-wrapper')) {
+            return true;
+        }
+        
+        // Create wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'canvas-wrapper';
+        
+        // Insert wrapper and move canvas into it
+        canvas.parentNode.insertBefore(wrapper, canvas);
+        wrapper.appendChild(canvas);
+        
+        // Ensure canvas is positioned to fill wrapper
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        
+        return true;
+    }
+    
+    /**
+     * Ensure container has proper structure for responsive display
+     */
+    function prepareGameContainer() {
+        const container = document.getElementById('backpack-game-container');
+        if (!container) {
+            console.error('Backpack game container not found!');
+            return false;
+        }
+        
+        // Add loading class
+        container.classList.add('loading');
+        
+        // Ensure canvas has wrapper
+        if (!createCanvasWrapper('backpack-canvas')) {
+            console.error('Failed to create canvas wrapper');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // ================================
     // TWINE INTEGRATION
     // ================================
     window.BackpackMinigame = {
@@ -440,13 +503,19 @@ ${cssContent}
          * @returns {BackpackGame} Game instance
          */
         start: function(itemIds) {
-            console.log('Starting Backpack Minigame with items:', itemIds);
+            console.log('Starting Backpack Minigame with responsive scaling...');
+            console.log('Items:', itemIds);
+            
+            // Prepare container for responsive display
+            if (!prepareGameContainer()) {
+                console.error('Failed to prepare game container');
+                return null;
+            }
             
             // Convert item IDs to full objects with descriptions
             const objects = [];
             for (const id of itemIds) {
                 if (window.BACKPACK_ITEMS[id]) {
-                    // Make sure to include ALL properties including description
                     const itemData = window.BACKPACK_ITEMS[id];
                     objects.push({
                         id: itemData.id,
@@ -455,7 +524,7 @@ ${cssContent}
                         height: itemData.height,
                         color: itemData.color,
                         sprite: itemData.sprite,
-                        description: itemData.description || ''  // Ensure description is included
+                        description: itemData.description || ''
                     });
                 } else {
                     console.warn('Unknown item ID:', id);
@@ -483,24 +552,28 @@ ${cssContent}
                     State.variables.packedCount = Object.keys(placedObjects).length;
                     
                     // Navigate to next passage
-                    const nextPassage = /*State.variables.nextPassage ||*/ 'BackpackComplete';
+                    const nextPassage = 'BackpackComplete';
                     Engine.play(nextPassage);
                 }
             };
             
-            // Create game
+            // Clean up previous game if exists
+            if (this.currentGame) {
+                this.currentGame.endGame();
+                this.currentGame = null;
+            }
+            
+            // Create game with scaling support
             this.currentGame = new BackpackGame('backpack-canvas', config);
             this.currentGame.startGame();
             
-            // Set canvas to scale properly
-            const canvas = document.getElementById('backpack-canvas');
-            if (canvas) {
-                canvas.style.width = '100%';
-                canvas.style.height = 'auto';
-                canvas.style.maxWidth = '1600px';
-                canvas.style.display = 'block';
-                canvas.style.margin = '0 auto';
-            }
+            // Remove loading class after short delay
+            setTimeout(function() {
+                const container = document.getElementById('backpack-game-container');
+                if (container) {
+                    container.classList.remove('loading');
+                }
+            }, 500);
             
             return this.currentGame;
         },
@@ -513,8 +586,55 @@ ${cssContent}
                 this.currentGame.endGame();
                 this.currentGame = null;
             }
+        },
+        
+        /**
+         * Reset current game
+         */
+        reset: function() {
+            if (this.currentGame) {
+                this.currentGame.handleReset();
+            }
+        },
+        
+        /**
+         * Get current game state
+         */
+        getState: function() {
+            if (this.currentGame) {
+                return {
+                    placedObjects: this.currentGame.state.placedObjects,
+                    totalObjects: this.currentGame.state.objects.length,
+                    isRunning: this.currentGame.state.isRunning,
+                    scale: this.currentGame.scale
+                };
+            }
+            return null;
+        },
+        
+        /**
+         * Toggle fullscreen mode
+         */
+        toggleFullscreen: function() {
+            const container = document.getElementById('backpack-game-container');
+            if (container) {
+                container.classList.toggle('fullscreen');
+                if (this.currentGame) {
+                    // Trigger resize to recalculate scale
+                    this.currentGame.handleResize();
+                }
+            }
         }
     };
+    
+    // Listen for passage changes to clean up games
+    $(document).on(':passageend', function() {
+        // If we're leaving a passage with the game, clean it up
+        if (window.BackpackMinigame.currentGame && 
+            !document.getElementById('backpack-canvas')) {
+            window.BackpackMinigame.stop();
+        }
+    });
 })();
 `;
     
@@ -532,7 +652,7 @@ ${cssContent}
     console.log('1. Open Twine 2');
     console.log('2. Click "Import From File"');
     console.log('3. Select backpack-bundle.twee');
-    console.log('4. Your game is ready!\n');
+    console.log('4. Your game now has responsive scaling!\n');
 }
 
 // ================================
