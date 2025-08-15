@@ -590,17 +590,17 @@ class BackpackGame {
         const infoY = this.gridY + this.gridPixelHeight + 60;
         
         // Draw name (large)
-        this.ctx.font = 'bold 24px Arial';
+        this.ctx.font = 'bold 36px Arial';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'top';
-        this.ctx.fillStyle = '#2d3748';
-        this.ctx.fillText(objectToShow.name || objectToShow.id, infoX, infoY);
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.fillText(objectToShow.name || objectToShow.id, infoX, infoY + 20);
         
         // Draw description (small)
         if (objectToShow.description && objectToShow.description.length > 0) {
-            this.ctx.font = '16px Arial';
-            this.ctx.fillStyle = '#718096';
-            this.ctx.fillText(objectToShow.description, infoX, infoY + 30);
+            this.ctx.font = '24px Arial';
+            this.ctx.fillStyle = '#AAAAAA';
+            this.ctx.fillText(objectToShow.description, infoX, infoY + 80);
         }
     }
     

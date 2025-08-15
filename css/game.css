@@ -1,61 +1,97 @@
-/* Backpack Minigame Styles - Responsive Version */
-/* No Twine overrides - game-specific styles only */
+/* Backpack Minigame Styles - Direct Viewport Approach */
+/* Systematically override Twine's layout constraints */
 
-/* Game Container - responsive with flexbox for vertical centering */
+/* =============================================== */
+/* DIRECT TWINE STRUCTURE OVERRIDE */
+/* =============================================== */
+
+/* Target ALL Twine layout containers and make them full-width when game is present */
+body:has(#backpack-game-container),
+body.backpack-active {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow-x: hidden !important;
+}
+
+/* Force Twine's main containers to full viewport width */
+body:has(#backpack-game-container) #passages,
+body:has(#backpack-game-container) #story,
+body.backpack-active #passages,
+body.backpack-active #story {
+    max-width: none !important;
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Force the specific passage containing the game to full width */
+body:has(#backpack-game-container) .passage,
+body.backpack-active .passage,
+.passage:has(#backpack-game-container),
+.passage.backpack-passage {
+    max-width: none !important;
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* Hide Twine UI when game is active */
+body:has(#backpack-game-container) #ui-bar,
+body.backpack-active #ui-bar {
+    display: none !important;
+}
+
+/* =============================================== */
+/* GAME CONTAINER - Simple Viewport Fill */
+/* =============================================== */
+
+/* Game Container - completely breaks out of document flow */
 #backpack-game-container {
-    position: relative;
-    width: 100%;
-    max-width: 1640px;
-    min-height: 500px; /* Ensure minimum height for vertical centering */
-    margin: 0 auto;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 80px;
+    background: black;
     box-sizing: border-box;
-    /* Use flexbox to center the wrapper vertically */
+    z-index: 9999;
+    /* Center the game content */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-/* For Twine integration - ensure proper centering in passages */
-.passage #backpack-game-container {
-    margin: 20px auto;
-}
-
-/* Canvas Container - maintains aspect ratio and centers content */
+/* Canvas Container - maintains 16:9 ratio, fits in available space */
 .canvas-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 1600px;
-    /* Use aspect-ratio property for better performance */
-    aspect-ratio: 16 / 9;
-    /* Ensure the wrapper takes up its calculated space */
+    /* Calculate maximum size that fits viewport while maintaining aspect ratio */
+    width: min(calc(100vw - 40px), calc((100vh - 120px) * 16/9));
+    height: min(calc(100vh - 120px), calc((100vw - 40px) * 9/16));
     display: block;
+    box-sizing: border-box;
 }
 
-/* Fallback for browsers without aspect-ratio support */
-@supports not (aspect-ratio: 16 / 9) {
-    .canvas-wrapper {
-        padding-bottom: 56.25%; /* 16:9 aspect ratio */
-        height: 0;
-    }
-}
-
-/* Canvas Styling - fills parent completely */
+/* Canvas - fills wrapper completely */
 #backpack-canvas {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border: 4px solid #4a5568;
-    border-radius: 8px;
-    background: #f7fafc;
+    /*border: 4px solid #4a5568;
+    border-radius: 8px;*/
+    background: black;
     cursor: grab;
-    /* Use pixelated for pixel art sprites */
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
@@ -66,7 +102,10 @@
     cursor: grabbing;
 }
 
-/* UI Elements - positioned relative to game container, not wrapper */
+/* =============================================== */
+/* UI ELEMENTS - Positioned Relative to Viewport */
+/* =============================================== */
+
 #object-counter {
     position: absolute;
     top: 40px;
@@ -94,7 +133,7 @@
     color: #4a5568;
 }
 
-/* Control Buttons - positioned absolute to game container */
+/* Control Buttons */
 #reset-btn,
 #done-btn {
     position: absolute;
@@ -142,11 +181,31 @@
     box-shadow: none;
 }
 
-/* Responsive adjustments for medium screens */
-@media (max-width: 1200px) {
+/* =============================================== */
+/* RESPONSIVE BREAKPOINTS */
+/* =============================================== */
+
+/* Large screens - optimize for desktop */
+@media (min-width: 1200px) {
+    .canvas-wrapper {
+        width: min(calc(100vw - 80px), calc((100vh - 160px) * 16/9));
+        height: min(calc(100vh - 160px), calc((100vw - 80px) * 9/16));
+    }
+    
     #backpack-game-container {
-        margin: 15px;
-        padding: 15px;
+        padding: 40px;
+    }
+}
+
+/* Medium screens - tablets landscape */
+@media (max-width: 1199px) and (min-width: 768px) {
+    .canvas-wrapper {
+        width: min(calc(100vw - 40px), calc((100vh - 120px) * 16/9));
+        height: min(calc(100vh - 120px), calc((100vw - 40px) * 9/16));
+    }
+    
+    #backpack-game-container {
+        padding: 20px;
     }
     
     #reset-btn,
@@ -161,13 +220,15 @@
     }
 }
 
-/* Responsive adjustments for tablets */
-@media (max-width: 768px) {
+/* Small screens - tablets portrait and large phones */
+@media (max-width: 767px) and (min-width: 480px) {
+    .canvas-wrapper {
+        width: min(calc(100vw - 30px), calc((100vh - 100px) * 16/9));
+        height: min(calc(100vh - 100px), calc((100vw - 30px) * 9/16));
+    }
+    
     #backpack-game-container {
-        margin: 10px;
         padding: 15px;
-        border-radius: 8px;
-        min-height: 400px;
     }
     
     #reset-btn,
@@ -190,20 +251,17 @@
         padding: 6px 12px;
         top: 30px;
     }
-    
-    #placed-count,
-    #total-count {
-        font-size: 1.1em;
-    }
 }
 
-/* Responsive adjustments for mobile */
-@media (max-width: 480px) {
+/* Mobile phones */
+@media (max-width: 479px) {
+    .canvas-wrapper {
+        width: min(calc(100vw - 20px), calc((100vh - 80px) * 16/9));
+        height: min(calc(100vh - 80px), calc((100vw - 20px) * 9/16));
+    }
+    
     #backpack-game-container {
-        margin: 5px;
         padding: 10px;
-        border-radius: 6px;
-        min-height: 300px;
     }
     
     #reset-btn,
@@ -228,34 +286,51 @@
     }
 }
 
-/* Ensure proper stacking in Twine passages */
-.passage {
-    position: relative;
+/* =============================================== */
+/* BROWSER COMPATIBILITY FALLBACKS */
+/* =============================================== */
+
+/* For browsers without :has() support - requires manual class addition */
+@supports not selector(:has(*)) {
+    /* Apply the same overrides using .backpack-active class */
+    body.backpack-active {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow-x: hidden !important;
+    }
+    
+    body.backpack-active #passages,
+    body.backpack-active #story {
+        max-width: none !important;
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    body.backpack-active .passage,
+    .passage.backpack-active {
+        max-width: none !important;
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    
+    body.backpack-active #ui-bar {
+        display: none !important;
+    }
 }
 
-/* Fullscreen mode support */
-#backpack-game-container.fullscreen {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(95vw, 1640px);
-    height: min(95vh, 940px);
-    max-width: none;
-    z-index: 9999;
-}
+/* =============================================== */
+/* LOADING STATE */
+/* =============================================== */
 
-/* Hide Twine UI elements when game is active (optional) */
-.backpack-active {
-    max-width: 100%;
-    width: 100%;
-}
-
-.backpack-active #ui-bar {
-    display: none;
-}
-
-/* Loading state */
 #backpack-game-container.loading {
     opacity: 0.5;
     pointer-events: none;
