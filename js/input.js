@@ -1,6 +1,7 @@
 /**
  * InputHandler - Manages all user input for the backpack game
  * SCALED VERSION: Added coordinate remapping for responsive scaling
+ * PERSISTENCE VERSION: Track all pixel positions for memory
  */
 class InputHandler {
     constructor(canvas, game) {
@@ -240,6 +241,7 @@ class InputHandler {
     
     /**
      * Update drag position (in game coordinates)
+     * MODIFIED: Always update pixel positions for memory tracking
      */
     updateDrag(position) {
         const obj = this.game.state.draggedObject;
@@ -248,10 +250,13 @@ class InputHandler {
         // Update object position (centered on cursor with offset)
         obj.pixelX = position.x - this.game.state.dragOffset.x;
         obj.pixelY = position.y - this.game.state.dragOffset.y;
+        
+        // These pixel positions will be remembered even if not placed in grid
     }
     
     /**
      * End drag operation
+     * MODIFIED: Track final pixel positions for memory
      */
     endDrag(position) {
         const obj = this.game.state.draggedObject;
@@ -301,8 +306,9 @@ class InputHandler {
                 console.log(`Failed to place ${obj.name} in backpack - returning to original position`);
             }
         } else {
-            // Object is outside grid - leave it where it is
-            console.log(`${obj.name} placed outside backpack at (${obj.pixelX}, ${obj.pixelY})`);
+            // Object is outside grid - it stays in staging area
+            // The current pixelX and pixelY are already set and will be remembered
+            console.log(`${obj.name} placed in staging area at (${obj.pixelX}, ${obj.pixelY})`);
         }
         
         // Clear drag state
@@ -339,6 +345,7 @@ class InputHandler {
         obj.isPlaced = false;
         obj.gridX = -1;
         obj.gridY = -1;
+        // Keep pixelX and pixelY - they're already correct for dragging
         
         // Remove from placed objects list
         const index = this.game.state.placedObjects.indexOf(obj);

@@ -1,6 +1,7 @@
 /**
  * BackpackGame - Main game controller
  * SCALED VERSION: Added responsive scaling with coordinate remapping
+ * PERSISTENCE VERSION: Added full position memory support
  */
 class BackpackGame {
     constructor(canvasId, config) {
@@ -31,7 +32,8 @@ class BackpackGame {
                 [0, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1],
                 [1, 1, 1, 1, 1]
-            ]
+            ],
+            memoryData: {} // Add memory data to config
         };
         
         // Apply user config on top of defaults
@@ -192,8 +194,9 @@ class BackpackGame {
      * Initialize and start the game
      */
     startGame() {
-        console.log('Starting Backpack Game...');
+        console.log('Starting Backpack Game with persistence...');
         console.log('Grid offsets - X:', this.config.gridXOffset, 'Y:', this.config.gridYOffset);
+        console.log('Memory data:', this.config.memoryData);
         
         // Ensure canvas is properly set up first
         this.updateCanvasSize();
@@ -206,7 +209,10 @@ class BackpackGame {
             // Set up initial game state
             this.createGameState();
             
-            // Position objects in staging area
+            // Apply memory data to restore previous positions
+            this.applyMemoryData();
+            
+            // Position objects in staging area (only those without memory)
             this.positionStagingObjects();
             
             // Set up UI
@@ -219,7 +225,7 @@ class BackpackGame {
             this.state.isRunning = true;
             this.gameLoop();
             
-            console.log('Game started successfully!');
+            console.log('Game started successfully with persistence!');
         }).catch(error => {
             console.error('Failed to start game:', error);
         });
@@ -304,7 +310,7 @@ class BackpackGame {
         // Initialize objects from config
         this.state.objects = this.config.objects.map(objData => ({
             ...objData,
-            id: objData.id || Math.random().toString(36).substr(2, 9),
+            id: objData.id || Math.random().toString(36).substring(2, 9),
             isPlaced: false,
             gridX: -1,
             gridY: -1,
@@ -312,11 +318,64 @@ class BackpackGame {
             pixelY: 0,
             width: objData.width || 1,
             height: objData.height || 1,
+            rotation: 0, // Add rotation field
             description: objData.description || ''
         }));
         
         // Update UI counters
         this.updateObjectCounter();
+    }
+    
+    /**
+     * Apply memory data to restore previous positions
+     */
+    applyMemoryData() {
+        if (!this.config.memoryData || Object.keys(this.config.memoryData).length === 0) {
+            console.log('No memory data to apply');
+            return;
+        }
+        
+        console.log('Applying memory data to objects...');
+        
+        this.state.objects.forEach(obj => {
+            const memory = this.config.memoryData[obj.id];
+            if (memory) {
+                console.log(`Restoring position for ${obj.id}:`, memory);
+                
+                // Apply memory data
+                obj.gridX = memory.gridX;
+                obj.gridY = memory.gridY;
+                obj.pixelX = memory.pixelX;
+                obj.pixelY = memory.pixelY;
+                obj.rotation = memory.rotation || 0;
+                obj.isPlaced = memory.isPlaced;
+                
+                // If it was placed in the grid, restore grid state
+                if (obj.isPlaced && obj.gridX >= 0 && obj.gridY >= 0) {
+                    // Mark grid cells as occupied
+                    for (let y = 0; y < obj.height; y++) {
+                        for (let x = 0; x < obj.width; x++) {
+                            if (this.state.grid[obj.gridY + y] && 
+                                this.state.grid[obj.gridY + y][obj.gridX + x] !== 'blocked') {
+                                this.state.grid[obj.gridY + y][obj.gridX + x] = obj.id;
+                            }
+                        }
+                    }
+                    
+                    // Add to placed objects list
+                    this.state.placedObjects.push(obj);
+                    
+                    // Make sure pixel position matches grid position
+                    const pixelPos = this.gridToPixel(obj.gridX, obj.gridY);
+                    obj.pixelX = pixelPos.x;
+                    obj.pixelY = pixelPos.y;
+                }
+            }
+        });
+        
+        // Update UI after applying memory
+        this.updateObjectCounter();
+        this.checkContinueButton();
     }
     
     /**
@@ -342,9 +401,20 @@ class BackpackGame {
     
     /**
      * Position objects in staging area around backpack
+     * MODIFIED: Only position objects without memory data
      */
     positionStagingObjects() {
-        const unplacedObjects = this.state.objects.filter(obj => !obj.isPlaced);
+        // Only position objects that don't have memory positions
+        const unplacedObjects = this.state.objects.filter(obj => {
+            const hasMemory = this.config.memoryData && this.config.memoryData[obj.id];
+            return !obj.isPlaced && !hasMemory;
+        });
+        
+        if (unplacedObjects.length === 0) {
+            console.log('All objects have memory positions, skipping staging');
+            return;
+        }
+        
         const objectSpacing = 20;
         
         // Distribute objects around the canvas edges with more space
@@ -380,6 +450,41 @@ class BackpackGame {
                 }
             }
         });
+    }
+    
+    /**
+     * Build memory snapshot of current state
+     */
+    buildMemorySnapshot() {
+        const memory = {};
+        
+        this.state.objects.forEach(obj => {
+            memory[obj.id] = {
+                gridX: obj.gridX,
+                gridY: obj.gridY,
+                pixelX: obj.pixelX,
+                pixelY: obj.pixelY,
+                rotation: obj.rotation || 0,
+                isPlaced: obj.isPlaced
+            };
+        });
+        
+        return memory;
+    }
+    
+    /**
+     * Save memory to Twine variables
+     */
+    saveMemoryToTwine() {
+        const memory = this.buildMemorySnapshot();
+        
+        // Update Twine variables if available
+        if (window.SugarCube && window.SugarCube.State) {
+            window.SugarCube.State.variables.backpackMemory = memory;
+            console.log('Saved memory to Twine:', memory);
+        }
+        
+        return memory;
     }
     
     /**
@@ -871,29 +976,44 @@ class BackpackGame {
     
     /**
      * Handle continue button click
+     * MODIFIED: Save memory data when game ends
      */
     handleContinue() {
+        // Save memory snapshot
+        const memory = this.saveMemoryToTwine();
+        
         const placedData = {};
         this.state.placedObjects.forEach(obj => {
             placedData[obj.id] = true;
         });
         
-        console.log('Game completed with placed objects:', placedData);
+        console.log('Game completed with memory saved:', memory);
+        console.log('Placed objects:', placedData);
         
         if (this.config.onComplete) {
-            this.config.onComplete(placedData);
+            this.config.onComplete(placedData, memory);
         }
         
         // Send to Twine if integrated
         if (window.SugarCube && window.SugarCube.State) {
             window.SugarCube.State.variables.packedItems = placedData;
+            // Memory already saved in saveMemoryToTwine()
         }
     }
     
     /**
      * Handle reset button click
+     * MODIFIED: Options for soft reset (keep memory) vs hard reset
      */
-    handleReset() {
+    handleReset(hardReset = false) {
+        if (hardReset) {
+            // Clear memory completely
+            if (window.SugarCube && window.SugarCube.State) {
+                window.SugarCube.State.variables.backpackMemory = {};
+            }
+            this.config.memoryData = {};
+        }
+        
         // Clear grid (respecting mask)
         this.state.grid = this.createGrid(
             this.config.backpackWidth,
@@ -940,7 +1060,10 @@ class BackpackGame {
             this.config.backpackHeight
         );
         
-        // Reposition objects
+        // Apply memory for objects that exist
+        this.applyMemoryData();
+        
+        // Reposition objects without memory
         this.positionStagingObjects();
         
         // Update UI
