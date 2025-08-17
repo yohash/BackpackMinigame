@@ -51,7 +51,7 @@ const config = {
         'papertow': 'assets/sprites/papertow.png',
         'pointer': 'assets/sprites/pointer.png',
         'romancand': 'assets/sprites/romancand.png',
-        'shield': 'assets/sprites/sheild.png',
+        'shield': 'assets/sprites/shield.png',
         'smokes': 'assets/sprites/smokes.png',
         'spade': 'assets/sprites/spade.png',
         'trophy': 'assets/sprites/trophy.png',
@@ -490,9 +490,9 @@ ${cssContent}
         
         return true;
     }
-    
+
     // ================================
-    // TWINE INTEGRATION
+    // TWINE INTEGRATION WITH PERSISTENCE
     // ================================
     window.BackpackMinigame = {
         currentGame: null,
@@ -500,11 +500,13 @@ ${cssContent}
         /**
          * Start game with item IDs from Twine variables
          * @param {string[]} itemIds - Array of item ID strings
+         * @param {Object} memoryData - Optional memory data for persistence
          * @returns {BackpackGame} Game instance
          */
-        start: function(itemIds) {
-            console.log('Starting Backpack Minigame with responsive scaling...');
+        start: function(itemIds, memoryData) {
+            console.log('Starting Backpack Minigame with responsive scaling and persistence...');
             console.log('Items:', itemIds);
+            console.log('Memory data:', memoryData);
             
             // Prepare container for responsive display
             if (!prepareGameContainer()) {
@@ -531,7 +533,7 @@ ${cssContent}
                 }
             }
             
-            // Build config
+            // Build config with memory support
             const config = {
                 backpackWidth: 5,
                 backpackHeight: 5,
@@ -546,10 +548,12 @@ ${cssContent}
                 ],
                 objects: objects,
                 sprites: window.BACKPACK_SPRITES,
-                onComplete: function(placedObjects) {
+                memoryData: memoryData || {}, // Add memory data to config
+                onComplete: function(placedObjects, memory) {
                     // Store results in Twine variables
                     State.variables.packedItems = Object.keys(placedObjects);
                     State.variables.packedCount = Object.keys(placedObjects).length;
+                    State.variables.backpackMemory = memory; // Store memory data
                     
                     // Navigate to next passage
                     const nextPassage = 'BackpackComplete';
@@ -563,7 +567,7 @@ ${cssContent}
                 this.currentGame = null;
             }
             
-            // Create game with scaling support
+            // Create game with scaling and persistence support
             this.currentGame = new BackpackGame('backpack-canvas', config);
             this.currentGame.startGame();
             
@@ -590,10 +594,11 @@ ${cssContent}
         
         /**
          * Reset current game
+         * @param {boolean} hardReset - If true, clears memory too
          */
-        reset: function() {
+        reset: function(hardReset) {
             if (this.currentGame) {
-                this.currentGame.handleReset();
+                this.currentGame.handleReset(hardReset);
             }
         },
         
@@ -606,7 +611,8 @@ ${cssContent}
                     placedObjects: this.currentGame.state.placedObjects,
                     totalObjects: this.currentGame.state.objects.length,
                     isRunning: this.currentGame.state.isRunning,
-                    scale: this.currentGame.scale
+                    scale: this.currentGame.scale,
+                    memory: this.currentGame.buildMemorySnapshot()
                 };
             }
             return null;
