@@ -51,7 +51,7 @@ const config = {
         'papertow': 'assets/sprites/papertow.png',
         'pointer': 'assets/sprites/pointer.png',
         'romancand': 'assets/sprites/romancand.png',
-        'shield': 'assets/sprites/sheild.png',
+        'shield': 'assets/sprites/shield.png',
         'smokes': 'assets/sprites/smokes.png',
         'spade': 'assets/sprites/spade.png',
         'trophy': 'assets/sprites/trophy.png',
