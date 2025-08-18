@@ -1,4 +1,4 @@
-﻿/**
+/**
  * FINAL BUILD SCRIPT: Bundles the polished Backpack Minigame into Twine
  * SCALED VERSION: Includes responsive scaling support
  * SHAPES VERSION: Added support for irregular object shapes
@@ -80,7 +80,7 @@ const ITEM_DATABASE = {
     },
     'bong': {
         id: 'bong',
-        name: 'Bong',
+        name: 'Your Bong',
         width: 2,
         height: 4,
         shape: [
@@ -91,7 +91,7 @@ const ITEM_DATABASE = {
         ],
         color: 'hsl(20, 70%, 60%)',
         sprite: 'bong',
-        description: 'Purple haze, man'
+        description: 'The original heavy hitter'
     },
     'burtreyn': {
         id: 'burtreyn',
@@ -122,7 +122,7 @@ const ITEM_DATABASE = {
     },
     'cellphone': {
         id: 'cellphone',
-        name: 'Cell Phone',
+        name: 'Your Cell Phone',
         width: 1,
         height: 2,
         color: 'hsl(60, 70%, 60%)',
@@ -136,7 +136,7 @@ const ITEM_DATABASE = {
         height: 2,
         color: 'hsl(80, 70%, 60%)',
         sprite: 'cheetos',
-        description: 'Not even Flamin Hot'
+        description: 'Not even Flamin\' Hot'
     },
     'cheetos2': {
         id: 'cheetos2',
@@ -185,7 +185,7 @@ const ITEM_DATABASE = {
     },
     'jesterpant': {
         id: 'jesterpant',
-        name: 'Jester Pants',
+        name: 'Your Jester Pants',
         width: 3,
         height: 1,
         color: 'hsl(130, 70%, 60%)',
@@ -194,7 +194,7 @@ const ITEM_DATABASE = {
     },
     'jestervest': {
         id: 'jestervest',
-        name: 'Jester Vest',
+        name: 'Your Jester Vest',
         width: 3,
         height: 1,
         color: 'hsl(180, 70%, 60%)',
@@ -203,16 +203,16 @@ const ITEM_DATABASE = {
     },
     'lighterern': {
         id: 'lighterern',
-        name: 'Lighter',
+        name: 'Ernesto\'s Lighter',
         width: 1,
         height: 1,
         color: 'hsl(200, 70%, 60%)',
         sprite: 'lighterern',
-        description: 'You ganked it from Ernesto'
+        description: 'You ganked it from him'
     },
     'lightergrt': {
         id: 'lightergrt',
-        name: 'Lighter',
+        name: 'Batwing Lighter',
         width: 1,
         height: 1,
         color: 'hsl(220, 70%, 60%)',
@@ -221,12 +221,12 @@ const ITEM_DATABASE = {
     },
     'lighterram': {
         id: 'lighterram',
-        name: 'Lighter',
+        name: 'Rambo\'s Lighter',
         width: 1,
         height: 1,
         color: 'hsl(240, 70%, 60%)',
         sprite: 'lighterram',
-        description: 'This one is from Rambo'
+        description: 'Built tough. Unlike you'
     },
     'lollipops': {
         id: 'lollipops',
@@ -293,12 +293,12 @@ const ITEM_DATABASE = {
     },
     'smokes': {
         id: 'smokes',
-        name: 'Cigarettes',
+        name: 'Pack of Smokes',
         width: 1,
         height: 2,
         color: 'hsl(60, 70%, 60%)',
         sprite: 'smokes',
-        description: 'Pack of smokes belonging to Greta.'
+        description: 'Greta doesn\'t smoke lights'
     },
     'spade': {
         id: 'spade',
