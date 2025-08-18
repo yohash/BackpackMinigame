@@ -1,6 +1,7 @@
 ﻿/**
  * FINAL BUILD SCRIPT: Bundles the polished Backpack Minigame into Twine
  * SCALED VERSION: Includes responsive scaling support
+ * SHAPES VERSION: Added support for irregular object shapes
  * Run with: node build-twine-bundle.js
  */
 
@@ -65,7 +66,7 @@ const config = {
 };
 
 // ================================
-// UPDATED ITEM DATABASE FROM test-data.js
+// UPDATED ITEM DATABASE WITH SHAPE SUPPORT
 // ================================
 const ITEM_DATABASE = {
     'baseball': {
@@ -82,6 +83,12 @@ const ITEM_DATABASE = {
         name: 'Bong',
         width: 2,
         height: 4,
+        shape: [
+            [1, 0],
+            [1, 0],
+            [1, 1],
+            [1, 1]
+        ],
         color: 'hsl(20, 70%, 60%)',
         sprite: 'bong',
         description: 'Purple haze, man'
@@ -337,13 +344,53 @@ function imageToBase64(filepath) {
  * Main build function
  */
 async function build() {
-    console.log('🔨 Building Twine Bundle with Scaling Support...\n');
+    console.log('🔨 Building Twine Bundle with Scaling and Shape Support...\n');
     
     // ================================
     // 1. COMBINE JAVASCRIPT
     // ================================
     console.log('📦 Combining JavaScript files...');
     let jsContent = '';
+    
+    // Add shape utility functions at the beginning
+    jsContent += `
+    // ================================
+    // SHAPE UTILITIES
+    // ================================
+    
+    /**
+     * Generate a rectangular shape grid from width and height
+     */
+    function generateRectangularShape(width, height) {
+        const shape = [];
+        for (let y = 0; y < height; y++) {
+            const row = [];
+            for (let x = 0; x < width; x++) {
+                row.push(1);
+            }
+            shape.push(row);
+        }
+        return shape;
+    }
+    
+    /**
+     * Normalize an object to ensure it has a shape property
+     */
+    function normalizeObjectShape(obj) {
+        if (!obj.shape) {
+            // Generate shape from width and height
+            obj.shape = generateRectangularShape(obj.width, obj.height);
+        }
+        
+        // Ensure width and height match shape dimensions
+        if (obj.shape && obj.shape.length > 0) {
+            obj.height = obj.shape.length;
+            obj.width = obj.shape[0].length;
+        }
+        
+        return obj;
+    }
+    `;
     
     for (const file of config.jsFiles) {
         if (fs.existsSync(file)) {
@@ -514,20 +561,23 @@ ${cssContent}
                 return null;
             }
             
-            // Convert item IDs to full objects with descriptions
+            // Convert item IDs to full objects with descriptions and shapes
             const objects = [];
             for (const id of itemIds) {
                 if (window.BACKPACK_ITEMS[id]) {
                     const itemData = window.BACKPACK_ITEMS[id];
-                    objects.push({
+                    // Normalize shape data
+                    const normalizedItem = normalizeObjectShape({
                         id: itemData.id,
                         name: itemData.name,
                         width: itemData.width,
                         height: itemData.height,
+                        shape: itemData.shape,
                         color: itemData.color,
                         sprite: itemData.sprite,
                         description: itemData.description || ''
                     });
+                    objects.push(normalizedItem);
                 } else {
                     console.warn('Unknown item ID:', id);
                 }
@@ -658,7 +708,7 @@ ${cssContent}
     console.log('1. Open Twine 2');
     console.log('2. Click "Import From File"');
     console.log('3. Select backpack-bundle.twee');
-    console.log('4. Your game now has responsive scaling!\n');
+    console.log('4. Your game now has shape support!\n');
 }
 
 // ================================

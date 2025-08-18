@@ -2,6 +2,7 @@
  * BackpackGame - Main game controller
  * SCALED VERSION: Added responsive scaling with coordinate remapping
  * PERSISTENCE VERSION: Added full position memory support
+ * SHAPES VERSION: Added support for irregular object shapes
  */
 class BackpackGame {
     constructor(canvasId, config) {
@@ -57,7 +58,8 @@ class BackpackGame {
             feedbackType: 'info',
             backpackNativeWidth: 0,
             backpackNativeHeight: 0,
-            hoveredObject: null
+            hoveredObject: null,
+            shapeOverlayState: null // Track overlay state: 'hover', 'dragging', 'valid', 'invalid'
         };
         
         // Calculate base grid dimensions (at 1:1 scale)
@@ -86,6 +88,31 @@ class BackpackGame {
         
         // Set up resize listener
         window.addEventListener('resize', this.handleResize);
+    }
+    
+    /**
+     * Normalize object shape - ensure it has a shape grid
+     */
+    normalizeObjectShape(obj) {
+        if (!obj.shape) {
+            // Generate rectangular shape from width and height
+            obj.shape = [];
+            for (let y = 0; y < obj.height; y++) {
+                const row = [];
+                for (let x = 0; x < obj.width; x++) {
+                    row.push(1);
+                }
+                obj.shape.push(row);
+            }
+        }
+        
+        // Ensure width and height match shape
+        if (obj.shape && obj.shape.length > 0) {
+            obj.height = obj.shape.length;
+            obj.width = obj.shape[0].length;
+        }
+        
+        return obj;
     }
     
     /**
@@ -307,20 +334,25 @@ class BackpackGame {
             this.config.backpackHeight
         );
         
-        // Initialize objects from config
-        this.state.objects = this.config.objects.map(objData => ({
-            ...objData,
-            id: objData.id || Math.random().toString(36).substring(2, 9),
-            isPlaced: false,
-            gridX: -1,
-            gridY: -1,
-            pixelX: 0,
-            pixelY: 0,
-            width: objData.width || 1,
-            height: objData.height || 1,
-            rotation: 0, // Add rotation field
-            description: objData.description || ''
-        }));
+        // Initialize objects from config and normalize shapes
+        this.state.objects = this.config.objects.map(objData => {
+            const normalized = this.normalizeObjectShape({
+                ...objData,
+                id: objData.id || Math.random().toString(36).substring(2, 9),
+                isPlaced: false,
+                gridX: -1,
+                gridY: -1,
+                pixelX: 0,
+                pixelY: 0,
+                width: objData.width || 1,
+                height: objData.height || 1,
+                shape: objData.shape,
+                rotation: 0,
+                description: objData.description || ''
+            });
+            
+            return normalized;
+        });
         
         // Update UI counters
         this.updateObjectCounter();
@@ -350,17 +382,10 @@ class BackpackGame {
                 obj.rotation = memory.rotation || 0;
                 obj.isPlaced = memory.isPlaced;
                 
-                // If it was placed in the grid, restore grid state
+                // If it was placed in the grid, restore grid state with shape
                 if (obj.isPlaced && obj.gridX >= 0 && obj.gridY >= 0) {
-                    // Mark grid cells as occupied
-                    for (let y = 0; y < obj.height; y++) {
-                        for (let x = 0; x < obj.width; x++) {
-                            if (this.state.grid[obj.gridY + y] && 
-                                this.state.grid[obj.gridY + y][obj.gridX + x] !== 'blocked') {
-                                this.state.grid[obj.gridY + y][obj.gridX + x] = obj.id;
-                            }
-                        }
-                    }
+                    // Mark grid cells as occupied using shape
+                    this.markGridCellsWithShape(obj, obj.gridX, obj.gridY, true);
                     
                     // Add to placed objects list
                     this.state.placedObjects.push(obj);
@@ -376,6 +401,25 @@ class BackpackGame {
         // Update UI after applying memory
         this.updateObjectCounter();
         this.checkContinueButton();
+    }
+    
+    /**
+     * Mark or unmark grid cells based on object shape
+     */
+    markGridCellsWithShape(obj, gridX, gridY, mark = true) {
+        for (let y = 0; y < obj.shape.length; y++) {
+            for (let x = 0; x < obj.shape[y].length; x++) {
+                if (obj.shape[y][x] === 1) {
+                    const cellY = gridY + y;
+                    const cellX = gridX + x;
+                    
+                    if (this.state.grid[cellY] && 
+                        this.state.grid[cellY][cellX] !== 'blocked') {
+                        this.state.grid[cellY][cellX] = mark ? obj.id : null;
+                    }
+                }
+            }
+        }
     }
     
     /**
@@ -516,11 +560,41 @@ class BackpackGame {
         // Clear canvas
         this.ctx.clearRect(0, 0, this.baseWidth, this.baseHeight);
         
+        // Update shape overlay state
+        this.updateShapeOverlayState();
+        
         // Render game at base resolution
         this.render();
         
         // Continue loop
         requestAnimationFrame(this.gameLoop);
+    }
+    
+    /**
+     * Update shape overlay state based on current interaction
+     */
+    updateShapeOverlayState() {
+        if (this.state.isDragging && this.state.draggedObject) {
+            // Check if current position is valid
+            const obj = this.state.draggedObject;
+            const snapX = obj.pixelX + this.config.cellSize / 2;
+            const snapY = obj.pixelY + this.config.cellSize / 2;
+            const gridPos = this.pixelToGrid(snapX, snapY);
+            
+            // Clamp to valid grid bounds
+            const clampedX = Math.max(0, Math.min(gridPos.x, this.config.backpackWidth - obj.width));
+            const clampedY = Math.max(0, Math.min(gridPos.y, this.config.backpackHeight - obj.height));
+            
+            if (this.isValidPlacementWithShape(clampedX, clampedY, obj)) {
+                this.state.shapeOverlayState = 'valid';
+            } else {
+                this.state.shapeOverlayState = 'invalid';
+            }
+        } else if (this.state.hoveredObject) {
+            this.state.shapeOverlayState = 'hover';
+        } else {
+            this.state.shapeOverlayState = null;
+        }
     }
     
     /**
@@ -547,11 +621,16 @@ class BackpackGame {
         // Draw unplaced objects
         this.state.objects.filter(obj => !obj.isPlaced && obj !== this.state.draggedObject).forEach(obj => {
             this.drawObject(obj);
+            // Draw shape overlay for hovered objects
+            if (obj === this.state.hoveredObject && this.state.shapeOverlayState === 'hover') {
+                this.drawShapeOverlay(obj, 'hover');
+            }
         });
         
         // Draw dragged object last (on top)
         if (this.state.draggedObject) {
             this.drawObject(this.state.draggedObject, true);
+            this.drawShapeOverlay(this.state.draggedObject, this.state.shapeOverlayState || 'dragging');
             this.drawGhostObject();
         }
         
@@ -563,6 +642,47 @@ class BackpackGame {
         
         // Restore context state
         this.ctx.restore();
+    }
+    
+    /**
+     * Draw shape overlay on an object
+     */
+    drawShapeOverlay(obj, state) {
+        const colors = {
+            hover: 'rgba(255, 255, 255, 0.2)',
+            dragging: 'rgba(100, 150, 255, 0.3)',
+            valid: 'rgba(72, 187, 120, 0.3)',
+            invalid: 'rgba(245, 101, 101, 0.3)'
+        };
+        
+        this.ctx.fillStyle = colors[state] || colors.hover;
+        
+        // Draw each occupied cell in the shape
+        for (let y = 0; y < obj.shape.length; y++) {
+            for (let x = 0; x < obj.shape[y].length; x++) {
+                if (obj.shape[y][x] === 1) {
+                    const cellX = obj.pixelX + (x * this.config.cellSize);
+                    const cellY = obj.pixelY + (y * this.config.cellSize);
+                    
+                    this.ctx.fillRect(
+                        cellX,
+                        cellY,
+                        this.config.cellSize,
+                        this.config.cellSize
+                    );
+                    
+                    // Add a subtle border to each cell
+                    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                    this.ctx.lineWidth = 1;
+                    this.ctx.strokeRect(
+                        cellX,
+                        cellY,
+                        this.config.cellSize,
+                        this.config.cellSize
+                    );
+                }
+            }
+        }
     }
     
     /**
@@ -796,19 +916,25 @@ class BackpackGame {
         const clampedX = Math.max(0, Math.min(gridPos.x, this.config.backpackWidth - obj.width));
         const clampedY = Math.max(0, Math.min(gridPos.y, this.config.backpackHeight - obj.height));
         
-        if (this.isValidPlacement(clampedX, clampedY, obj)) {
-            this.ctx.fillStyle = 'rgba(72, 187, 120, 0.3)';
-        } else {
-            this.ctx.fillStyle = 'rgba(245, 101, 101, 0.3)';
-        }
-        
         const pixelPos = this.gridToPixel(clampedX, clampedY);
-        this.ctx.fillRect(
-            pixelPos.x,
-            pixelPos.y,
-            obj.width * this.config.cellSize,
-            obj.height * this.config.cellSize
-        );
+        
+        // Draw ghost shape overlay
+        const isValid = this.isValidPlacementWithShape(clampedX, clampedY, obj);
+        this.ctx.fillStyle = isValid ? 'rgba(72, 187, 120, 0.3)' : 'rgba(245, 101, 101, 0.3)';
+        
+        // Draw each cell of the shape
+        for (let y = 0; y < obj.shape.length; y++) {
+            for (let x = 0; x < obj.shape[y].length; x++) {
+                if (obj.shape[y][x] === 1) {
+                    this.ctx.fillRect(
+                        pixelPos.x + (x * this.config.cellSize),
+                        pixelPos.y + (y * this.config.cellSize),
+                        this.config.cellSize,
+                        this.config.cellSize
+                    );
+                }
+            }
+        }
     }
     
     /**
@@ -832,34 +958,36 @@ class BackpackGame {
     }
     
     /**
-     * Check if placement is valid with irregular grid support
+     * Check if placement is valid with shape support
      */
-    isValidPlacement(gridX, gridY, obj) {
+    isValidPlacementWithShape(gridX, gridY, obj) {
         // Check boundaries
         if (gridX < 0 || gridY < 0) return false;
         if (gridX + obj.width > this.config.backpackWidth) return false;
         if (gridY + obj.height > this.config.backpackHeight) return false;
         
-        // Check for overlaps and blocked cells
-        for (let y = 0; y < obj.height; y++) {
-            for (let x = 0; x < obj.width; x++) {
-                const checkY = gridY + y;
-                const checkX = gridX + x;
-                
-                // Check if this cell is blocked by the mask
-                if (this.config.gridMask && 
-                    this.config.gridMask[checkY] && 
-                    this.config.gridMask[checkY][checkX] === 0) {
-                    return false;
-                }
-                
-                // Check if cell is already occupied or blocked
-                const cellValue = this.state.grid[checkY][checkX];
-                if (cellValue !== null && cellValue !== 'blocked') {
-                    return false;
-                }
-                if (cellValue === 'blocked') {
-                    return false;
+        // Check each cell in the shape
+        for (let y = 0; y < obj.shape.length; y++) {
+            for (let x = 0; x < obj.shape[y].length; x++) {
+                if (obj.shape[y][x] === 1) {
+                    const checkY = gridY + y;
+                    const checkX = gridX + x;
+                    
+                    // Check if this cell is blocked by the mask
+                    if (this.config.gridMask && 
+                        this.config.gridMask[checkY] && 
+                        this.config.gridMask[checkY][checkX] === 0) {
+                        return false;
+                    }
+                    
+                    // Check if cell is already occupied
+                    const cellValue = this.state.grid[checkY][checkX];
+                    if (cellValue !== null && cellValue !== 'blocked') {
+                        return false;
+                    }
+                    if (cellValue === 'blocked') {
+                        return false;
+                    }
                 }
             }
         }
@@ -868,15 +996,18 @@ class BackpackGame {
     }
     
     /**
-     * Handle object placement
+     * DEPRECATED: Use isValidPlacementWithShape instead
+     */
+    isValidPlacement(gridX, gridY, obj) {
+        return this.isValidPlacementWithShape(gridX, gridY, obj);
+    }
+    
+    /**
+     * Handle object placement with shape support
      */
     handleObjectPlaced(obj, gridX, gridY) {
-        // Mark grid cells as occupied
-        for (let y = 0; y < obj.height; y++) {
-            for (let x = 0; x < obj.width; x++) {
-                this.state.grid[gridY + y][gridX + x] = obj.id;
-            }
-        }
+        // Mark grid cells as occupied using shape
+        this.markGridCellsWithShape(obj, gridX, gridY, true);
         
         // Update object state
         obj.isPlaced = true;
@@ -1020,7 +1151,7 @@ class BackpackGame {
             this.config.backpackHeight
         );
         
-        // Reset all objects
+        // Reset all objects but normalize shapes
         this.state.objects.forEach(obj => {
             obj.isPlaced = false;
             obj.gridX = -1;
@@ -1045,8 +1176,8 @@ class BackpackGame {
      * Update objects (for debug console)
      */
     updateObjects(newObjects) {
-        // Update the objects list
-        this.config.objects = newObjects;
+        // Update the objects list and normalize shapes
+        this.config.objects = newObjects.map(obj => this.normalizeObjectShape(obj));
         
         // Recreate game state with new objects
         this.createGameState();
