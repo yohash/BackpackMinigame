@@ -1,8 +1,8 @@
 /**
  * FINAL BUILD SCRIPT: Bundles the polished Backpack Minigame into Twine
+ * SCALED VERSION: Includes responsive scaling support
+ * SHAPES VERSION: Added support for irregular object shapes
  * Run with: node build-twine-bundle.js
- * 
- * IMPORTANT: Replace js/game.js and js/input.js with the polished versions first!
  */
 
 const fs = require('fs');
@@ -17,16 +17,15 @@ const config = {
         'js/grid.js',
         'js/objects.js',
         'js/renderer.js',
-        'js/input.js',   // Use the polished version with hover tracking
-        'js/game.js'      // Use the polished version with UI updates
+        'js/input.js',   // Use the scaled version with coordinate remapping
+        'js/game.js'      // Use the scaled version with responsive support
     ],
     
     cssFiles: [
-        'css/game.css'
+        'css/game.css'    // Use the scaled version
     ],
 
     storyFile: 'twine/JansPortal.twee',
-//    storyFile: 'test/sample-scene.twee',
     
     // All sprite files to embed as base64
     spriteFiles: {
@@ -53,7 +52,7 @@ const config = {
         'papertow': 'assets/sprites/papertow.png',
         'pointer': 'assets/sprites/pointer.png',
         'romancand': 'assets/sprites/romancand.png',
-        'shield': 'assets/sprites/sheild.png',
+        'shield': 'assets/sprites/shield.png',
         'smokes': 'assets/sprites/smokes.png',
         'spade': 'assets/sprites/spade.png',
         'trophy': 'assets/sprites/trophy.png',
@@ -67,7 +66,7 @@ const config = {
 };
 
 // ================================
-// UPDATED ITEM DATABASE FROM test-data.js
+// UPDATED ITEM DATABASE WITH SHAPE SUPPORT
 // ================================
 const ITEM_DATABASE = {
     'baseball': {
@@ -84,6 +83,12 @@ const ITEM_DATABASE = {
         name: 'Your Bong',
         width: 2,
         height: 4,
+        shape: [
+            [1, 0],
+            [1, 0],
+            [1, 1],
+            [1, 1]
+        ],
         color: 'hsl(20, 70%, 60%)',
         sprite: 'bong',
         description: 'The original heavy hitter'
@@ -132,6 +137,15 @@ const ITEM_DATABASE = {
         color: 'hsl(80, 70%, 60%)',
         sprite: 'cheetos',
         description: 'Not even Flamin\' Hot'
+    },
+    'cheetos2': {
+        id: 'cheetos2',
+        name: 'Cheetos 2',
+        width: 1,
+        height: 2,
+        color: 'hsl(85, 70%, 60%)',
+        sprite: 'cheetos',
+        description: 'Another bag of Cheetos.'
     },
     'cups': {
         id: 'cups',
@@ -330,13 +344,53 @@ function imageToBase64(filepath) {
  * Main build function
  */
 async function build() {
-    console.log('🔨 Building Twine Bundle...\n');
+    console.log('🔨 Building Twine Bundle with Scaling and Shape Support...\n');
     
     // ================================
     // 1. COMBINE JAVASCRIPT
     // ================================
     console.log('📦 Combining JavaScript files...');
     let jsContent = '';
+    
+    // Add shape utility functions at the beginning
+    jsContent += `
+    // ================================
+    // SHAPE UTILITIES
+    // ================================
+    
+    /**
+     * Generate a rectangular shape grid from width and height
+     */
+    function generateRectangularShape(width, height) {
+        const shape = [];
+        for (let y = 0; y < height; y++) {
+            const row = [];
+            for (let x = 0; x < width; x++) {
+                row.push(1);
+            }
+            shape.push(row);
+        }
+        return shape;
+    }
+    
+    /**
+     * Normalize an object to ensure it has a shape property
+     */
+    function normalizeObjectShape(obj) {
+        if (!obj.shape) {
+            // Generate shape from width and height
+            obj.shape = generateRectangularShape(obj.width, obj.height);
+        }
+        
+        // Ensure width and height match shape dimensions
+        if (obj.shape && obj.shape.length > 0) {
+            obj.height = obj.shape.length;
+            obj.width = obj.shape[0].length;
+        }
+        
+        return obj;
+    }
+    `;
     
     for (const file of config.jsFiles) {
         if (fs.existsSync(file)) {
@@ -389,7 +443,7 @@ async function build() {
     // ================================
     // 4. CREATE TWEE FILE
     // ================================
-    console.log('\n  Importing story...');
+    console.log('\n📚 Importing story...');
     let story = '';
 
     if (fs.existsSync(config.storyFile)) {
@@ -405,11 +459,11 @@ async function build() {
 ${story}
 
 :: BackpackGameStyles [stylesheet]
-/* Embedded game styles */
+/* Embedded game styles with responsive scaling */
 ${cssContent}
 
 :: BackpackGameScript [script]
-/* Fixed Backpack Minigame with Scaling Support */
+/* Backpack Minigame with Responsive Scaling Support */
 (function() {
     'use strict';
     
@@ -429,7 +483,63 @@ ${cssContent}
     ${jsContent}
     
     // ================================
-    // TWINE INTEGRATION
+    // HELPER FUNCTIONS FOR SCALING
+    // ================================
+    
+    /**
+     * Create wrapper div with proper aspect ratio
+     */
+    function createCanvasWrapper(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return false;
+        
+        // Check if wrapper already exists
+        if (canvas.parentElement && canvas.parentElement.classList.contains('canvas-wrapper')) {
+            return true;
+        }
+        
+        // Create wrapper
+        const wrapper = document.createElement('div');
+        wrapper.className = 'canvas-wrapper';
+        
+        // Insert wrapper and move canvas into it
+        canvas.parentNode.insertBefore(wrapper, canvas);
+        wrapper.appendChild(canvas);
+        
+        // Ensure canvas is positioned to fill wrapper
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        
+        return true;
+    }
+    
+    /**
+     * Ensure container has proper structure for responsive display
+     */
+    function prepareGameContainer() {
+        const container = document.getElementById('backpack-game-container');
+        if (!container) {
+            console.error('Backpack game container not found!');
+            return false;
+        }
+        
+        // Add loading class
+        container.classList.add('loading');
+        
+        // Ensure canvas has wrapper
+        if (!createCanvasWrapper('backpack-canvas')) {
+            console.error('Failed to create canvas wrapper');
+            return false;
+        }
+        
+        return true;
+    }
+
+    // ================================
+    // TWINE INTEGRATION WITH PERSISTENCE
     // ================================
     window.BackpackMinigame = {
         currentGame: null,
@@ -437,32 +547,43 @@ ${cssContent}
         /**
          * Start game with item IDs from Twine variables
          * @param {string[]} itemIds - Array of item ID strings
+         * @param {Object} memoryData - Optional memory data for persistence
          * @returns {BackpackGame} Game instance
          */
-        start: function(itemIds) {
-            console.log('Starting Backpack Minigame with items:', itemIds);
+        start: function(itemIds, memoryData) {
+            console.log('Starting Backpack Minigame with responsive scaling and persistence...');
+            console.log('Items:', itemIds);
+            console.log('Memory data:', memoryData);
             
-            // Convert item IDs to full objects with descriptions
+            // Prepare container for responsive display
+            if (!prepareGameContainer()) {
+                console.error('Failed to prepare game container');
+                return null;
+            }
+            
+            // Convert item IDs to full objects with descriptions and shapes
             const objects = [];
             for (const id of itemIds) {
                 if (window.BACKPACK_ITEMS[id]) {
-                    // Make sure to include ALL properties including description
                     const itemData = window.BACKPACK_ITEMS[id];
-                    objects.push({
+                    // Normalize shape data
+                    const normalizedItem = normalizeObjectShape({
                         id: itemData.id,
                         name: itemData.name,
                         width: itemData.width,
                         height: itemData.height,
+                        shape: itemData.shape,
                         color: itemData.color,
                         sprite: itemData.sprite,
-                        description: itemData.description || ''  // Ensure description is included
+                        description: itemData.description || ''
                     });
+                    objects.push(normalizedItem);
                 } else {
                     console.warn('Unknown item ID:', id);
                 }
             }
             
-            // Build config
+            // Build config with memory support
             const config = {
                 backpackWidth: 5,
                 backpackHeight: 5,
@@ -477,30 +598,36 @@ ${cssContent}
                 ],
                 objects: objects,
                 sprites: window.BACKPACK_SPRITES,
-                onComplete: function(placedObjects) {
+                memoryData: memoryData || {}, // Add memory data to config
+                onComplete: function(placedObjects, memory) {
                     // Store results in Twine variables
                     State.variables.packedItems = Object.keys(placedObjects);
                     State.variables.packedCount = Object.keys(placedObjects).length;
+                    State.variables.backpackMemory = memory; // Store memory data
                     
                     // Navigate to next passage
-                    const nextPassage = /*State.variables.nextPassage ||*/ 'BackpackComplete';
+                    const nextPassage = 'BackpackComplete';
                     Engine.play(nextPassage);
                 }
             };
             
-            // Create game
+            // Clean up previous game if exists
+            if (this.currentGame) {
+                this.currentGame.endGame();
+                this.currentGame = null;
+            }
+            
+            // Create game with scaling and persistence support
             this.currentGame = new BackpackGame('backpack-canvas', config);
             this.currentGame.startGame();
             
-            // Set canvas to scale properly
-            const canvas = document.getElementById('backpack-canvas');
-            if (canvas) {
-                canvas.style.width = '100%';
-                canvas.style.height = 'auto';
-                canvas.style.maxWidth = '1600px';
-                canvas.style.display = 'block';
-                canvas.style.margin = '0 auto';
-            }
+            // Remove loading class after short delay
+            setTimeout(function() {
+                const container = document.getElementById('backpack-game-container');
+                if (container) {
+                    container.classList.remove('loading');
+                }
+            }, 500);
             
             return this.currentGame;
         },
@@ -513,8 +640,57 @@ ${cssContent}
                 this.currentGame.endGame();
                 this.currentGame = null;
             }
+        },
+        
+        /**
+         * Reset current game
+         * @param {boolean} hardReset - If true, clears memory too
+         */
+        reset: function(hardReset) {
+            if (this.currentGame) {
+                this.currentGame.handleReset(hardReset);
+            }
+        },
+        
+        /**
+         * Get current game state
+         */
+        getState: function() {
+            if (this.currentGame) {
+                return {
+                    placedObjects: this.currentGame.state.placedObjects,
+                    totalObjects: this.currentGame.state.objects.length,
+                    isRunning: this.currentGame.state.isRunning,
+                    scale: this.currentGame.scale,
+                    memory: this.currentGame.buildMemorySnapshot()
+                };
+            }
+            return null;
+        },
+        
+        /**
+         * Toggle fullscreen mode
+         */
+        toggleFullscreen: function() {
+            const container = document.getElementById('backpack-game-container');
+            if (container) {
+                container.classList.toggle('fullscreen');
+                if (this.currentGame) {
+                    // Trigger resize to recalculate scale
+                    this.currentGame.handleResize();
+                }
+            }
         }
     };
+    
+    // Listen for passage changes to clean up games
+    $(document).on(':passageend', function() {
+        // If we're leaving a passage with the game, clean it up
+        if (window.BackpackMinigame.currentGame && 
+            !document.getElementById('backpack-canvas')) {
+            window.BackpackMinigame.stop();
+        }
+    });
 })();
 `;
     
@@ -532,7 +708,7 @@ ${cssContent}
     console.log('1. Open Twine 2');
     console.log('2. Click "Import From File"');
     console.log('3. Select backpack-bundle.twee');
-    console.log('4. Your game is ready!\n');
+    console.log('4. Your game now has shape support!\n');
 }
 
 // ================================

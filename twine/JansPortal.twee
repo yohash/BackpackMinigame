@@ -52,12 +52,40 @@ JansPortal Test V7
 <<script>>
     // Start the game
     setTimeout(function() {
-        BackpackMinigame.start(State.variables.availableItems);
+        BackpackMinigame.start(State.variables.availableItems, State.variables.backpackMemory);
     }, 100);
 <</script>>
 <</done>>
 
 
+:: BackpackComplete {"position":"100,0","size":"100,100"}
+<<set $romancand = $backpackMemory["romancand"] && $backpackMemory["romancand"].isPlaced>>
+\<<set $lightergrt = $backpackMemory["lightergrt"] && $backpackMemory["lightergrt"].isPlaced>>
+\<<set $lighterern = $backpackMemory["lighterern"] && $backpackMemory["lighterern"].isPlaced>>
+\<<set $lighterram = $backpackMemory["lighterram"] && $backpackMemory["lighterram"].isPlaced>>
+\<<set $matchbook = $backpackMemory["matchbook"] && $backpackMemory["matchbook"].isPlaced>>
+\<<set $cellphone = $backpackMemory["cellphone"] && $backpackMemory["cellphone"].isPlaced>>
+\<<set $lollipops = $backpackMemory["lollipops"] && $backpackMemory["lollipops"].isPlaced>>
+\<<set $fleacollar = $backpackMemory["fleacollar"] && $backpackMemory["fleacollar"].isPlaced>>
+\<<set $fabreeze = $backpackMemory["fabreeze"] && $backpackMemory["fabreeze"].isPlaced>>
+\<<set $cheetos = $backpackMemory["cheetos"] && $backpackMemory["cheetos"].isPlaced>>
+\<<set $bong = $backpackMemory["bong"] && $backpackMemory["bong"].isPlaced>>
+\<<set $shield = $backpackMemory["shield"] && $backpackMemory["shield"].isPlaced>>
+\<<set $cups = $backpackMemory["cups"] && $backpackMemory["cups"].isPlaced>>
+\<<set $cash401 = $backpackMemory["cash401"] && $backpackMemory["cash401"].isPlaced>>
+\<<set $cash1 = $backpackMemory["cash1"] && $backpackMemory["cash1"].isPlaced>>
+\<<set $pointer = $backpackMemory["pointer"] && $backpackMemory["pointer"].isPlaced>>
+\<<set $smokes = $backpackMemory["smokes"] && $backpackMemory["smokes"].isPlaced>>
+\<<set $jestervest = $backpackMemory["jestervest"] && $backpackMemory["jestervest"].isPlaced>>
+\<<set $orcking = $backpackMemory["orcking"] && $backpackMemory["orcking"].isPlaced>>
+\<<set $dice = $backpackMemory["dice"] && $backpackMemory["dice"].isPlaced>>
+\<<set $papertow = $backpackMemory["papertow"] && $backpackMemory["papertow"].isPlaced>>
+\<<set $cheetos2 = $backpackMemory["cheetos2"] && $backpackMemory["cheetos2"].isPlaced>>
+\<<set $baseball = $backpackMemory["baseball"] && $backpackMemory["baseball"].isPlaced>>
+\<<set $spade = $backpackMemory["spade"] && $backpackMemory["spade"].isPlaced>>
+\<<set $trophy = $backpackMemory["trophy"] && $backpackMemory["trophy"].isPlaced>>
+\<<set $jesterpant = $backpackMemory["jesterpant"] && $backpackMemory["jesterpant"].isPlaced>>
+\<<set $burtreyn = $backpackMemory["burtreyn"] && $backpackMemory["burtreyn"].isPlaced>>
 :: BackpackComplete {"position":"100,0","size":"100,100"}
 <<set $romancand = $packedItems.includes("romancand")>>
 \<<set $lightergrt = $packedItems.includes("lightergrt")>>
@@ -2096,7 +2124,7 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 
 
 :: StartScreen {"position":"175,150","size":"100,100"}
-<<set $romancand = false>>
+\<<set $romancand = false>>
 \<<set $lighterram = false>>
 \<<set $lighterern = false>>
 \<<set $lightergrt = false>>
@@ -2139,6 +2167,7 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 \
 \<<set $mobmen = 0>>
 \
+\<<set $backpackMemory = {}>>
 \<<set $nextPassageString = "">>
 
 The Middle Aged

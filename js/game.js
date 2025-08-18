@@ -1,47 +1,46 @@
 /**
  * BackpackGame - Main game controller
- * POLISHED VERSION: Updated UI layout and hover display
+ * SCALED VERSION: Added responsive scaling with coordinate remapping
+ * PERSISTENCE VERSION: Added full position memory support
+ * SHAPES VERSION: Added support for irregular object shapes
  */
 class BackpackGame {
     constructor(canvasId, config) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
-        // In the constructor, after binding other methods:
-        this.handleResize = this.handleResize.bind(this);
-
-        // Add resize listener
-        window.addEventListener('resize', this.handleResize);
-
-        // Game configuration - properly merge config
+        
+        // Scaling properties
+        this.baseWidth = 1600;
+        this.baseHeight = 900;
+        this.scale = 1;
+        this.offsetX = 0;
+        this.offsetY = 0;
         this.config = {
-            backpackWidth: 5,  // Now 5x5 for the irregular grid
+            backpackWidth: 5,
             backpackHeight: 5,
-            cellSize: 100, // Fixed 100px grid cells
-            gridXOffset: 0, // Default offset for grid positioning
-            gridYOffset: 0, // Default offset for grid positioning
+            cellSize: 100, // Base cell size at 1:1 scale
+            gridXOffset: 0,
+            gridYOffset: 0,
             padding: 60,
             gridLineWidth: 1,
             gridLineColor: '#e2e8f0',
             backpackColor: '#ffffff',
             backpackBorderColor: '#4a5568',
             stagingAreaPadding: 20,
-            // Default grid mask - 1 means usable, 0 means blocked
             gridMask: [
-                [0, 1, 1, 1, 1],  // Row 0: First cell blocked
-                [0, 1, 1, 1, 1],  // Row 1: First cell blocked
-                [0, 1, 1, 1, 1],  // Row 2: First cell blocked
-                [1, 1, 1, 1, 1],  // Row 3: All cells usable
-                [1, 1, 1, 1, 1]   // Row 4: All cells usable
-            ]
+                [0, 1, 1, 1, 1],
+                [0, 1, 1, 1, 1],
+                [0, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1]
+            ],
+            memoryData: {} // Add memory data to config
         };
         
         // Apply user config on top of defaults
         if (config) {
             Object.assign(this.config, config);
         }
-        
-        // Ensure cellSize stays at 100px
-        this.config.cellSize = 100;
         
         // Game state
         this.state = {
@@ -59,10 +58,11 @@ class BackpackGame {
             feedbackType: 'info',
             backpackNativeWidth: 0,
             backpackNativeHeight: 0,
-            hoveredObject: null  // NEW: Track hovered object
+            hoveredObject: null,
+            shapeOverlayState: null // Track overlay state: 'hover', 'dragging', 'valid', 'invalid'
         };
         
-        // Calculate grid dimensions
+        // Calculate base grid dimensions (at 1:1 scale)
         this.gridPixelWidth = this.config.backpackWidth * this.config.cellSize;
         this.gridPixelHeight = this.config.backpackHeight * this.config.cellSize;
         
@@ -72,7 +72,7 @@ class BackpackGame {
         this.gridX = 0;
         this.gridY = 0;
         
-        // Initialize subsystems (these will be defined in other files)
+        // Initialize subsystems
         this.gridSystem = null;
         this.objectManager = null;
         this.renderer = null;
@@ -84,17 +84,149 @@ class BackpackGame {
         this.handleObjectPlaced = this.handleObjectPlaced.bind(this);
         this.handleContinue = this.handleContinue.bind(this);
         this.handleReset = this.handleReset.bind(this);
+        this.handleResize = this.handleResize.bind(this);
+        
+        // Set up resize listener
+        window.addEventListener('resize', this.handleResize);
+    }
+    
+    /**
+     * Normalize object shape - ensure it has a shape grid
+     */
+    normalizeObjectShape(obj) {
+        if (!obj.shape) {
+            // Generate rectangular shape from width and height
+            obj.shape = [];
+            for (let y = 0; y < obj.height; y++) {
+                const row = [];
+                for (let x = 0; x < obj.width; x++) {
+                    row.push(1);
+                }
+                obj.shape.push(row);
+            }
+        }
+        
+        // Ensure width and height match shape
+        if (obj.shape && obj.shape.length > 0) {
+            obj.height = obj.shape.length;
+            obj.width = obj.shape[0].length;
+        }
+        
+        return obj;
+    }
+    
+    /**
+     * Update canvas size and calculate scale
+     */
+    updateCanvasSize() {
+        // Get the wrapper element which maintains aspect ratio
+        const wrapper = this.canvas.parentElement;
+        if (!wrapper || !wrapper.classList.contains('canvas-wrapper')) {
+            console.warn('Canvas wrapper not found, scaling may not work properly');
+            return;
+        }
+        
+        // Get actual rendered size of the wrapper
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const displayWidth = wrapperRect.width;
+        const displayHeight = wrapperRect.height;
+        
+        // Calculate scale based on wrapper size vs base dimensions
+        this.scale = Math.min(displayWidth / this.baseWidth, displayHeight / this.baseHeight, 1);
+        
+        // Canvas should fill its wrapper completely
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.top = '0';
+        this.canvas.style.left = '0';
+        this.canvas.style.width = '100%';
+        this.canvas.style.height = '100%';
+        
+        // Set internal canvas resolution to base dimensions
+        // This ensures we always render at the same resolution internally
+        if (this.canvas.width !== this.baseWidth || this.canvas.height !== this.baseHeight) {
+            this.canvas.width = this.baseWidth;
+            this.canvas.height = this.baseHeight;
+            
+            // Update positions after canvas resize
+            this.updatePositions();
+        }
+    }
+    
+    /**
+     * Update all positions after scaling
+     */
+    updatePositions() {
+        // Recalculate backpack and grid positions
+        if (this.state.sprites['backpack']) {
+            this.state.backpackNativeWidth = this.state.sprites['backpack'].width;
+            this.state.backpackNativeHeight = this.state.sprites['backpack'].height;
+            
+            // Center the backpack image
+            this.backpackX = (this.baseWidth - this.state.backpackNativeWidth) / 2;
+            this.backpackY = (this.baseHeight - this.state.backpackNativeHeight) / 2 - 30;
+            
+            // Center the grid on the backpack with offsets
+            this.gridX = this.backpackX + (this.state.backpackNativeWidth - this.gridPixelWidth) / 2 + this.config.gridXOffset;
+            this.gridY = this.backpackY + (this.state.backpackNativeHeight - this.gridPixelHeight) / 2 + this.config.gridYOffset;
+        } else {
+            // Fallback if no backpack sprite
+            this.backpackX = (this.baseWidth - this.gridPixelWidth) / 2;
+            this.backpackY = (this.baseHeight - this.gridPixelHeight) / 2 - 30;
+            this.gridX = this.backpackX + this.config.gridXOffset;
+            this.gridY = this.backpackY + this.config.gridYOffset;
+        }
+        
+        // Reposition staging objects if game is running
+        if (this.state.isRunning) {
+            this.positionStagingObjects();
+        }
+    }
+    
+    /**
+     * Handle window resize events
+     */
+    handleResize() {
+        // Debounce resize events
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            this.updateCanvasSize();
+            // Force a re-render
+            if (this.state.isRunning) {
+                this.render();
+            }
+        }, 100);
+    }
+    
+    /**
+     * Convert screen coordinates to game coordinates
+     */
+    screenToGame(screenX, screenY) {
+        return {
+            x: screenX / this.scale,
+            y: screenY / this.scale
+        };
+    }
+    
+    /**
+     * Convert game coordinates to screen coordinates
+     */
+    gameToScreen(gameX, gameY) {
+        return {
+            x: gameX * this.scale,
+            y: gameY * this.scale
+        };
     }
     
     /**
      * Initialize and start the game
      */
     startGame() {
-        console.log('Starting Backpack Game...');
+        console.log('Starting Backpack Game with persistence...');
         console.log('Grid offsets - X:', this.config.gridXOffset, 'Y:', this.config.gridYOffset);
+        console.log('Memory data:', this.config.memoryData);
         
-        // Set up canvas dimensions
-        this.setupCanvas();
+        // Ensure canvas is properly set up first
+        this.updateCanvasSize();
         
         // Initialize subsystems
         this.initializeSubsystems();
@@ -104,85 +236,28 @@ class BackpackGame {
             // Set up initial game state
             this.createGameState();
             
-            // Position objects in staging area
+            // Apply memory data to restore previous positions
+            this.applyMemoryData();
+            
+            // Position objects in staging area (only those without memory)
             this.positionStagingObjects();
             
             // Set up UI
             this.setupUI();
             
+            // Do another size update after everything is loaded
+            this.updateCanvasSize();
+            
             // Start game loop
             this.state.isRunning = true;
             this.gameLoop();
             
-            console.log('Game started successfully!');
+            console.log('Game started successfully with persistence!');
         }).catch(error => {
             console.error('Failed to start game:', error);
         });
     }
-
-    /**
-     * Set up canvas dimensions with proper aspect ratio
-     */
-    setupCanvas() {
-        // Get container dimensions
-        const container = this.canvas.parentElement;
-        const containerWidth = container.clientWidth;
-        const containerHeight = container.clientHeight;
-        
-        // Calculate dimensions maintaining 16:9 aspect ratio
-        const targetAspectRatio = 16 / 9;
-        const containerAspectRatio = containerWidth / containerHeight;
-        
-        let canvasWidth, canvasHeight;
-        
-        if (containerAspectRatio > targetAspectRatio) {
-            // Container is wider than 16:9
-            canvasHeight = Math.min(containerHeight, 900);
-            canvasWidth = canvasHeight * targetAspectRatio;
-        } else {
-            // Container is taller than 16:9
-            canvasWidth = Math.min(containerWidth, 1600);
-            canvasHeight = canvasWidth / targetAspectRatio;
-        }
-        
-        // Set internal canvas resolution
-        this.canvas.width = canvasWidth;
-        this.canvas.height = canvasHeight;
-        
-        // If backpack sprite is loaded, use its native dimensions
-        if (this.state.sprites['backpack']) {
-            this.state.backpackNativeWidth = this.state.sprites['backpack'].width;
-            this.state.backpackNativeHeight = this.state.sprites['backpack'].height;
-            
-            // Center the backpack image
-            this.backpackX = (this.canvas.width - this.state.backpackNativeWidth) / 2;
-            this.backpackY = (this.canvas.height - this.state.backpackNativeHeight) / 2 - 30;
-            
-            // Center the grid on the backpack with offsets
-            this.gridX = this.backpackX + (this.state.backpackNativeWidth - this.gridPixelWidth) / 2 + this.config.gridXOffset;
-            this.gridY = this.backpackY + (this.state.backpackNativeHeight - this.gridPixelHeight) / 2 + this.config.gridYOffset;
-        } else {
-            // Fallback if no backpack sprite - center based on grid size
-            this.backpackX = (this.canvas.width - this.gridPixelWidth) / 2;
-            this.backpackY = (this.canvas.height - this.gridPixelHeight) / 2 - 30;
-            this.gridX = this.backpackX + this.config.gridXOffset;
-            this.gridY = this.backpackY + this.config.gridYOffset;
-        }
-    }
-
-    /**
-     * Handle window resize events
-     */
-    handleResize() {
-        // Debounce resize events
-        clearTimeout(this.resizeTimeout);
-        this.resizeTimeout = setTimeout(() => {
-            this.setupCanvas();
-            // Reposition staging objects if needed
-            this.positionStagingObjects();
-        }, 100);
-    }
-
+    
     /**
      * Initialize all game subsystems
      */
@@ -207,6 +282,10 @@ class BackpackGame {
         if (typeof InputHandler !== 'undefined') {
             this.inputHandler = new InputHandler(this.canvas, this);
         }
+        
+        if (typeof DebugConsole !== 'undefined' && window.testObjects) {
+            this.debugConsole = new DebugConsole(this);
+        }
     }
     
     /**
@@ -227,7 +306,7 @@ class BackpackGame {
         console.log('All assets loaded');
         
         // Recalculate positions now that backpack sprite is loaded
-        this.setupCanvas();
+        this.updatePositions();
     }
     
     /**
@@ -255,22 +334,92 @@ class BackpackGame {
             this.config.backpackHeight
         );
         
-        // Initialize objects from config
-        this.state.objects = this.config.objects.map(objData => ({
-            ...objData,
-            id: objData.id || Math.random().toString(36).substr(2, 9),
-            isPlaced: false,
-            gridX: -1,
-            gridY: -1,
-            pixelX: 0,
-            pixelY: 0,
-            width: objData.width || 1,
-            height: objData.height || 1,
-            description: objData.description || ''  // Ensure description exists
-        }));
+        // Initialize objects from config and normalize shapes
+        this.state.objects = this.config.objects.map(objData => {
+            const normalized = this.normalizeObjectShape({
+                ...objData,
+                id: objData.id || Math.random().toString(36).substring(2, 9),
+                isPlaced: false,
+                gridX: -1,
+                gridY: -1,
+                pixelX: 0,
+                pixelY: 0,
+                width: objData.width || 1,
+                height: objData.height || 1,
+                shape: objData.shape,
+                rotation: 0,
+                description: objData.description || ''
+            });
+            
+            return normalized;
+        });
         
         // Update UI counters
         this.updateObjectCounter();
+    }
+    
+    /**
+     * Apply memory data to restore previous positions
+     */
+    applyMemoryData() {
+        if (!this.config.memoryData || Object.keys(this.config.memoryData).length === 0) {
+            console.log('No memory data to apply');
+            return;
+        }
+        
+        console.log('Applying memory data to objects...');
+        
+        this.state.objects.forEach(obj => {
+            const memory = this.config.memoryData[obj.id];
+            if (memory) {
+                console.log(`Restoring position for ${obj.id}:`, memory);
+                
+                // Apply memory data
+                obj.gridX = memory.gridX;
+                obj.gridY = memory.gridY;
+                obj.pixelX = memory.pixelX;
+                obj.pixelY = memory.pixelY;
+                obj.rotation = memory.rotation || 0;
+                obj.isPlaced = memory.isPlaced;
+                
+                // If it was placed in the grid, restore grid state with shape
+                if (obj.isPlaced && obj.gridX >= 0 && obj.gridY >= 0) {
+                    // Mark grid cells as occupied using shape
+                    this.markGridCellsWithShape(obj, obj.gridX, obj.gridY, true);
+                    
+                    // Add to placed objects list
+                    this.state.placedObjects.push(obj);
+                    
+                    // Make sure pixel position matches grid position
+                    const pixelPos = this.gridToPixel(obj.gridX, obj.gridY);
+                    obj.pixelX = pixelPos.x;
+                    obj.pixelY = pixelPos.y;
+                }
+            }
+        });
+        
+        // Update UI after applying memory
+        this.updateObjectCounter();
+        this.checkContinueButton();
+    }
+    
+    /**
+     * Mark or unmark grid cells based on object shape
+     */
+    markGridCellsWithShape(obj, gridX, gridY, mark = true) {
+        for (let y = 0; y < obj.shape.length; y++) {
+            for (let x = 0; x < obj.shape[y].length; x++) {
+                if (obj.shape[y][x] === 1) {
+                    const cellY = gridY + y;
+                    const cellX = gridX + x;
+                    
+                    if (this.state.grid[cellY] && 
+                        this.state.grid[cellY][cellX] !== 'blocked') {
+                        this.state.grid[cellY][cellX] = mark ? obj.id : null;
+                    }
+                }
+            }
+        }
     }
     
     /**
@@ -296,9 +445,20 @@ class BackpackGame {
     
     /**
      * Position objects in staging area around backpack
+     * MODIFIED: Only position objects without memory data
      */
     positionStagingObjects() {
-        const unplacedObjects = this.state.objects.filter(obj => !obj.isPlaced);
+        // Only position objects that don't have memory positions
+        const unplacedObjects = this.state.objects.filter(obj => {
+            const hasMemory = this.config.memoryData && this.config.memoryData[obj.id];
+            return !obj.isPlaced && !hasMemory;
+        });
+        
+        if (unplacedObjects.length === 0) {
+            console.log('All objects have memory positions, skipping staging');
+            return;
+        }
+        
         const objectSpacing = 20;
         
         // Distribute objects around the canvas edges with more space
@@ -316,24 +476,59 @@ class BackpackGame {
                 placedOnLeft++;
                 
                 // Wrap to new column if needed
-                if (obj.pixelY + obj.height * this.config.cellSize > this.canvas.height - 100) {
+                if (obj.pixelY + obj.height * this.config.cellSize > this.baseHeight - 100) {
                     currentX += 160;
                     placedOnLeft = 0;
                     currentY = 100;
                 }
             } else {
                 // Right side
-                obj.pixelX = this.canvas.width - 250 - (obj.width * this.config.cellSize);
+                obj.pixelX = this.baseWidth - 250 - (obj.width * this.config.cellSize);
                 obj.pixelY = currentY + placedOnRight * 140;
                 placedOnRight++;
                 
                 // Wrap to new column if needed
-                if (obj.pixelY + obj.height * this.config.cellSize > this.canvas.height - 100) {
+                if (obj.pixelY + obj.height * this.config.cellSize > this.baseHeight - 100) {
                     placedOnRight = 0;
                     currentY = 100;
                 }
             }
         });
+    }
+    
+    /**
+     * Build memory snapshot of current state
+     */
+    buildMemorySnapshot() {
+        const memory = {};
+        
+        this.state.objects.forEach(obj => {
+            memory[obj.id] = {
+                gridX: obj.gridX,
+                gridY: obj.gridY,
+                pixelX: obj.pixelX,
+                pixelY: obj.pixelY,
+                rotation: obj.rotation || 0,
+                isPlaced: obj.isPlaced
+            };
+        });
+        
+        return memory;
+    }
+    
+    /**
+     * Save memory to Twine variables
+     */
+    saveMemoryToTwine() {
+        const memory = this.buildMemorySnapshot();
+        
+        // Update Twine variables if available
+        if (window.SugarCube && window.SugarCube.State) {
+            window.SugarCube.State.variables.backpackMemory = memory;
+            console.log('Saved memory to Twine:', memory);
+        }
+        
+        return memory;
     }
     
     /**
@@ -363,9 +558,12 @@ class BackpackGame {
         this.state.lastFrameTime = timestamp;
         
         // Clear canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.baseWidth, this.baseHeight);
         
-        // Render game
+        // Update shape overlay state
+        this.updateShapeOverlayState();
+        
+        // Render game at base resolution
         this.render();
         
         // Continue loop
@@ -373,14 +571,44 @@ class BackpackGame {
     }
     
     /**
+     * Update shape overlay state based on current interaction
+     */
+    updateShapeOverlayState() {
+        if (this.state.isDragging && this.state.draggedObject) {
+            // Check if current position is valid
+            const obj = this.state.draggedObject;
+            const snapX = obj.pixelX + this.config.cellSize / 2;
+            const snapY = obj.pixelY + this.config.cellSize / 2;
+            const gridPos = this.pixelToGrid(snapX, snapY);
+            
+            // Clamp to valid grid bounds
+            const clampedX = Math.max(0, Math.min(gridPos.x, this.config.backpackWidth - obj.width));
+            const clampedY = Math.max(0, Math.min(gridPos.y, this.config.backpackHeight - obj.height));
+            
+            if (this.isValidPlacementWithShape(clampedX, clampedY, obj)) {
+                this.state.shapeOverlayState = 'valid';
+            } else {
+                this.state.shapeOverlayState = 'invalid';
+            }
+        } else if (this.state.hoveredObject) {
+            this.state.shapeOverlayState = 'hover';
+        } else {
+            this.state.shapeOverlayState = null;
+        }
+    }
+    
+    /**
      * Main render method
      */
     render() {
+        // Save context state
+        this.ctx.save();
+        
+        // Draw everything at base resolution (1600x900)
+        // The canvas CSS sizing handles the visual scaling
+        
         // Draw backpack background
         this.drawBackpack();
-        
-        // DON'T draw blocked cells indicator - removed for clean look
-        // this.drawBlockedCells();
         
         // Draw grid
         this.drawGrid();
@@ -393,26 +621,68 @@ class BackpackGame {
         // Draw unplaced objects
         this.state.objects.filter(obj => !obj.isPlaced && obj !== this.state.draggedObject).forEach(obj => {
             this.drawObject(obj);
+            // Draw shape overlay for hovered objects
+            if (obj === this.state.hoveredObject && this.state.shapeOverlayState === 'hover') {
+                this.drawShapeOverlay(obj, 'hover');
+            }
         });
         
         // Draw dragged object last (on top)
         if (this.state.draggedObject) {
             this.drawObject(this.state.draggedObject, true);
+            this.drawShapeOverlay(this.state.draggedObject, this.state.shapeOverlayState || 'dragging');
             this.drawGhostObject();
         }
         
         // Draw feedback message
         this.drawFeedback();
         
-        // NEW: Draw object info display
+        // Draw object info display
         this.drawObjectInfo();
+        
+        // Restore context state
+        this.ctx.restore();
     }
     
     /**
-     * REMOVED: No longer drawing blocked cell indicators
+     * Draw shape overlay on an object
      */
-    drawBlockedCells() {
-        // Intentionally empty - we don't want visual indicators
+    drawShapeOverlay(obj, state) {
+        const colors = {
+            hover: 'rgba(255, 255, 255, 0.2)',
+            dragging: 'rgba(100, 150, 255, 0.3)',
+            valid: 'rgba(72, 187, 120, 0.3)',
+            invalid: 'rgba(245, 101, 101, 0.3)'
+        };
+        
+        this.ctx.fillStyle = colors[state] || colors.hover;
+        
+        // Draw each occupied cell in the shape
+        for (let y = 0; y < obj.shape.length; y++) {
+            for (let x = 0; x < obj.shape[y].length; x++) {
+                if (obj.shape[y][x] === 1) {
+                    const cellX = obj.pixelX + (x * this.config.cellSize);
+                    const cellY = obj.pixelY + (y * this.config.cellSize);
+                    
+                    this.ctx.fillRect(
+                        cellX,
+                        cellY,
+                        this.config.cellSize,
+                        this.config.cellSize
+                    );
+                    
+                    // Add a subtle border to each cell
+                    this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                    this.ctx.lineWidth = 1;
+                    this.ctx.strokeRect(
+                        cellX,
+                        cellY,
+                        this.config.cellSize,
+                        this.config.cellSize
+                    );
+                }
+            }
+        }
     }
     
     /**
@@ -456,9 +726,9 @@ class BackpackGame {
      * Draw the grid lines for irregular grid (cleaned up)
      */
     drawGrid() {
-        this.ctx.strokeStyle = '#2d3748'; // Darker color for better visibility
+        this.ctx.strokeStyle = '#2d3748';
         this.ctx.lineWidth = this.config.gridLineWidth;
-        this.ctx.globalAlpha = 0.5; // Semi-transparent over sprite
+        this.ctx.globalAlpha = 0.5;
         
         // Draw individual cell borders for valid cells only
         for (let y = 0; y < this.config.backpackHeight; y++) {
@@ -473,13 +743,12 @@ class BackpackGame {
                     
                     this.ctx.beginPath();
                     
-                    // Draw top border if needed
+                    // Draw borders intelligently
                     if (y === 0 || !this.config.gridMask[y-1] || this.config.gridMask[y-1][x] === 0) {
                         this.ctx.moveTo(cellX, cellY);
                         this.ctx.lineTo(cellX + this.config.cellSize, cellY);
                     }
                     
-                    // Draw right border if needed
                     if (x === this.config.backpackWidth - 1 || 
                         !this.config.gridMask[y][x+1] || 
                         this.config.gridMask[y][x+1] === 0) {
@@ -487,7 +756,6 @@ class BackpackGame {
                         this.ctx.lineTo(cellX + this.config.cellSize, cellY + this.config.cellSize);
                     }
                     
-                    // Draw bottom border if needed
                     if (y === this.config.backpackHeight - 1 || 
                         !this.config.gridMask[y+1] || 
                         this.config.gridMask[y+1][x] === 0) {
@@ -495,7 +763,6 @@ class BackpackGame {
                         this.ctx.lineTo(cellX, cellY + this.config.cellSize);
                     }
                     
-                    // Draw left border if needed
                     if (x === 0 || !this.config.gridMask[y][x-1] || this.config.gridMask[y][x-1] === 0) {
                         this.ctx.moveTo(cellX, cellY + this.config.cellSize);
                         this.ctx.lineTo(cellX, cellY);
@@ -532,9 +799,9 @@ class BackpackGame {
             }
         }
         
-        this.ctx.globalAlpha = 1.0; // Reset alpha
+        this.ctx.globalAlpha = 1.0;
     }
-
+    
     /**
      * Draw object information display
      */
@@ -544,32 +811,21 @@ class BackpackGame {
         if (!objectToShow) return;
         
         // Position: centered below the backpack
-        const infoX = this.canvas.width / 2;
+        const infoX = this.baseWidth / 2;
         const infoY = this.gridY + this.gridPixelHeight + 60;
         
-        // Draw background box for better visibility
-        const name = objectToShow.name || objectToShow.id;
-        const description = objectToShow.description || '';
-        
-        // Measure text to create background
-        this.ctx.font = 'bold 24px Arial';
-        const nameWidth = this.ctx.measureText(name).width;
-        this.ctx.font = '16px Arial';
-        const descWidth = description ? this.ctx.measureText(description).width : 0;
-        const maxWidth = Math.max(nameWidth, descWidth);
-        
         // Draw name (large)
-        this.ctx.font = 'bold 24px Arial';
+        this.ctx.font = 'bold 36px Arial';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'top';
-        this.ctx.fillStyle = '#2d3748';
-        this.ctx.fillText(name, infoX, infoY);
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.fillText(objectToShow.name || objectToShow.id, infoX, infoY + 20);
         
-        // Draw description (small) - FIXED to ensure it displays
-        if (description && description.length > 0) {
-            this.ctx.font = '16px Arial';
-            this.ctx.fillStyle = '#718096';
-            this.ctx.fillText(description, infoX, infoY + 30);
+        // Draw description (small)
+        if (objectToShow.description && objectToShow.description.length > 0) {
+            this.ctx.font = '24px Arial';
+            this.ctx.fillStyle = '#AAAAAA';
+            this.ctx.fillText(objectToShow.description, infoX, infoY + 80);
         }
     }
     
@@ -579,6 +835,10 @@ class BackpackGame {
     drawObject(obj, isDragging = false) {
         const width = obj.width * this.config.cellSize;
         const height = obj.height * this.config.cellSize;
+        
+        if (isDragging) {
+            this.ctx.globalAlpha = 0.7;
+        }
         
         // Use sprite if available, otherwise draw colored rectangle
         if (this.state.sprites[obj.sprite]) {
@@ -612,7 +872,7 @@ class BackpackGame {
         }
         
         if (isDragging) {
-            this.ctx.globalAlpha = 0.7;
+            this.ctx.globalAlpha = 1.0;
         }
     }
     
@@ -648,7 +908,6 @@ class BackpackGame {
         if (!overlapsGrid) return;
         
         // Calculate grid position using nearest grid snap point
-        // Add half cell size to get the nearest grid cell
         const snapX = obj.pixelX + this.config.cellSize / 2;
         const snapY = obj.pixelY + this.config.cellSize / 2;
         const gridPos = this.pixelToGrid(snapX, snapY);
@@ -657,19 +916,25 @@ class BackpackGame {
         const clampedX = Math.max(0, Math.min(gridPos.x, this.config.backpackWidth - obj.width));
         const clampedY = Math.max(0, Math.min(gridPos.y, this.config.backpackHeight - obj.height));
         
-        if (this.isValidPlacement(clampedX, clampedY, obj)) {
-            this.ctx.fillStyle = 'rgba(72, 187, 120, 0.3)';
-        } else {
-            this.ctx.fillStyle = 'rgba(245, 101, 101, 0.3)';
-        }
-        
         const pixelPos = this.gridToPixel(clampedX, clampedY);
-        this.ctx.fillRect(
-            pixelPos.x,
-            pixelPos.y,
-            obj.width * this.config.cellSize,
-            obj.height * this.config.cellSize
-        );
+        
+        // Draw ghost shape overlay
+        const isValid = this.isValidPlacementWithShape(clampedX, clampedY, obj);
+        this.ctx.fillStyle = isValid ? 'rgba(72, 187, 120, 0.3)' : 'rgba(245, 101, 101, 0.3)';
+        
+        // Draw each cell of the shape
+        for (let y = 0; y < obj.shape.length; y++) {
+            for (let x = 0; x < obj.shape[y].length; x++) {
+                if (obj.shape[y][x] === 1) {
+                    this.ctx.fillRect(
+                        pixelPos.x + (x * this.config.cellSize),
+                        pixelPos.y + (y * this.config.cellSize),
+                        this.config.cellSize,
+                        this.config.cellSize
+                    );
+                }
+            }
+        }
     }
     
     /**
@@ -693,34 +958,36 @@ class BackpackGame {
     }
     
     /**
-     * Check if placement is valid with irregular grid support
+     * Check if placement is valid with shape support
      */
-    isValidPlacement(gridX, gridY, obj) {
+    isValidPlacementWithShape(gridX, gridY, obj) {
         // Check boundaries
         if (gridX < 0 || gridY < 0) return false;
         if (gridX + obj.width > this.config.backpackWidth) return false;
         if (gridY + obj.height > this.config.backpackHeight) return false;
         
-        // Check for overlaps and blocked cells
-        for (let y = 0; y < obj.height; y++) {
-            for (let x = 0; x < obj.width; x++) {
-                const checkY = gridY + y;
-                const checkX = gridX + x;
-                
-                // Check if this cell is blocked by the mask
-                if (this.config.gridMask && 
-                    this.config.gridMask[checkY] && 
-                    this.config.gridMask[checkY][checkX] === 0) {
-                    return false; // Can't place on blocked cells
-                }
-                
-                // Check if cell is already occupied or blocked
-                const cellValue = this.state.grid[checkY][checkX];
-                if (cellValue !== null && cellValue !== 'blocked') {
-                    return false; // Cell is occupied by another object
-                }
-                if (cellValue === 'blocked') {
-                    return false; // Cell is blocked
+        // Check each cell in the shape
+        for (let y = 0; y < obj.shape.length; y++) {
+            for (let x = 0; x < obj.shape[y].length; x++) {
+                if (obj.shape[y][x] === 1) {
+                    const checkY = gridY + y;
+                    const checkX = gridX + x;
+                    
+                    // Check if this cell is blocked by the mask
+                    if (this.config.gridMask && 
+                        this.config.gridMask[checkY] && 
+                        this.config.gridMask[checkY][checkX] === 0) {
+                        return false;
+                    }
+                    
+                    // Check if cell is already occupied
+                    const cellValue = this.state.grid[checkY][checkX];
+                    if (cellValue !== null && cellValue !== 'blocked') {
+                        return false;
+                    }
+                    if (cellValue === 'blocked') {
+                        return false;
+                    }
                 }
             }
         }
@@ -729,15 +996,18 @@ class BackpackGame {
     }
     
     /**
-     * Handle object placement
+     * DEPRECATED: Use isValidPlacementWithShape instead
+     */
+    isValidPlacement(gridX, gridY, obj) {
+        return this.isValidPlacementWithShape(gridX, gridY, obj);
+    }
+    
+    /**
+     * Handle object placement with shape support
      */
     handleObjectPlaced(obj, gridX, gridY) {
-        // Mark grid cells as occupied
-        for (let y = 0; y < obj.height; y++) {
-            for (let x = 0; x < obj.width; x++) {
-                this.state.grid[gridY + y][gridX + x] = obj.id;
-            }
-        }
+        // Mark grid cells as occupied using shape
+        this.markGridCellsWithShape(obj, gridX, gridY, true);
         
         // Update object state
         obj.isPlaced = true;
@@ -756,9 +1026,6 @@ class BackpackGame {
         // Update UI
         this.updateObjectCounter();
         this.checkContinueButton();
-        
-        // Show feedback
-        //this.showFeedback(`${obj.name} packed!`, 'success');
     }
     
     /**
@@ -779,10 +1046,8 @@ class BackpackGame {
      * Check if continue button should be enabled
      */
     checkContinueButton() {
-        // Check both possible button IDs
         const continueBtn = document.getElementById('continue-btn') || document.getElementById('done-btn');
         if (continueBtn) {
-            // Enable if at least one object is placed
             //continueBtn.disabled = this.state.placedObjects.length === 0;
             continueBtn.disabled = false;
         }
@@ -795,12 +1060,10 @@ class BackpackGame {
         this.state.feedbackMessage = message;
         this.state.feedbackType = type;
         
-        // Clear any existing timeout
         if (this.state.feedbackTimeout) {
             clearTimeout(this.state.feedbackTimeout);
         }
         
-        // Set timeout to clear message
         this.state.feedbackTimeout = setTimeout(() => {
             this.state.feedbackMessage = '';
         }, 2000);
@@ -812,16 +1075,14 @@ class BackpackGame {
     drawFeedback() {
         if (!this.state.feedbackMessage) return;
         
-        // Set font and measure text
         this.ctx.font = '18px Arial';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'bottom';
         
-        // Draw background for better visibility
         const textWidth = this.ctx.measureText(this.state.feedbackMessage).width;
         const padding = 12;
-        const bgX = (this.canvas.width - textWidth) / 2 - padding;
-        const bgY = this.canvas.height - 50;
+        const bgX = (this.baseWidth - textWidth) / 2 - padding;
+        const bgY = this.baseHeight - 50;
         
         // Draw semi-transparent background
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
@@ -836,46 +1097,61 @@ class BackpackGame {
             this.ctx.fillStyle = '#e2e8f0';
         }
         
-        // Draw text at bottom center
+        // Draw text
         this.ctx.fillText(
             this.state.feedbackMessage,
-            this.canvas.width / 2,
-            this.canvas.height - 25
+            this.baseWidth / 2,
+            this.baseHeight - 25
         );
     }
     
     /**
      * Handle continue button click
+     * MODIFIED: Save memory data when game ends
      */
     handleContinue() {
+        // Save memory snapshot
+        const memory = this.saveMemoryToTwine();
+        
         const placedData = {};
         this.state.placedObjects.forEach(obj => {
             placedData[obj.id] = true;
         });
         
-        console.log('Game completed with placed objects:', placedData);
+        console.log('Game completed with memory saved:', memory);
+        console.log('Placed objects:', placedData);
         
         if (this.config.onComplete) {
-            this.config.onComplete(placedData);
+            this.config.onComplete(placedData, memory);
         }
         
         // Send to Twine if integrated
         if (window.SugarCube && window.SugarCube.State) {
             window.SugarCube.State.variables.packedItems = placedData;
+            // Memory already saved in saveMemoryToTwine()
         }
     }
     
     /**
      * Handle reset button click
+     * MODIFIED: Options for soft reset (keep memory) vs hard reset
      */
-    handleReset() {
+    handleReset(hardReset = false) {
+        if (hardReset) {
+            // Clear memory completely
+            if (window.SugarCube && window.SugarCube.State) {
+                window.SugarCube.State.variables.backpackMemory = {};
+            }
+            this.config.memoryData = {};
+        }
+        
         // Clear grid (respecting mask)
         this.state.grid = this.createGrid(
             this.config.backpackWidth,
             this.config.backpackHeight
         );
         
-        // Reset all objects
+        // Reset all objects but normalize shapes
         this.state.objects.forEach(obj => {
             obj.isPlaced = false;
             obj.gridX = -1;
@@ -897,10 +1173,50 @@ class BackpackGame {
     }
     
     /**
+     * Update objects (for debug console)
+     */
+    updateObjects(newObjects) {
+        // Update the objects list and normalize shapes
+        this.config.objects = newObjects.map(obj => this.normalizeObjectShape(obj));
+        
+        // Recreate game state with new objects
+        this.createGameState();
+        
+        // Clear placed objects
+        this.state.placedObjects = [];
+        
+        // Clear grid
+        this.state.grid = this.createGrid(
+            this.config.backpackWidth,
+            this.config.backpackHeight
+        );
+        
+        // Apply memory for objects that exist
+        this.applyMemoryData();
+        
+        // Reposition objects without memory
+        this.positionStagingObjects();
+        
+        // Update UI
+        this.updateObjectCounter();
+        this.checkContinueButton();
+    }
+    
+    /**
      * End the game
      */
     endGame() {
         this.state.isRunning = false;
+        window.removeEventListener('resize', this.handleResize);
+        
+        if (this.inputHandler) {
+            this.inputHandler.destroy();
+        }
+        
+        if (this.debugConsole) {
+            this.debugConsole.destroy();
+        }
+        
         console.log('Game ended');
     }
 }

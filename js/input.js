@@ -1,6 +1,8 @@
 /**
  * InputHandler - Manages all user input for the backpack game
- * UPDATED: Added hover tracking for object info display
+ * SCALED VERSION: Added coordinate remapping for responsive scaling
+ * PERSISTENCE VERSION: Track all pixel positions for memory
+ * SHAPES VERSION: Added shape-based hit detection
  */
 class InputHandler {
     constructor(canvas, game) {
@@ -45,47 +47,86 @@ class InputHandler {
     }
     
     /**
-     * Get mouse position relative to canvas
+     * Get mouse position relative to canvas, accounting for scaling
      */
     getMousePosition(event) {
         const rect = this.canvas.getBoundingClientRect();
-        const scaleX = this.canvas.width / rect.width;
-        const scaleY = this.canvas.height / rect.height;
+        
+        // Get position relative to the canvas element
+        const canvasX = event.clientX - rect.left;
+        const canvasY = event.clientY - rect.top;
+        
+        // The canvas fills its wrapper which maintains aspect ratio
+        // Convert from displayed size to internal game coordinates
+        const gameX = (canvasX / rect.width) * this.game.baseWidth;
+        const gameY = (canvasY / rect.height) * this.game.baseHeight;
         
         return {
-            x: (event.clientX - rect.left) * scaleX,
-            y: (event.clientY - rect.top) * scaleY
+            x: gameX,
+            y: gameY
         };
     }
     
     /**
-     * Get touch position relative to canvas
+     * Get touch position relative to canvas, accounting for scaling
      */
     getTouchPosition(event) {
         const rect = this.canvas.getBoundingClientRect();
         const touch = event.touches[0] || event.changedTouches[0];
-        const scaleX = this.canvas.width / rect.width;
-        const scaleY = this.canvas.height / rect.height;
+        
+        // Get position relative to the canvas element
+        const canvasX = touch.clientX - rect.left;
+        const canvasY = touch.clientY - rect.top;
+        
+        // The canvas fills its wrapper which maintains aspect ratio
+        // Convert from displayed size to internal game coordinates
+        const gameX = (canvasX / rect.width) * this.game.baseWidth;
+        const gameY = (canvasY / rect.height) * this.game.baseHeight;
         
         return {
-            x: (touch.clientX - rect.left) * scaleX,
-            y: (touch.clientY - rect.top) * scaleY
+            x: gameX,
+            y: gameY
         };
     }
     
     /**
-     * Find object at given position
+     * Check if a point is inside an object's shape
+     */
+    isPointInObjectShape(x, y, obj) {
+        // Convert to relative position within object bounds
+        const relX = x - obj.pixelX;
+        const relY = y - obj.pixelY;
+        
+        // Check if point is within object's bounding box first (quick rejection)
+        if (relX < 0 || relY < 0 || 
+            relX >= obj.width * this.game.config.cellSize || 
+            relY >= obj.height * this.game.config.cellSize) {
+            return false;
+        }
+        
+        // Convert to cell coordinates within the shape
+        const cellX = Math.floor(relX / this.game.config.cellSize);
+        const cellY = Math.floor(relY / this.game.config.cellSize);
+        
+        // Check if this cell is occupied in the shape
+        if (obj.shape && 
+            obj.shape[cellY] && 
+            obj.shape[cellY][cellX] === 1) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Find object at given position using shape-based hit detection
      */
     getObjectAtPosition(x, y) {
         // Check objects in reverse order (top to bottom)
         const objects = [...this.game.state.objects].reverse();
         
         for (const obj of objects) {
-            const width = obj.width * this.game.config.cellSize;
-            const height = obj.height * this.game.config.cellSize;
-            
-            if (x >= obj.pixelX && x < obj.pixelX + width &&
-                y >= obj.pixelY && y < obj.pixelY + height) {
+            if (this.isPointInObjectShape(x, y, obj)) {
                 return obj;
             }
         }
@@ -225,7 +266,8 @@ class InputHandler {
     }
     
     /**
-     * Update drag position
+     * Update drag position (in game coordinates)
+     * MODIFIED: Always update pixel positions for memory tracking
      */
     updateDrag(position) {
         const obj = this.game.state.draggedObject;
@@ -234,10 +276,12 @@ class InputHandler {
         // Update object position (centered on cursor with offset)
         obj.pixelX = position.x - this.game.state.dragOffset.x;
         obj.pixelY = position.y - this.game.state.dragOffset.y;
+        
+        // These pixel positions will be remembered even if not placed in grid
     }
     
     /**
-     * End drag operation
+     * End drag operation with shape-based placement
      */
     endDrag(position) {
         const obj = this.game.state.draggedObject;
@@ -275,7 +319,7 @@ class InputHandler {
             const clampedX = Math.max(0, Math.min(gridPos.x, this.game.config.backpackWidth - obj.width));
             const clampedY = Math.max(0, Math.min(gridPos.y, this.game.config.backpackHeight - obj.height));
             
-            if (this.game.isValidPlacement(clampedX, clampedY, obj)) {
+            if (this.game.isValidPlacementWithShape(clampedX, clampedY, obj)) {
                 // Valid placement in backpack
                 this.game.handleObjectPlaced(obj, clampedX, clampedY);
                 console.log(`Placed ${obj.name} in backpack at grid position (${clampedX}, ${clampedY})`);
@@ -287,8 +331,9 @@ class InputHandler {
                 console.log(`Failed to place ${obj.name} in backpack - returning to original position`);
             }
         } else {
-            // Object is outside grid - leave it where it is
-            console.log(`${obj.name} placed outside backpack at (${obj.pixelX}, ${obj.pixelY})`);
+            // Object is outside grid - it stays in staging area
+            // The current pixelX and pixelY are already set and will be remembered
+            console.log(`${obj.name} placed in staging area at (${obj.pixelX}, ${obj.pixelY})`);
         }
         
         // Clear drag state
@@ -301,21 +346,26 @@ class InputHandler {
     }
     
     /**
-     * Pick up an already placed object (for repositioning)
+     * Pick up an already placed object with shape support
      */
     pickUpPlacedObject(obj) {
-        // Clear object from grid
-        for (let y = 0; y < obj.height; y++) {
-            for (let x = 0; x < obj.width; x++) {
-                if (this.game.state.grid[obj.gridY + y] && 
-                    this.game.state.grid[obj.gridY + y][obj.gridX + x] === obj.id) {
-                    // Check if this cell should be blocked or null
-                    if (this.game.config.gridMask && 
-                        this.game.config.gridMask[obj.gridY + y] && 
-                        this.game.config.gridMask[obj.gridY + y][obj.gridX + x] === 0) {
-                        this.game.state.grid[obj.gridY + y][obj.gridX + x] = 'blocked';
-                    } else {
-                        this.game.state.grid[obj.gridY + y][obj.gridX + x] = null;
+        // Clear object from grid using shape
+        for (let y = 0; y < obj.shape.length; y++) {
+            for (let x = 0; x < obj.shape[y].length; x++) {
+                if (obj.shape[y][x] === 1) {
+                    const cellY = obj.gridY + y;
+                    const cellX = obj.gridX + x;
+                    
+                    if (this.game.state.grid[cellY] && 
+                        this.game.state.grid[cellY][cellX] === obj.id) {
+                        // Check if this cell should be blocked or null
+                        if (this.game.config.gridMask && 
+                            this.game.config.gridMask[cellY] && 
+                            this.game.config.gridMask[cellY][cellX] === 0) {
+                            this.game.state.grid[cellY][cellX] = 'blocked';
+                        } else {
+                            this.game.state.grid[cellY][cellX] = null;
+                        }
                     }
                 }
             }
@@ -325,6 +375,7 @@ class InputHandler {
         obj.isPlaced = false;
         obj.gridX = -1;
         obj.gridY = -1;
+        // Keep pixelX and pixelY - they're already correct for dragging
         
         // Remove from placed objects list
         const index = this.game.state.placedObjects.indexOf(obj);
