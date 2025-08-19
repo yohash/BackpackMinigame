@@ -29,7 +29,9 @@ const config = {
     
     // All sprite files to embed as base64
     spriteFiles: {
+        // backpack mini-game UI
         'backpack': 'assets/sprites/backpack_bg.png',
+        // backpack mini-game objects
         'baseball': 'assets/sprites/baseball.png',
         'burtreyn': 'assets/sprites/burtreyn.png',
         'bong': 'assets/sprites/bong.png',
@@ -56,6 +58,8 @@ const config = {
         'smokes': 'assets/sprites/smokes.png',
         'spade': 'assets/sprites/spade.png',
         'trophy': 'assets/sprites/trophy.png',
+        // other png assets
+        'jansportal_keyart': 'assets/jansportal_keyart.png'
     },
     
     // Output file

@@ -2173,7 +2173,10 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 The Middle Aged
 Episode 1
 
-<img src="images/jansportal_keyart.png" alt="TheMiddleAged" />
+<<if window.BACKPACK_SPRITES && window.BACKPACK_SPRITES.jansportal_keyart>>
+<img @src="window.BACKPACK_SPRITES.jansportal_keyart" alt="The Middle Aged Key Art" style="max-width: 100%; height: auto;">
+<<else>>[Key Art Image]
+<</if>>
 
 By Zach Dodson
 for Interactive Tragedy, Limited
@@ -2184,6 +2187,7 @@ for Interactive Tragedy, Limited
 [[CREDITS]]
 [[CONTENT WARNING]]
 
+/*
 Post-Playtest version
 
 [[Test Backpack 2|backpackmenu2]]
@@ -2191,7 +2195,7 @@ Post-Playtest version
 [[Test Backpack 4|backpackmenu4]]
 [[Test Backpack 7|backpackmenu7]]
 [[Test Backpack 12|backpackmenu12]]
-
+*/
 
 
 :: StoryInit [startup] {"position":"50,150","size":"100,100"}
