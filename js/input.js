@@ -3,6 +3,7 @@
  * SCALED VERSION: Added coordinate remapping for responsive scaling
  * PERSISTENCE VERSION: Track all pixel positions for memory
  * SHAPES VERSION: Added shape-based hit detection
+ * ROTATION VERSION: Added click detection for rotation
  */
 class InputHandler {
     constructor(canvas, game) {
@@ -14,6 +15,13 @@ class InputHandler {
         this.isMouseDown = false;
         this.dragStartPosition = { x: 0, y: 0 };
         this.selectedObject = null;
+        
+        // Click detection state
+        this.clickStartTime = 0;
+        this.clickStartPos = { x: 0, y: 0 };
+        this.hasMoved = false;
+        this.clickThreshold = 200; // ms - max time for a click
+        this.moveThreshold = 5; // pixels - max movement for a click
         
         // Bind event handlers
         this.handleMouseDown = this.handleMouseDown.bind(this);
@@ -135,23 +143,32 @@ class InputHandler {
     }
     
     /**
+     * Calculate distance between two points
+     */
+    getDistance(pos1, pos2) {
+        const dx = pos2.x - pos1.x;
+        const dy = pos2.y - pos1.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+    
+    /**
      * Handle mouse down event
      */
     handleMouseDown(event) {
         this.mousePosition = this.getMousePosition(event);
         this.isMouseDown = true;
         
-        // Find object under cursor
+        // Track click start for click vs drag detection
+        this.clickStartTime = Date.now();
+        this.clickStartPos = { x: this.mousePosition.x, y: this.mousePosition.y };
+        this.hasMoved = false;
+        
+        // Find object under cursor using shape detection
         const obj = this.getObjectAtPosition(this.mousePosition.x, this.mousePosition.y);
         
         if (obj) {
-            // If object is placed in backpack, pick it up
-            if (obj.isPlaced) {
-                this.pickUpPlacedObject(obj);
-            } else {
-                // Start dragging unplaced object
-                this.startDrag(obj, this.mousePosition);
-            }
+            this.selectedObject = obj;
+            // Don't start drag immediately - wait to see if it's a click or drag
         }
     }
     
@@ -161,10 +178,30 @@ class InputHandler {
     handleMouseMove(event) {
         this.mousePosition = this.getMousePosition(event);
         
-        if (this.game.state.isDragging && this.game.state.draggedObject) {
+        if (this.isMouseDown && this.selectedObject) {
+            // Check if we've moved enough to count as a drag
+            const distance = this.getDistance(this.clickStartPos, this.mousePosition);
+            
+            if (!this.hasMoved && distance > this.moveThreshold) {
+                this.hasMoved = true;
+                
+                // Start dragging
+                if (this.selectedObject.isPlaced) {
+                    this.pickUpPlacedObject(this.selectedObject);
+                } else {
+                    this.startDrag(this.selectedObject, this.clickStartPos);
+                }
+            }
+            
+            // If already dragging, update position
+            if (this.hasMoved && this.game.state.isDragging) {
+                this.updateDrag(this.mousePosition);
+            }
+        } else if (this.game.state.isDragging && this.game.state.draggedObject) {
+            // Continue existing drag
             this.updateDrag(this.mousePosition);
         } else {
-            // Update hover state
+            // Update hover state with shape detection
             const obj = this.getObjectAtPosition(this.mousePosition.x, this.mousePosition.y);
             
             // Update hovered object in game state
@@ -179,11 +216,34 @@ class InputHandler {
      * Handle mouse up event
      */
     handleMouseUp(event) {
-        if (this.game.state.isDragging && this.game.state.draggedObject) {
+        if (this.isMouseDown && this.selectedObject) {
+            const clickDuration = Date.now() - this.clickStartTime;
+            const distance = this.getDistance(this.clickStartPos, this.mousePosition);
+            
+            // Check if this was a click (short duration and minimal movement)
+            if (clickDuration < this.clickThreshold && distance < this.moveThreshold) {
+                // It's a click! Rotate the object
+                this.handleClick(this.selectedObject);
+            } else if (this.game.state.isDragging && this.game.state.draggedObject) {
+                // It was a drag - end it
+                this.endDrag(this.mousePosition);
+            }
+        } else if (this.game.state.isDragging && this.game.state.draggedObject) {
+            // End any ongoing drag
             this.endDrag(this.mousePosition);
         }
         
         this.isMouseDown = false;
+        this.selectedObject = null;
+        this.hasMoved = false;
+    }
+    
+    /**
+     * Handle click on an object (rotation)
+     */
+    handleClick(obj) {
+        console.log(`Click detected on ${obj.name}`);
+        this.game.rotateObject(obj);
     }
     
     /**
@@ -193,9 +253,12 @@ class InputHandler {
         event.preventDefault();
         const position = this.getTouchPosition(event);
         
-        // Simulate mouse down
+        // Track click start for click vs drag detection
         this.mousePosition = position;
         this.isMouseDown = true;
+        this.clickStartTime = Date.now();
+        this.clickStartPos = { x: position.x, y: position.y };
+        this.hasMoved = false;
         
         const obj = this.getObjectAtPosition(position.x, position.y);
         
@@ -203,11 +266,8 @@ class InputHandler {
         this.game.state.hoveredObject = obj;
         
         if (obj) {
-            if (obj.isPlaced) {
-                this.pickUpPlacedObject(obj);
-            } else {
-                this.startDrag(obj, position);
-            }
+            this.selectedObject = obj;
+            // Don't start drag immediately - wait to see if it's a tap or drag
         }
     }
     
@@ -219,7 +279,27 @@ class InputHandler {
         const position = this.getTouchPosition(event);
         
         this.mousePosition = position;
-        if (this.game.state.isDragging && this.game.state.draggedObject) {
+        
+        if (this.isMouseDown && this.selectedObject) {
+            // Check if we've moved enough to count as a drag
+            const distance = this.getDistance(this.clickStartPos, position);
+            
+            if (!this.hasMoved && distance > this.moveThreshold) {
+                this.hasMoved = true;
+                
+                // Start dragging
+                if (this.selectedObject.isPlaced) {
+                    this.pickUpPlacedObject(this.selectedObject);
+                } else {
+                    this.startDrag(this.selectedObject, this.clickStartPos);
+                }
+            }
+            
+            // If already dragging, update position
+            if (this.hasMoved && this.game.state.isDragging) {
+                this.updateDrag(position);
+            }
+        } else if (this.game.state.isDragging && this.game.state.draggedObject) {
             this.updateDrag(position);
         }
     }
@@ -230,7 +310,19 @@ class InputHandler {
     handleTouchEnd(event) {
         event.preventDefault();
         
-        if (this.game.state.isDragging && this.game.state.draggedObject) {
+        if (this.isMouseDown && this.selectedObject) {
+            const clickDuration = Date.now() - this.clickStartTime;
+            const distance = this.getDistance(this.clickStartPos, this.mousePosition);
+            
+            // Check if this was a tap (short duration and minimal movement)
+            if (clickDuration < this.clickThreshold && distance < this.moveThreshold) {
+                // It's a tap! Rotate the object
+                this.handleClick(this.selectedObject);
+            } else if (this.game.state.isDragging && this.game.state.draggedObject) {
+                // It was a drag - end it
+                this.endDrag(this.mousePosition);
+            }
+        } else if (this.game.state.isDragging && this.game.state.draggedObject) {
             this.endDrag(this.mousePosition);
         }
         
@@ -238,6 +330,8 @@ class InputHandler {
         this.game.state.hoveredObject = null;
         
         this.isMouseDown = false;
+        this.selectedObject = null;
+        this.hasMoved = false;
     }
     
     /**

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FINAL BUILD SCRIPT: Bundles the polished Backpack Minigame into Twine
  * SCALED VERSION: Includes responsive scaling support
  * SHAPES VERSION: Added support for irregular object shapes
@@ -87,7 +87,7 @@ const ITEM_DATABASE = {
             [1, 0],
             [1, 0],
             [1, 1],
-            [1, 1]
+            [1, 0]
         ],
         color: 'hsl(20, 70%, 60%)',
         sprite: 'bong',
@@ -374,12 +374,50 @@ async function build() {
     }
     
     /**
+     * Rotate a shape 90 degrees clockwise
+     */
+    function rotateShapeClockwise(shape) {
+        if (!shape || shape.length === 0) return shape;
+        
+        const oldHeight = shape.length;
+        const oldWidth = shape[0].length;
+        const newShape = [];
+        
+        // Create new shape with swapped dimensions
+        for (let x = 0; x < oldWidth; x++) {
+            const newRow = [];
+            for (let y = oldHeight - 1; y >= 0; y--) {
+                newRow.push(shape[y][x]);
+            }
+            newShape.push(newRow);
+        }
+        
+        return newShape;
+    }
+    
+    /**
      * Normalize an object to ensure it has a shape property
      */
     function normalizeObjectShape(obj) {
+        // Store original dimensions if not already stored
+        if (obj.originalWidth === undefined) {
+            obj.originalWidth = obj.width;
+            obj.originalHeight = obj.height;
+        }
+        
         if (!obj.shape) {
             // Generate shape from width and height
             obj.shape = generateRectangularShape(obj.width, obj.height);
+        }
+        
+        // Store the base shape if not already stored
+        if (!obj.baseShape) {
+            obj.baseShape = JSON.parse(JSON.stringify(obj.shape));
+        }
+        
+        // Initialize rotation if not set
+        if (obj.rotation === undefined) {
+            obj.rotation = 0;
         }
         
         // Ensure width and height match shape dimensions
@@ -572,6 +610,8 @@ ${cssContent}
                         name: itemData.name,
                         width: itemData.width,
                         height: itemData.height,
+                        originalWidth: itemData.width,  // Store original dimensions
+                        originalHeight: itemData.height, // Store original dimensions
                         shape: itemData.shape,
                         color: itemData.color,
                         sprite: itemData.sprite,
