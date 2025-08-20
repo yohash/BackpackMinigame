@@ -59,7 +59,7 @@ const config = {
         'spade': 'assets/sprites/spade.png',
         'trophy': 'assets/sprites/trophy.png',
         // other png assets
-        'jansportal_keyart': 'assets/jansportal_keyart.png'
+        'title_screen': 'assets/sprites/title_screen.jpg'
     },
     
     // Output file
