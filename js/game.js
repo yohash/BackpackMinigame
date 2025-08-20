@@ -94,6 +94,12 @@ class BackpackGame {
      * Normalize object shape - ensure it has a shape grid
      */
     normalizeObjectShape(obj) {
+        // Store original dimensions if not already stored
+        if (obj.originalWidth === undefined) {
+            obj.originalWidth = obj.width;
+            obj.originalHeight = obj.height;
+        }
+        
         if (!obj.shape) {
             // Generate rectangular shape from width and height
             obj.shape = [];
@@ -106,6 +112,16 @@ class BackpackGame {
             }
         }
         
+        // Store the base shape if not already stored
+        if (!obj.baseShape) {
+            obj.baseShape = JSON.parse(JSON.stringify(obj.shape));
+        }
+        
+        // Initialize rotation if not set
+        if (obj.rotation === undefined) {
+            obj.rotation = 0;
+        }
+        
         // Ensure width and height match shape
         if (obj.shape && obj.shape.length > 0) {
             obj.height = obj.shape.length;
@@ -113,6 +129,143 @@ class BackpackGame {
         }
         
         return obj;
+    }
+    
+    /**
+     * Rotate a shape 90 degrees clockwise
+     */
+    rotateShapeClockwise(shape) {
+        if (!shape || shape.length === 0) return shape;
+        
+        const oldHeight = shape.length;
+        const oldWidth = shape[0].length;
+        const newShape = [];
+        
+        // Create new shape with swapped dimensions
+        for (let x = 0; x < oldWidth; x++) {
+            const newRow = [];
+            for (let y = oldHeight - 1; y >= 0; y--) {
+                newRow.push(shape[y][x]);
+            }
+            newShape.push(newRow);
+        }
+        
+        return newShape;
+    }
+    
+    /**
+     * Rotate an object 90 degrees clockwise
+     */
+    rotateObject(obj) {
+        // Don't rotate while dragging
+        if (this.state.isDragging) {
+            return false;
+        }
+        
+        // Calculate new shape
+        const newShape = this.rotateShapeClockwise(obj.shape);
+        const newWidth = newShape[0].length;
+        const newHeight = newShape.length;
+        
+        // For placed objects, validate the rotation
+        if (obj.isPlaced) {
+            // Check if rotation would be valid
+            if (!this.canRotateInPlace(obj, newShape, newWidth, newHeight)) {
+                this.showFeedback("Can't rotate here - collision detected", 'error');
+                return false;
+            }
+            
+            // Clear old position from grid
+            this.markGridCellsWithShape(obj, obj.gridX, obj.gridY, false);
+        } else {
+            // For objects in staging area, adjust position if needed to keep on screen
+            const rightEdge = obj.pixelX + newWidth * this.config.cellSize;
+            const bottomEdge = obj.pixelY + newHeight * this.config.cellSize;
+            
+            // Push object inward if it would go off screen
+            if (rightEdge > this.baseWidth - 50) {
+                obj.pixelX = this.baseWidth - 50 - newWidth * this.config.cellSize;
+            }
+            if (bottomEdge > this.baseHeight - 50) {
+                obj.pixelY = this.baseHeight - 50 - newHeight * this.config.cellSize;
+            }
+            if (obj.pixelX < 50) {
+                obj.pixelX = 50;
+            }
+            if (obj.pixelY < 50) {
+                obj.pixelY = 50;
+            }
+        }
+        
+        // Apply rotation
+        obj.shape = newShape;
+        obj.width = newWidth;
+        obj.height = newHeight;
+        obj.rotation = (obj.rotation + 90) % 360;
+        
+        // For placed objects, re-mark the grid
+        if (obj.isPlaced) {
+            this.markGridCellsWithShape(obj, obj.gridX, obj.gridY, true);
+        }
+        
+        // Visual feedback - brief highlight
+        this.flashObject(obj);
+        
+        console.log(`Rotated ${obj.name} to ${obj.rotation}°`);
+        return true;
+    }
+    
+    /**
+     * Check if an object can rotate in its current grid position
+     */
+    canRotateInPlace(obj, newShape, newWidth, newHeight) {
+        const gridX = obj.gridX;
+        const gridY = obj.gridY;
+        
+        // Check if new dimensions would fit
+        if (gridX + newWidth > this.config.backpackWidth) return false;
+        if (gridY + newHeight > this.config.backpackHeight) return false;
+        
+        // Check each cell in the new shape
+        for (let y = 0; y < newShape.length; y++) {
+            for (let x = 0; x < newShape[y].length; x++) {
+                if (newShape[y][x] === 1) {
+                    const checkY = gridY + y;
+                    const checkX = gridX + x;
+                    
+                    // Check if this cell is blocked by the mask
+                    if (this.config.gridMask && 
+                        this.config.gridMask[checkY] && 
+                        this.config.gridMask[checkY][checkX] === 0) {
+                        return false;
+                    }
+                    
+                    // Check if cell is occupied by another object
+                    const cellValue = this.state.grid[checkY][checkX];
+                    if (cellValue !== null && cellValue !== obj.id && cellValue !== 'blocked') {
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Flash an object briefly for visual feedback
+     */
+    flashObject(obj) {
+        // Store original state
+        const originalFlash = obj.isFlashing;
+        
+        // Start flash
+        obj.isFlashing = true;
+        
+        // End flash after 200ms
+        setTimeout(() => {
+            obj.isFlashing = false;
+        }, 200);
     }
     
     /**
@@ -346,9 +499,13 @@ class BackpackGame {
                 pixelY: 0,
                 width: objData.width || 1,
                 height: objData.height || 1,
+                originalWidth: objData.originalWidth || objData.width || 1,
+                originalHeight: objData.originalHeight || objData.height || 1,
                 shape: objData.shape,
-                rotation: 0,
-                description: objData.description || ''
+                baseShape: objData.baseShape,
+                rotation: objData.rotation || 0,
+                description: objData.description || '',
+                isFlashing: false
             });
             
             return normalized;
@@ -374,12 +531,23 @@ class BackpackGame {
             if (memory) {
                 console.log(`Restoring position for ${obj.id}:`, memory);
                 
-                // Apply memory data
+                // Apply rotation first if needed
+                if (memory.rotation && memory.rotation !== 0) {
+                    // Rotate the shape to match saved rotation
+                    let rotationsNeeded = memory.rotation / 90;
+                    for (let i = 0; i < rotationsNeeded; i++) {
+                        obj.shape = this.rotateShapeClockwise(obj.shape);
+                    }
+                    obj.width = obj.shape[0].length;
+                    obj.height = obj.shape.length;
+                    obj.rotation = memory.rotation;
+                }
+                
+                // Apply position data
                 obj.gridX = memory.gridX;
                 obj.gridY = memory.gridY;
                 obj.pixelX = memory.pixelX;
                 obj.pixelY = memory.pixelY;
-                obj.rotation = memory.rotation || 0;
                 obj.isPlaced = memory.isPlaced;
                 
                 // If it was placed in the grid, restore grid state with shape
@@ -413,9 +581,22 @@ class BackpackGame {
                     const cellY = gridY + y;
                     const cellX = gridX + x;
                     
-                    if (this.state.grid[cellY] && 
-                        this.state.grid[cellY][cellX] !== 'blocked') {
-                        this.state.grid[cellY][cellX] = mark ? obj.id : null;
+                    if (this.state.grid[cellY] && this.state.grid[cellY][cellX] !== undefined) {
+                        if (mark) {
+                            // Only mark if not blocked
+                            if (this.state.grid[cellY][cellX] !== 'blocked') {
+                                this.state.grid[cellY][cellX] = obj.id;
+                            }
+                        } else {
+                            // When unmarking, check if cell should be blocked or null
+                            if (this.config.gridMask && 
+                                this.config.gridMask[cellY] && 
+                                this.config.gridMask[cellY][cellX] === 0) {
+                                this.state.grid[cellY][cellX] = 'blocked';
+                            } else {
+                                this.state.grid[cellY][cellX] = null;
+                            }
+                        }
                     }
                 }
             }
@@ -833,24 +1014,50 @@ class BackpackGame {
      * Draw an object
      */
     drawObject(obj, isDragging = false) {
+        // Current logical dimensions (may be swapped due to rotation)
         const width = obj.width * this.config.cellSize;
         const height = obj.height * this.config.cellSize;
+        
+        // Original sprite dimensions (never change)
+        const originalWidth = (obj.originalWidth || obj.width) * this.config.cellSize;
+        const originalHeight = (obj.originalHeight || obj.height) * this.config.cellSize;
         
         if (isDragging) {
             this.ctx.globalAlpha = 0.7;
         }
         
+        // Flash effect when rotating
+        if (obj.isFlashing) {
+            this.ctx.save();
+            this.ctx.shadowBlur = 20;
+            this.ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+        }
+        
         // Use sprite if available, otherwise draw colored rectangle
         if (this.state.sprites[obj.sprite]) {
+            // Save context for rotation
+            this.ctx.save();
+            
+            // Calculate center of the object's current bounds
+            const centerX = obj.pixelX + width / 2;
+            const centerY = obj.pixelY + height / 2;
+            
+            // Apply rotation around center
+            this.ctx.translate(centerX, centerY);
+            this.ctx.rotate((obj.rotation || 0) * Math.PI / 180);
+            
+            // Draw sprite at its ORIGINAL dimensions, centered at origin
             this.ctx.drawImage(
                 this.state.sprites[obj.sprite],
-                obj.pixelX,
-                obj.pixelY,
-                width,
-                height
+                -originalWidth / 2,
+                -originalHeight / 2,
+                originalWidth,
+                originalHeight
             );
+            
+            this.ctx.restore();
         } else {
-            // Placeholder rectangle
+            // Placeholder rectangle (no rotation needed, shape handles it)
             this.ctx.fillStyle = obj.color || '#9f7aea';
             this.ctx.fillRect(obj.pixelX, obj.pixelY, width, height);
             
@@ -859,16 +1066,24 @@ class BackpackGame {
             this.ctx.lineWidth = 2;
             this.ctx.strokeRect(obj.pixelX, obj.pixelY, width, height);
             
-            // Label
+            // Label (rotated with the object)
+            this.ctx.save();
+            const centerX = obj.pixelX + width / 2;
+            const centerY = obj.pixelY + height / 2;
+            this.ctx.translate(centerX, centerY);
+            this.ctx.rotate((obj.rotation || 0) * Math.PI / 180);
+            
             this.ctx.fillStyle = '#ffffff';
             this.ctx.font = '14px Arial';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
-            this.ctx.fillText(
-                obj.name || obj.id,
-                obj.pixelX + width / 2,
-                obj.pixelY + height / 2
-            );
+            this.ctx.fillText(obj.name || obj.id, 0, 0);
+            
+            this.ctx.restore();
+        }
+        
+        if (obj.isFlashing) {
+            this.ctx.restore();
         }
         
         if (isDragging) {
