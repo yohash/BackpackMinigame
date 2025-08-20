@@ -59,7 +59,7 @@ const config = {
         'spade': 'assets/sprites/spade.png',
         'trophy': 'assets/sprites/trophy.png',
         // other png assets
-        'title_screen': 'assets/sprites/title_screen.png'
+        'title_screen': 'assets/sprites/title_screen.jpg'
     },
     
     // Output file

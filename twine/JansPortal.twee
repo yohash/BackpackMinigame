@@ -8,6 +8,7 @@ JansPortal Test V7
   "format": "SugarCube",
   "format-version": "2.37.3",
   "start": "StartScreen",
+  "tag-colors": {},
   "zoom": 1
 }
 
@@ -52,7 +53,7 @@ JansPortal Test V7
 <<script>>
     // Start the game
     setTimeout(function() {
-        BackpackMinigame.start(State.variables.availableItems, State.variables.backpackMemory);
+      BackpackMinigame.start(State.variables.availableItems, State.variables.backpackMemory);
     }, 100);
 <</script>>
 <</done>>
@@ -86,34 +87,6 @@ JansPortal Test V7
 \<<set $trophy = $backpackMemory["trophy"] && $backpackMemory["trophy"].isPlaced>>
 \<<set $jesterpant = $backpackMemory["jesterpant"] && $backpackMemory["jesterpant"].isPlaced>>
 \<<set $burtreyn = $backpackMemory["burtreyn"] && $backpackMemory["burtreyn"].isPlaced>>
-:: BackpackComplete {"position":"100,0","size":"100,100"}
-<<set $romancand = $packedItems.includes("romancand")>>
-\<<set $lightergrt = $packedItems.includes("lightergrt")>>
-\<<set $lighterern = $packedItems.includes("lighterern")>>
-\<<set $lighterram = $packedItems.includes("lighterram")>>
-\<<set $matchbook = $packedItems.includes("matchbook")>>
-\<<set $cellphone = $packedItems.includes("cellphone")>>
-\<<set $lollipops = $packedItems.includes("lollipops")>>
-\<<set $fleacollar = $packedItems.includes("fleacollar")>>
-\<<set $fabreeze = $packedItems.includes("fabreeze")>>
-\<<set $cheetos = $packedItems.includes("cheetos")>>
-\<<set $bong = $packedItems.includes("bong")>>
-\<<set $shield = $packedItems.includes("shield")>>
-\<<set $cups = $packedItems.includes("cups")>>
-\<<set $cash401 = $packedItems.includes("cash401")>>
-\<<set $cash1 = $packedItems.includes("cash1")>>
-\<<set $pointer = $packedItems.includes("pointer")>>
-\<<set $smokes = $packedItems.includes("smokes")>>
-\<<set $jestervest = $packedItems.includes("jestervest")>>
-\<<set $orcking = $packedItems.includes("orcking")>>
-\<<set $dice = $packedItems.includes("dice")>>
-\<<set $papertow = $packedItems.includes("papertow")>>
-\<<set $cheetos2 = $packedItems.includes("cheetos2")>>
-\<<set $baseball = $packedItems.includes("baseball")>>
-\<<set $spade = $packedItems.includes("spade")>>
-\<<set $trophy = $packedItems.includes("trophy")>>
-\<<set $jesterpant = $packedItems.includes("jesterpant")>>
-\<<set $burtreyn = $packedItems.includes("burtreyn")>>
 IN YOUR BACKPACK
 <<if $romancand>>• Roman candle<br><</if>>
 \<<if $lighterram>>• Rambo’s lighter<br><</if>>
@@ -154,6 +127,7 @@ This game contains strong language, crude humor, references to drug and alcohol 
 
 [[Go back to the MAIN MENU|StartScreen]]
 [[CREDITS]]
+[[SOUND]]
 
 
 :: CREDITS {"position":"225,250","size":"100,100"}
@@ -193,6 +167,7 @@ Christopher Curtis
 
 [[Go back to the MAIN MENU|StartScreen]]
 [[CONTENT WARNING]]
+[[SOUND]]
 
 
 :: EndScreen {"position":"1800,3200","size":"100,100"}
@@ -248,6 +223,14 @@ You've survived, just barely.
 You smile, faintly, as the new world you’ve found goes black.
 
 [[THE END|EndScreen]]
+
+
+:: SOUND {"position":"50,275","size":"100,100"}
+Sound On or Off
+
+[[Go back to the MAIN MENU|StartScreen]]
+[[CONTENT WARNING]]
+[[CREDITS]]
 
 
 :: Scene10A {"position":"800,2100","size":"100,100"}
@@ -2123,7 +2106,7 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 [[Return to the STRIP MALL PARKING LOT|Scene10A]]
 
 
-:: StartScreen {"position":"175,150","size":"100,100"}
+:: StartScreen [splash] {"position":"175,150","size":"100,100"}
 \<<set $romancand = false>>
 \<<set $lighterram = false>>
 \<<set $lighterern = false>>
@@ -2152,50 +2135,38 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 \<<set $jesterpant = false>>
 \<<set $burtreyn = false>>
 \<<set $cash1 = false>>
-\
 \<<set $backpack = []>>
-\
 \<<set $check = false>>
 \<<set $bodyarmor = false>>
-\
 \<<set $LEFTbong = false>>
 \<<set $LEFTcellphone = false>>
 \<<set $LEFTcups = false>>
 \<<set $STOLEcash401 = false>>
 \<<set $THREWcups = false>>
 \<<set $ANGRY = false>>
-\
 \<<set $mobmen = 0>>
-\
-\<<set $backpackMemory = {}>>
 \<<set $nextPassageString = "">>
-
-The Middle Aged
-Episode 1
 
 <<if window.BACKPACK_SPRITES && window.BACKPACK_SPRITES.title_screen>>
 <img @src="window.BACKPACK_SPRITES.title_screen" alt="The Middle Aged Key Art" style="max-width: 100%; height: auto;">
 <<else>>[Key Art Image]
 <</if>>
+<div id="title-root">
+  <div id="title-canvas">
+    <div id="start-panel">
+      <span style="font-size:1.25em; line-height:1.2; display:inline-block;">[[START|Scene1A]]</span>
+      [[SOUND]]  ||  [[CONTENT WARNING]]  ||  [[CREDITS]]
+      <span class="byline">By Zach Dodson for Interactive Tragedy, Limited</span>
+    </div>
+  </div>
+</div>
 
-By Zach Dodson
-for Interactive Tragedy, Limited
-
-
-[[START|Scene1A]]
-
-[[CREDITS]]
-[[CONTENT WARNING]]
-
-/*
-Post-Playtest version
-
+/* Playtest version
 [[Test Backpack 2|backpackmenu2]]
 [[Test Backpack 3|backpackmenu3]]
 [[Test Backpack 4|backpackmenu4]]
 [[Test Backpack 7|backpackmenu7]]
-[[Test Backpack 12|backpackmenu12]]
-*/
+[[Test Backpack 12|backpackmenu12]]*/
 
 
 :: StoryInit [startup] {"position":"50,150","size":"100,100"}
@@ -2249,7 +2220,99 @@ Post-Playtest version
 // End Simple Inventory
 
 :: StoryStylesheet [stylesheet]
+/* Story Stylesheet — simple local serif stack, Georgia first */
+.passage,
+#ui-bar, #ui-dialog, #ui-overlay, #story {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino,
+               "Book Antiqua", serif !important;
+}
+
+
 /* Simple Inventory, for SugarCube 2, by Chapel
 v3.0.1, 2024-07-22, 8c9749dbafa5f12948d743a8dedd4e1c74bb9e26 */
 ul.simple-inventory-list{margin:0 auto;padding:0}.simple-inventory-listing{list-style:none;padding:.3rem .3rem .3rem 1rem;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr}.simple-inventory-listing:nth-child(2n){background-color:#000}.simple-inventory-listing>a,.simple-inventory-listing>span{display:inline-block}.all-listing.simple-inventory-listing{border-top:1px solid #fafafa;background-color:transparent}.drop-link{color:#e33}.drop-link:active,.drop-link:focus,.drop-link:hover{color:#f88}.simple-inventory-filter{text-align:right}.simple-inventory-filter input{display:inline-block}
 /* End Simple Inventory */
+
+/* Any passage tagged [splash] gets full-bleed layout */
+.passage.splash {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#passage-Start #title-root { min-height: 100vh; }
+@supports (height: 100svh) {
+  #passage-Start #title-root { min-height: 100svh; }
+}
+
+/* Remove SugarCube’s default padding/margins ONLY on StartScreen */
+body.passage-StartScreen #passages { padding: 0 !important; }
+body.passage-StartScreen .passage  { margin: 0 !important; padding: 0 !important; }
+
+/* If your first element has a top margin (e.g., an <h1>), kill it here */
+body.passage-StartScreen .passage > :first-child { margin-top: 0 !important; }
+
+
+
+
+/* Full-viewport centering for the square title canvas */
+#title-root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Square canvas that scales with browser height */
+#title-canvas {
+  position: relative;
+  background-image: url("images/title_screen.jpg"); 
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover; 
+
+  height: 100vh;
+  width: 100vh;
+  max-width: 100%;      
+}
+
+/* Use small-viewport-height if supported (mobile address bar safe) */
+@supports (height: 100svh) {
+  #title-canvas {
+    height: 100svh;
+    width: 100svh;
+  }
+}
+
+/* The floating black box in the top quarter of the image */
+#start-panel {
+ position: absolute;
+  top: 2.5rem;                 /* vertical gap at top */
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;                 /* remove horizontal push */
+  padding: 0.6rem 0.8rem;
+  width: min(60%, 600px);
+  text-align: center;
+  background: rgba(0,0,0,0.88);
+  color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 10px rgba(0,0,0,0.25);
+  box-sizing: border-box;    /* so padding doesn’t exceed width */
+}
+
+/* Link styling inside the panel */
+#start-panel a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+}
+#start-panel a:hover {
+  border-bottom-color: rgba(255,255,255,0.85);
+}
+
+/* Byline */
+#start-panel .byline {
+  display: block;
+  opacity: 0.85;
+  font-size: 1rem;
+}
