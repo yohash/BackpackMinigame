@@ -5,6 +5,97 @@
 /* DIRECT TWINE STRUCTURE OVERRIDE */
 /* =============================================== */
 
+
+/* Story Stylesheet — simple local serif stack, Georgia first */
+.passage,
+#ui-bar, #ui-dialog, #ui-overlay, #story {
+  font-family: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino,
+               "Book Antiqua", serif !important;
+}
+
+/* Any passage tagged [splash] gets full-bleed layout */
+.passage.splash {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#passage-Start #title-root { min-height: 100vh; }
+@supports (height: 100svh) {
+  #passage-Start #title-root { min-height: 100svh; }
+}
+
+/* Remove SugarCube’s default padding/margins ONLY on StartScreen */
+body.passage-StartScreen #passages { padding: 0 !important; }
+body.passage-StartScreen .passage  { margin: 0 !important; padding: 0 !important; }
+body.passage-StartScreen .passage > :first-child { margin-top: 0 !important; }
+
+
+/* Full-viewport centering for the title canvas */
+#title-root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Canvas that scales with browser height */
+#title-canvas {
+  position: relative;
+  background-image: url("images/title_screen.jpg"); 
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover; 
+
+  height: 100vh;
+  width: 100vh;
+  max-width: 100%;      
+}
+
+/* Use small-viewport-height if supported (mobile address bar safe) */
+@supports (height: 100svh) {
+  #title-canvas {
+    height: 100svh;
+    width: 100svh;
+  }
+}
+
+/* The floating black box in the top quarter of the image */
+#start-panel {
+ position: absolute;
+  top: 2.5rem;                 
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;                 
+  padding: 0.6rem 0.8rem;
+  width: min(60%, 600px);
+  text-align: center;
+  background: rgba(0,0,0,0.88);
+  color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 10px rgba(0,0,0,0.25);
+  box-sizing: border-box;    
+}
+
+/* Link styling inside the panel */
+#start-panel a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+}
+#start-panel a:hover {
+  border-bottom-color: rgba(255,255,255,0.85);
+}
+
+/* Byline */
+#start-panel .byline {
+  display: block;
+  opacity: 0.85;
+  font-size: 1rem;
+}
+
+
+
+
 /* Target ALL Twine layout containers and make them full-width when game is present */
 body:has(#backpack-game-container),
 body.backpack-active {
