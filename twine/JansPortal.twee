@@ -89,36 +89,6 @@ The Middle Aged
 \<<set $trophy = $backpackMemory["trophy"] && $backpackMemory["trophy"].isPlaced>>
 \<<set $jesterpant = $backpackMemory["jesterpant"] && $backpackMemory["jesterpant"].isPlaced>>
 \<<set $burtreyn = $backpackMemory["burtreyn"] && $backpackMemory["burtreyn"].isPlaced>>
-
-
-:: BackpackComplete {"position":"100,0","size":"100,100"}
-<<set $romancand = $packedItems.includes("romancand")>>
-\<<set $lightergrt = $packedItems.includes("lightergrt")>>
-\<<set $lighterern = $packedItems.includes("lighterern")>>
-\<<set $lighterram = $packedItems.includes("lighterram")>>
-\<<set $matchbook = $packedItems.includes("matchbook")>>
-\<<set $cellphone = $packedItems.includes("cellphone")>>
-\<<set $lollipops = $packedItems.includes("lollipops")>>
-\<<set $fleacollar = $packedItems.includes("fleacollar")>>
-\<<set $fabreeze = $packedItems.includes("fabreeze")>>
-\<<set $cheetos = $packedItems.includes("cheetos")>>
-\<<set $bong = $packedItems.includes("bong")>>
-\<<set $shield = $packedItems.includes("shield")>>
-\<<set $cups = $packedItems.includes("cups")>>
-\<<set $cash401 = $packedItems.includes("cash401")>>
-\<<set $cash1 = $packedItems.includes("cash1")>>
-\<<set $pointer = $packedItems.includes("pointer")>>
-\<<set $smokes = $packedItems.includes("smokes")>>
-\<<set $jestervest = $packedItems.includes("jestervest")>>
-\<<set $orcking = $packedItems.includes("orcking")>>
-\<<set $dice = $packedItems.includes("dice")>>
-\<<set $papertow = $packedItems.includes("papertow")>>
-\<<set $cheetos2 = $packedItems.includes("cheetos2")>>
-\<<set $baseball = $packedItems.includes("baseball")>>
-\<<set $spade = $packedItems.includes("spade")>>
-\<<set $trophy = $packedItems.includes("trophy")>>
-\<<set $jesterpant = $packedItems.includes("jesterpant")>>
-\<<set $burtreyn = $packedItems.includes("burtreyn")>>
 IN YOUR BACKPACK
 <<if $romancand>>• Roman candle<br><</if>>
 \<<if $lighterram>>• Rambo’s lighter<br><</if>>
