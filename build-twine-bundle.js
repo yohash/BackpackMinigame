@@ -17,12 +17,14 @@ const config = {
         'js/grid.js',
         'js/objects.js',
         'js/renderer.js',
-        'js/input.js',   // Use the scaled version with coordinate remapping
-        'js/game.js'      // Use the scaled version with responsive support
+        'js/input.js',
+        'js/game.js',
+        'twine/twine.js'
     ],
     
     cssFiles: [
-        'css/game.css'    // Use the scaled version
+        'css/game.css',
+        'twine/twine.css'
     ],
 
     storyFile: 'twine/JansPortal.twee',
