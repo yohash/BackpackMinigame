@@ -17,12 +17,12 @@ const config = {
         'js/grid.js',
         'js/objects.js',
         'js/renderer.js',
-        'js/input.js',   // Use the scaled version with coordinate remapping
-        'js/game.js'      // Use the scaled version with responsive support
+        'js/input.js',
+        'js/game.js'
     ],
     
     cssFiles: [
-        'css/game.css'    // Use the scaled version
+        'css/game.css'
     ],
 
     storyFile: 'twine/JansPortal.twee',
@@ -63,7 +63,7 @@ const config = {
     },
     
     // Output file
-    outputFile: 'backpack-bundle.twee',
+    outputFile: 'TheMiddleAged.twee',
     
     // Whether to minify (requires installing terser: npm install terser)
     minify: false
@@ -348,7 +348,7 @@ function imageToBase64(filepath) {
  * Main build function
  */
 async function build() {
-    console.log('🔨 Building Twine Bundle with Scaling and Shape Support...\n');
+    console.log('🔨 Building Twine Bundle...\n');
     
     // ================================
     // 1. COMBINE JAVASCRIPT
@@ -751,8 +751,7 @@ ${cssContent}
     console.log('\n📋 Next steps:');
     console.log('1. Open Twine 2');
     console.log('2. Click "Import From File"');
-    console.log('3. Select backpack-bundle.twee');
-    console.log('4. Your game now has shape support!\n');
+    console.log('3. Select TheMiddleAged.twee');
 }
 
 // ================================
