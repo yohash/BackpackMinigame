@@ -2146,7 +2146,7 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 \<<set $THREWcups = false>>
 \<<set $ANGRY = false>>
 \<<set $mobmen = 0>>
-\<<set $$backpackMemory = {}>>
+\<<set $backpackMemory = {}>>
 \<<set $nextPassageString = "">>
 
 <div id="title-root">
