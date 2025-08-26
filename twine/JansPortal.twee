@@ -54,7 +54,7 @@ The Middle Aged
 <<script>>
     // Start the game
     setTimeout(function() {
-        BackpackMinigame.start(State.variables.availableItems);
+        BackpackMinigame.start(State.variables.availableItems, State.variables.backpackMemory);
     }, 100);
 <</script>>
 <</done>>
