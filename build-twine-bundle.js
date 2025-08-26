@@ -18,11 +18,13 @@ const config = {
         'js/objects.js',
         'js/renderer.js',
         'js/input.js',
-        'js/game.js'
+        'js/game.js',
+        'twine/twine.js'
     ],
     
     cssFiles: [
-        'css/game.css'
+        'css/game.css',
+        'twine/twine.css'
     ],
 
     storyFile: 'twine/JansPortal.twee',

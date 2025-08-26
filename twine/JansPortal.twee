@@ -7,6 +7,7 @@ The Middle Aged
   "ifid": "5893cbf2-11c3-441b-b7bc-bfd55e5b511b",
   "format": "SugarCube",
   "format-version": "2.37.3",
+  "start": "StartScreen",
   "tag-colors": {
     "splash": ""
   },
@@ -88,6 +89,36 @@ The Middle Aged
 \<<set $trophy = $backpackMemory["trophy"] && $backpackMemory["trophy"].isPlaced>>
 \<<set $jesterpant = $backpackMemory["jesterpant"] && $backpackMemory["jesterpant"].isPlaced>>
 \<<set $burtreyn = $backpackMemory["burtreyn"] && $backpackMemory["burtreyn"].isPlaced>>
+
+
+:: BackpackComplete {"position":"100,0","size":"100,100"}
+<<set $romancand = $packedItems.includes("romancand")>>
+\<<set $lightergrt = $packedItems.includes("lightergrt")>>
+\<<set $lighterern = $packedItems.includes("lighterern")>>
+\<<set $lighterram = $packedItems.includes("lighterram")>>
+\<<set $matchbook = $packedItems.includes("matchbook")>>
+\<<set $cellphone = $packedItems.includes("cellphone")>>
+\<<set $lollipops = $packedItems.includes("lollipops")>>
+\<<set $fleacollar = $packedItems.includes("fleacollar")>>
+\<<set $fabreeze = $packedItems.includes("fabreeze")>>
+\<<set $cheetos = $packedItems.includes("cheetos")>>
+\<<set $bong = $packedItems.includes("bong")>>
+\<<set $shield = $packedItems.includes("shield")>>
+\<<set $cups = $packedItems.includes("cups")>>
+\<<set $cash401 = $packedItems.includes("cash401")>>
+\<<set $cash1 = $packedItems.includes("cash1")>>
+\<<set $pointer = $packedItems.includes("pointer")>>
+\<<set $smokes = $packedItems.includes("smokes")>>
+\<<set $jestervest = $packedItems.includes("jestervest")>>
+\<<set $orcking = $packedItems.includes("orcking")>>
+\<<set $dice = $packedItems.includes("dice")>>
+\<<set $papertow = $packedItems.includes("papertow")>>
+\<<set $cheetos2 = $packedItems.includes("cheetos2")>>
+\<<set $baseball = $packedItems.includes("baseball")>>
+\<<set $spade = $packedItems.includes("spade")>>
+\<<set $trophy = $packedItems.includes("trophy")>>
+\<<set $jesterpant = $packedItems.includes("jesterpant")>>
+\<<set $burtreyn = $packedItems.includes("burtreyn")>>
 IN YOUR BACKPACK
 <<if $romancand>>• Roman candle<br><</if>>
 \<<if $lighterram>>• Rambo’s lighter<br><</if>>
@@ -128,7 +159,6 @@ This game contains strong language, crude humor, references to drug and alcohol 
 
 [[Go back to the MAIN MENU|StartScreen]]
 [[CREDITS]]
-[[SOUND]]
 
 
 :: CREDITS {"position":"225,250","size":"100,100"}
@@ -171,7 +201,6 @@ Christopher Curtis
 
 [[Go back to the MAIN MENU|StartScreen]]
 [[CONTENT WARNING]]
-[[SOUND]]
 
 
 :: EndScreen {"position":"1800,3200","size":"100,100"}
@@ -227,14 +256,6 @@ You've survived, just barely.
 You smile, faintly, as the new world you’ve found goes black.
 
 [[THE END|EndScreen]]
-
-
-:: SOUND {"position":"50,275","size":"100,100"}
-Sound On or Off
-
-[[Go back to the MAIN MENU|StartScreen]]
-[[CONTENT WARNING]]
-[[CREDITS]]
 
 
 :: Scene10A {"position":"800,2100","size":"100,100"}
@@ -338,7 +359,6 @@ BERT: Shit!
 You leap after them, trying to step on them before they roll underneath the...
 
 [[... DRAGON’S BREATH FIREWORKS TRAILER |Scene11A]]
-
 
 
 :: Scene11A {"position":"800,2300","size":"100,100"}
@@ -867,55 +887,80 @@ JAN pulls her beard back up and whispers something in the KING's ear. They turn,
 
 
 :: Scene1A {"position":"400,150","size":"100,100"}
-THE FRONT COUNTER OF JACK OF ALL FRUITS
+<<scene "INT. THE FRONT COUNTER OF JACK OF ALL FRUITS" >>
 
-You hate it here. Deep into a double-shift. Eyes almost watering from the circus color palette, bright stupid reds, yellows, and blues.
+<<action "You hate it here. Deep into a double-shift. Eyes almost watering from the circus color palette, bright stupid reds, yellows, and blues.">>
 
-But it’s a job. JACK OF ALL FRUITS, the most ridiculous jester-themed smoothie bar in the ugliest STRIP MALL in town. Every day you come here. Every day you’d rather be anywhere else.
+<<action "But it’s a job. Jack of All Fruits. The most ridiculous jester-themed smoothie bar in the ugliest strip mall in town. Every day you come here. Every day you’d rather be anywhere else.">>
 
-You struggle to get the plastic lid on the latest order. The king-sized lids don’t fit the king-sized cups. Everybody always orders king-size. You squeeze too hard. Neon orange goo drips down the side of the cup.
+<<action "You struggle to get the plastic lid on the latest order. The king-sized lids don’t fit the king-sized cups. Everybody always orders king-size. You squeeze too hard. Neon orange goo drips down the side of the cup.">>
 
-You feel angry.
+<<action "You feel angry.">>
 
-Finally the lid clicks with a pop and drops of the orange fleck your court jester uniform. You grab a dirty dishrag to try and blot it out, but you already know from experience that it will stain. Little bells jingle as you tug on your JESTER VEST, too tight even though it was the largest size they had. Your nametag, BERT, falls on to the sticky floor.
+<<action "Finally the lid clicks with a pop and drops of the orange fleck your court jester uniform. You grab a dirty dishrag to try and blot it out, but you already know from experience that it will stain. Little bells jingle as you tug on your JESTER VEST, too tight even though it was the largest size they had. Your nametag, BERT, falls on to the sticky floor.">> 
 
-You feel depressed. Then angry again.
+
+<<action "You feel depressed. Then angry again. ">>
 
 [[Push the anger down|Scene1B]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
+
 
 :: Scene1B {"position":"525,150","size":"100,100"}
-You have to do your job. So you call out:
+<<action "You have to do your job. So you call out:">>
 
-BERT: One Mango-Carta Madness?
+<<char "BERT">>
+<<dialogue "One Mango-Carta Madness?">>
+<<action "No answer from the empty tables.">>
 
-No answer from the empty tables.
+<<char "BERT">>
+<<dialogue "King...">>
+<<action "You squint at the name on the gigantic plastic cup.">>
 
-BERT: King…
+<<char "BERT">>
+<<dialogue "King… Jeffrey?">>
+<<action "A snotty nine-year-old marches up to the counter, hands clasped behind his back, a shit-eating grin on his face.">>
 
-(You squint at the name on the gigantic plastic cup.)
+<<char "JEFFREY">>
+<<dialogue "Say it.">>
 
-BERT: King… Jeffrey?
+<<char "BERT">>
+<<dialogue "Just take the smoothie, kid.">>
+<<action "You can feel ERNESTO hovering behind you, anxious. His uniform matches yours, but it’s the smallest size. He whispers nervously from the backroom.">>
 
-A snotty nine-year-old marches up to the counter, hands clasped behind his back, a shit-eating grin on his face.
+<<char "ERNESTO">>
+<<dialogue " Dude. You have two strikes already.">>
 
-JEFFREY: Say it.
+<<char "JEFFREY">>
+<<dialogue "Say it.">>
 
-BERT: Just take the smoothie, kid.
+<<char "BERT">>
+<<dialogue "Libation for His Royal Majesty, may your eternal reign be smooth.">>
 
-You can feel ERNESTO hovering behind you, anxious. His uniform matches yours, but it’s the smallest size. He whispers nervously from the backroom.
-
-ERNESTO: Dude. You have two strikes already.
-
-JEFFREY: Say it.
-
-BERT: Libation for His Royal Majesty, may your eternal reign be smooth.
-
-JEFFREY: Off with your fat head.
-
-Little KING JEFFREY snatches the smoothie out of your hand with a scowl. As the anger starts to rise again, you notice that there is another customer waiting.
+<<char "JEFFREY">>
+<<dialogue "Off with your fat head.">>
+<<action "Little KING JEFFREY snatches the smoothie out of your hand with a scowl. As the anger starts to rise again, you notice that there is another customer waiting.">>
 
 [[Push the anger down|Scene1C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 
 :: Scene1C {"position":"650,150","size":"100,100"}
@@ -1041,7 +1086,7 @@ What do you put in your backpack?<<set $lightergrt = true>><<set $cellphone = tr
 [[Open your BACKPACK|backpackmenu2]]
 
 
-:: Scene2A {"position":"400,450","size":"100,100"}
+:: Scene2A {"position":"400,425","size":"100,100"}
 STRIP MALL PARKING LOT
 
 
@@ -2111,7 +2156,7 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 [[Return to the STRIP MALL PARKING LOT|Scene10A]]
 
 
-:: StartScreen [splash] {"position":"175,150","size":"100,100"}
+:: StartScreen {"position":"175,150","size":"100,100"}
 \<<set $romancand = false>>
 \<<set $lighterram = false>>
 \<<set $lighterern = false>>
@@ -2142,15 +2187,21 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 \<<set $cash1 = false>>
 \<<set $check = false>>
 \<<set $bodyarmor = false>>
+\
 \<<set $LEFTbong = false>>
 \<<set $LEFTcellphone = false>>
 \<<set $LEFTcups = false>>
 \<<set $STOLEcash401 = false>>
 \<<set $THREWcups = false>>
 \<<set $ANGRY = false>>
+\
 \<<set $mobmen = 0>>
+\
 \<<set $backpackMemory = {}>>
 \<<set $nextPassageString = "">>
+
+<<char"The Middle Aged">>
+<<paren"Episode 1">>
 
 <div id="title-root">
   <div id="title-canvas">
