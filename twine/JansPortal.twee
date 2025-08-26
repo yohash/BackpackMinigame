@@ -4,11 +4,12 @@ The Middle Aged
 
 :: StoryData
 {
-  "ifid": "d8431a9f-bd23-4977-85c2-43f5b1684355",
+  "ifid": "5893cbf2-11c3-441b-b7bc-bfd55e5b511b",
   "format": "SugarCube",
   "format-version": "2.37.3",
-  "start": "StartScreen",
-  "tag-colors": {},
+  "tag-colors": {
+    "splash": ""
+  },
   "zoom": 1
 }
 
@@ -53,7 +54,7 @@ The Middle Aged
 <<script>>
     // Start the game
     setTimeout(function() {
-      BackpackMinigame.start(State.variables.availableItems, State.variables.backpackMemory);
+        BackpackMinigame.start(State.variables.availableItems, State.variables.backpackMemory);
     }, 100);
 <</script>>
 <</done>>
@@ -141,6 +142,11 @@ Tiia Reijonen
 
 <u>Programming</u>
 Jason Heebl
+Benjamin Pilbrow
+
+<u>Sound</u>
+Erin Thomas-Riley
+Benjamin Pilbrow
 
 --
 
@@ -149,8 +155,8 @@ Ragnar Anderson
 David Lewis
 Michael Fallik
 Caspar Gray
-Benjamin Pilbrow
-Erin Thomas-Riley
+Will & Micky Vale
+Phil Maisel
 
 <u>Playtesters</u>
 Sarah McKerrow
@@ -162,8 +168,6 @@ Mitchell Holmes
 Jasper Rynhart
 Emily-Jane Butler
 Christopher Curtis
-
-
 
 [[Go back to the MAIN MENU|StartScreen]]
 [[CONTENT WARNING]]
@@ -709,26 +713,26 @@ You have to avenge him. You feel indignant. But for once it is righteous. You fe
 
 
 :: Scene15C {"position":"1300,2950","size":"100,100"}
-<<if $romancand && ($lighterram || $lighterern || $lightergrt || $matchbook)>><<if $lighterram && !$lighterern && !$lightergrt && !$matchbook>>As quickly as you can, you pull RAMBO’S LIGHTER and the ROMAN CANDLE out of your BACKPACK.
+<<if ($romancand || $fabreeze) && ($lighterram || $lighterern || $lightergrt || $matchbook)>><<if $lighterram && !$lighterern && !$lightergrt && !$matchbook>>As quickly as you can, you pull RAMBO’S LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.
 
 You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && $lighterern && !$lightergrt && !$matchbook>>As quickly as you can, you pull ERNESTO’S LIGHTER and the ROMAN CANDLE out of your BACKPACK.
+Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && $lighterern && !$lightergrt && !$matchbook>>As quickly as you can, you pull ERNESTO’S LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.
 
 You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && !$lighterern && $lightergrt && !$matchbook>>As quickly as you can, you pull GRETA’S LIGHTER and the ROMAN CANDLE out of your BACKPACK.
+Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && !$lighterern && $lightergrt && !$matchbook>>As quickly as you can, you pull GRETA’S LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.
 
 You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && !$lighterern && !$lightergrt && $matchbook>>As quickly as you can, you pull the MATCHBOOK and the ROMAN CANDLE out of your BACKPACK.
+Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && !$lighterern && !$lightergrt && $matchbook>>As quickly as you can, you pull the MATCHBOOK and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.
 
 You rip a MATCH out of the MATCHBOOK. You strike it on the cover. It won’t light. You rip out another. Try again. It goes out. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<elseif $matchbook && ($lighterram || $lighterern || $lightergrt)>>As quickly as you can, you pull the ROMAN CANDLE out of your BACKPACK. You fumble around in the bottom for a LIGHTER. You find one. <<if $lighterram>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>>You have to hurry. You grasp GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. <</if>>
+Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<elseif $matchbook && ($lighterram || $lighterern || $lightergrt)>>As quickly as you can, you pull <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. You fumble around in the bottom for a LIGHTER. You find one. <<if $lighterram>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>>You have to hurry. You grasp GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. <</if>>
 Final backup, you’re so glad you brought the MATCHBOOK. You rip a MATCH out and strike it on the cover. It won’t light. You rip out another. Try again. It goes out. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<else>>As quickly as you can, you pull a LIGHTER and the ROMAN CANDLE out of your BACKPACK. <<if $lighterram && ($lighterern || $lightergrt)>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern && $lightergrt>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>> You have to hurry. You find GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. 
+Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<else>>As quickly as you can, you pull a LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. <<if $lighterram && ($lighterern || $lightergrt)>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern && $lightergrt>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>> You have to hurry. You find GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. 
 
 You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
@@ -739,15 +743,15 @@ Fuck! You try the LIGHTER one more time and… FSST. It ignites! <<elseif $light
 
 Fuck! You try the LIGHTER one more time and… FSST. It ignites!<</if>><</if>>
 
-You try to line the flame up with the fuse of the ROMAN CANDLE. It’s burning your finger. You are shaking too much. There it is, so close, almost there—and: LIT!
+<<if $romancand>>You try to line the flame up with the fuse of the ROMAN CANDLE. It’s burning your finger. You are shaking too much. There it is, so close, almost there—and: LIT!<<else>>You try to line the flame up with the nozzle on the can of FABREEZE. You are shaking too much. You get your thumb on top and give it a long hard pump, lighting the areosol spray. It smells like a sun-dappled meadow on fire.<</if>>
 
 FIZZZZ… and: ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
 You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-Flat on your back, still clutching the ROMAN CANDLE, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
+Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
 
-[[Look up at the CASTLE|Scene15D]]<<elseif !$romancand && ($lighterram || $lighterern || $lightergrt || $matchbook)>>
+[[Look up at the CASTLE|Scene15D]]<<elseif !$romancand && !$fabreeze && ($lighterram || $lighterern || $lightergrt || $matchbook)>>
 
 As quickly as you can, you pull <<if $lighterram || $lighterern || $lightergrt>>a LIGHTER<<elseif $matchbook>>the MATCHBOOK<<else>><</if>> out of your BACKPACK. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
@@ -761,17 +765,17 @@ You scream, girlishly. You collapse onto the ground. The pain is searing. It fil
 
 Flat on your back, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
 
-[[Look up at the CASTLE|Ending2]]<<elseif $romancand && !($lighterram || $lighterern || $lightergrt || $matchbook)>>As quickly as you can, you pull the ROMAN CANDLE out of your BACKPACK. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You look at the fuse. You realize that you failed to bring anything to light it.
+[[Look up at the CASTLE|Ending2]]<<elseif ($romancand || $fabreeze) && !($lighterram || $lighterern || $lightergrt || $matchbook)>>As quickly as you can, you pull <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You look at the fuse. You realize that you failed to bring anything to light it.
 
-You wave the ROMAN CANDLE above your head threateningly, like a wand. Nobody takes any notice. 
+You wave <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> above your head threateningly, like a wand. Nobody takes any notice. 
 
 ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
 You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-Flat on your back, still clutching the ROMAN CANDLE, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
+Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
 
-[[Look up at the CASTLE|Ending2]]<<elseif not $romancand && !($lighterram || $lighterern || $lightergrt || $matchbook)>><<if $pointer>>You take out the LASER POINTER. You press it and shine a red dot uselessly on the ARCHERS above. They don’t even seem to notice. 
+[[Look up at the CASTLE|Ending2]]<<elseif !$romancand&& !$fabreeze) && !($lighterram || $lighterern || $lightergrt || $matchbook)>><<if $pointer>>You take out the LASER POINTER. You press it and shine a red dot uselessly on the ARCHERS above. They don’t even seem to notice. 
 
 ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
@@ -815,7 +819,7 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 
 
 :: Scene15D {"position":"1425,2950","size":"100,100"}
-You feel weak. You can't tell if the light is fading from the sky, or if you're blacking out. The sky above you is spinning. A static hiss fills your ears, and then gives way to the familiar POP and WHOOSH of a firework. The ROMAN CANDLE worked. 
+You feel weak. You can't tell if the light is fading from the sky, or if you're blacking out. The sky above you is spinning. <<if $romancand>>A static hiss fills your ears, and then gives way to the familiar POP and WHOOSH of a firework. The ROMAN CANDLE worked. <<else>>A firey whoosh fills your ears as the FABREEZE is projected from the can, with surprising speed and staying power. <</if>>
 
 And there it is... A glowing pink fireball blazing straight up through the darkening medieval sky. It’s beautiful.
 
@@ -827,7 +831,7 @@ He looks strangely familiar. He tugs at his beard, which comes easily away from 
 
 BERT: JAN!!
 
-Your voice is weak and airless. She can't hear you over the din of battle and fireworks. You reach for your BACKPACK.
+Your voice is weak and airless. She can't hear you over the din of battle and fireballs. You reach for your BACKPACK.
 
 [[Get SOMETHING, ANYTHING|Scene15E]]
 
@@ -873,7 +877,7 @@ You struggle to get the plastic lid on the latest order. The king-sized lids don
 
 You feel angry.
 
-Finally the lid clicks with a pop and drops of the orange fleck your court jester uniform. You grab a dirty dishrag to try and blot it out, but you already know from experience that it will stain. Little bells jingle as you tug on your JESTER VEST, too tight even though it was the largest size they had.
+Finally the lid clicks with a pop and drops of the orange fleck your court jester uniform. You grab a dirty dishrag to try and blot it out, but you already know from experience that it will stain. Little bells jingle as you tug on your JESTER VEST, too tight even though it was the largest size they had. Your nametag, BERT, falls on to the sticky floor.
 
 You feel depressed. Then angry again.
 
@@ -881,6 +885,8 @@ You feel depressed. Then angry again.
 
 
 :: Scene1B {"position":"525,150","size":"100,100"}
+You have to do your job. So you call out:
+
 BERT: One Mango-Carta Madness?
 
 No answer from the empty tables.
@@ -1006,7 +1012,7 @@ Your grip on the smoothie cup tightens. The anger is overwhelming.
 :: Scene1D {"position":"1025,150","size":"100,100"}
 TECH BRO: MANAGER!!!
 
-As you try to disappear into the BACKROOM, the real manager emerges. GRETA is 19, and mostly consists of goth eyeliner. It takes half a heartbeat for her to clock the whole scene and see what you’ve done. She looks at you with the death stare, which has always made you genuinely afraid.
+As you try to disappear into the BACKROOM, the real manager emerges. GRETA is 19, and consists mostly of goth eyeliner. It takes half a heartbeat for her to clock the whole scene and see what you’ve done. She looks at you with the death stare, which has always made you genuinely afraid.
 
 GRETA: Third strike, Bert. You’re so fuckin’ fired.
 
@@ -1040,11 +1046,10 @@ STRIP MALL PARKING LOT
 
 
 You are in the parking lot, still. The anger won’t let you leave. 
-<<if $cash401>>
+<<if $cash401>><<set $STOLEcash401 = true>>
 You crouch down behind a dirty pick-up truck and pull the envelope of cash out of your bag. $401 dollars. They owe you that much, at least, for years of humiliation. But GRETA will notice any minute that it’s gone. They’ll obviously come looking for you. Why did you take it?
 
-You hear the door to JACK OF ALL FRUITS open and you wince.
-<<else>>
+You hear the door to JACK OF ALL FRUITS open and you wince.<<else>>
 You should’ve just taken the money. They owe you. Today wasn’t the first 8-hour shift of constant humiliation. 
 
 You hear the door to JACK OF ALL FRUITS open and you crouch down behind a dirty pick-up truck.
@@ -1117,7 +1122,7 @@ You can’t really be mad at ERNESTO, he’s harmless. Not that he’s been much
 BERT: You would quit too, if you were really my friend.
 
 ERNESTO is looking at something behind you. A teenage GOTH GRRRL,
-strapped into a corset and fishnets, who passes you both, stops, turns, and asks:
+strapped into a corset and fishnets. GRETA'S best friend, though she's never been introduced to either of you. She passes you both, stops, turns, and asks:
 
 GOTH GRRRL: Got a smoke?
 
@@ -1141,7 +1146,7 @@ She brushes past you both, nose upturned. <</if>>
 
 ERNESTO just stares as she walks in to JACK OF ALL FRUITS.
 
-ERNESTO: That’s Greta’s smoke break. I have to get back in there, and take over.
+ERNESTO: That means it is time for Greta’s smoke break. I have to get back in there and take over.
 
 BERT: I’m... I’m sorry, Ernesto. I wouldn’t have been able to stomach
 that place at all without you.
