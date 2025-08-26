@@ -625,8 +625,8 @@ class BackpackGame {
     }
     
     /**
-     * Position objects in staging area around backpack
-     * MODIFIED: Only position objects without memory data
+     * Smart auto-positioning system for staging area objects
+     * Uses 2D bin packing algorithm to arrange objects on left and right sides
      */
     positionStagingObjects() {
         // Only position objects that don't have memory positions
@@ -640,41 +640,200 @@ class BackpackGame {
             return;
         }
         
-        const objectSpacing = 20;
+        console.log(`Smart positioning ${unplacedObjects.length} objects...`);
         
-        // Distribute objects around the canvas edges with more space
-        let currentX = 60;
-        let currentY = 100;
-        let placedOnLeft = 0;
-        let placedOnRight = 0;
+        // Define staging area boundaries
+        const stagingAreas = this.calculateStagingAreas();
         
-        unplacedObjects.forEach((obj, index) => {
-            // Alternate between left and right sides
-            if (index % 2 === 0) {
-                // Left side
-                obj.pixelX = currentX;
-                obj.pixelY = currentY + placedOnLeft * 140;
-                placedOnLeft++;
-                
-                // Wrap to new column if needed
-                if (obj.pixelY + obj.height * this.config.cellSize > this.baseHeight - 100) {
-                    currentX += 160;
-                    placedOnLeft = 0;
-                    currentY = 100;
-                }
+        // Split objects into two groups for left and right sides
+        const { leftObjects, rightObjects } = this.splitObjectsForSides(unplacedObjects);
+        
+        // Position objects on each side using bin packing
+        this.positionObjectsInArea(leftObjects, stagingAreas.left, 'left');
+        this.positionObjectsInArea(rightObjects, stagingAreas.right, 'right');
+        
+        console.log('Smart positioning complete!');
+    }
+    
+    /**
+     * Calculate the available staging areas on left and right sides of backpack
+     */
+    calculateStagingAreas() {
+        // Calculate backpack bounds
+        const backpackBounds = {
+            left: this.backpackX,
+            right: this.backpackX + this.state.backpackNativeWidth,
+            top: this.backpackY,
+            bottom: this.backpackY + this.state.backpackNativeHeight
+        };
+        
+        // Add some padding around the backpack
+        const backpackPadding = 40;
+        
+        // Define left staging area
+        const leftArea = {
+            x: 50, // Canvas edge padding
+            y: 100, // Top padding
+            width: backpackBounds.left - backpackPadding - 50,
+            height: this.baseHeight - 200 // Leave padding at top and bottom
+        };
+        
+        // Define right staging area
+        const rightArea = {
+            x: backpackBounds.right + backpackPadding,
+            y: 100,
+            width: this.baseWidth - (backpackBounds.right + backpackPadding) - 50,
+            height: this.baseHeight - 200
+        };
+        
+        return { left: leftArea, right: rightArea };
+    }
+    
+    /**
+     * Split objects intelligently between left and right sides
+     */
+    splitObjectsForSides(objects) {
+        // Sort objects by area (largest first for better packing)
+        const sortedObjects = [...objects].sort((a, b) => {
+            const areaA = a.width * a.height * this.config.cellSize * this.config.cellSize;
+            const areaB = b.width * b.height * this.config.cellSize * this.config.cellSize;
+            return areaB - areaA;
+        });
+        
+        // Use alternating distribution with area balancing
+        let leftArea = 0;
+        let rightArea = 0;
+        const leftObjects = [];
+        const rightObjects = [];
+        
+        sortedObjects.forEach(obj => {
+            const objArea = obj.width * obj.height * this.config.cellSize * this.config.cellSize;
+            
+            // Place on the side with less total area to balance
+            if (leftArea <= rightArea) {
+                leftObjects.push(obj);
+                leftArea += objArea;
             } else {
-                // Right side
-                obj.pixelX = this.baseWidth - 250 - (obj.width * this.config.cellSize);
-                obj.pixelY = currentY + placedOnRight * 140;
-                placedOnRight++;
-                
-                // Wrap to new column if needed
-                if (obj.pixelY + obj.height * this.config.cellSize > this.baseHeight - 100) {
-                    placedOnRight = 0;
-                    currentY = 100;
-                }
+                rightObjects.push(obj);
+                rightArea += objArea;
             }
         });
+        
+        return { leftObjects, rightObjects };
+    }
+    
+    /**
+     * Position objects within a specific staging area using bin packing
+     */
+    positionObjectsInArea(objects, area, side) {
+        if (objects.length === 0) return;
+        
+        // Bin packing state
+        const bins = [];
+        const objectPadding = 15; // Space between objects
+        
+        // Try to pack each object
+        objects.forEach(obj => {
+            const objWidth = obj.width * this.config.cellSize;
+            const objHeight = obj.height * this.config.cellSize;
+            
+            // Find the best bin (row) for this object
+            let bestBin = null;
+            let bestX = 0;
+            
+            for (const bin of bins) {
+                // Check if object fits in this bin's remaining width
+                if (bin.currentX + objWidth <= area.x + area.width) {
+                    if (!bestBin || bin.y < bestBin.y) {
+                        bestBin = bin;
+                        bestX = bin.currentX;
+                    }
+                }
+            }
+            
+            // If no suitable bin found, create a new one
+            if (!bestBin) {
+                // Calculate Y position for new bin
+                let newBinY = area.y;
+                if (bins.length > 0) {
+                    const lastBin = bins[bins.length - 1];
+                    newBinY = lastBin.y + lastBin.maxHeight + objectPadding;
+                }
+                
+                // Check if there's vertical space for a new bin
+                if (newBinY + objHeight > area.y + area.height) {
+                    // No space, try to squeeze into existing bins with overlap detection
+                    this.squeezeObjectIntoArea(obj, area, objects, side);
+                    return;
+                }
+                
+                bestBin = {
+                    y: newBinY,
+                    currentX: area.x,
+                    maxHeight: objHeight
+                };
+                bins.push(bestBin);
+                bestX = area.x;
+            }
+            
+            // Position the object
+            obj.pixelX = bestX;
+            obj.pixelY = bestBin.y;
+            
+            // Update bin state
+            bestBin.currentX = bestX + objWidth + objectPadding;
+            bestBin.maxHeight = Math.max(bestBin.maxHeight, objHeight);
+            
+            console.log(`Positioned ${obj.name} on ${side} at (${obj.pixelX}, ${obj.pixelY})`);
+        });
+    }
+    
+    /**
+     * Fallback positioning when bin packing can't fit an object
+     * Uses overlap detection to find the best available spot
+     */
+    squeezeObjectIntoArea(obj, area, otherObjects, side) {
+        const objWidth = obj.width * this.config.cellSize;
+        const objHeight = obj.height * this.config.cellSize;
+        const stepSize = 20; // Grid step for searching positions
+        
+        // Try different positions in the area
+        for (let y = area.y; y <= area.y + area.height - objHeight; y += stepSize) {
+            for (let x = area.x; x <= area.x + area.width - objWidth; x += stepSize) {
+                // Check if this position overlaps with any other object
+                let hasOverlap = false;
+                
+                for (const other of otherObjects) {
+                    if (other === obj) continue;
+                    
+                    const otherWidth = other.width * this.config.cellSize;
+                    const otherHeight = other.height * this.config.cellSize;
+                    
+                    // Check for overlap
+                    if (!(x >= other.pixelX + otherWidth ||
+                          x + objWidth <= other.pixelX ||
+                          y >= other.pixelY + otherHeight ||
+                          y + objHeight <= other.pixelY)) {
+                        hasOverlap = true;
+                        break;
+                    }
+                }
+                
+                if (!hasOverlap) {
+                    // Found a valid position!
+                    obj.pixelX = x;
+                    obj.pixelY = y;
+                    console.log(`Squeezed ${obj.name} on ${side} at (${x}, ${y})`);
+                    return;
+                }
+            }
+        }
+        
+        // If absolutely no position found (shouldn't happen with proper areas),
+        // place at area origin as last resort
+        obj.pixelX = area.x;
+        obj.pixelY = area.y;
+        console.warn(`Warning: Could not find ideal position for ${obj.name}, placed at area origin`);
     }
     
     /**
