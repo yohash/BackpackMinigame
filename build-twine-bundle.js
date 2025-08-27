@@ -59,11 +59,13 @@ const config = {
         'spade': 'assets/sprites/spade.png',
         'trophy': 'assets/sprites/trophy.png',
         // other png assets
-        'title_screen': 'assets/sprites/title_screen.jpg'
+        'title_screen': 'assets/sprites/title_screen.jpg',
+        'frame_left': 'assets/sprites/lh_frame.jpg',
+        'frame_right': 'assets/sprites/rh_frame.jpg',
     },
     
     // Output file
-    outputFile: 'TheMiddleAged.twee',
+    outputFile: 'BackPackWard.twee',
     
     // Whether to minify (requires installing terser: npm install terser)
     minify: false
@@ -751,7 +753,7 @@ ${cssContent}
     console.log('\n📋 Next steps:');
     console.log('1. Open Twine 2');
     console.log('2. Click "Import From File"');
-    console.log('3. Select TheMiddleAged.twee');
+    console.log('3. Select BackPackWard.twee');
 }
 
 // ================================

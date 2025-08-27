@@ -1,5 +1,5 @@
 :: StoryTitle
-The Middle Aged
+BackPackWard
 
 
 :: StoryData
@@ -13,6 +13,110 @@ The Middle Aged
   "start": "StartScreen",
   "zoom": 1
 }
+
+
+:: Global Frames CSS [stylesheet]
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: contain;   /* keep aspect ratio, no cropping */
+  background-position: center top;
+  z-index: 0;
+
+  /* force the frame’s box to be the full viewport height */
+  height: 100vh;
+}
+
+/* Left frame */
+body::before {
+  width: var(--frame-left-w, auto);
+  background-image: var(--frame-left-img, none);
+  background-position: right center;
+  left: calc(var(--frame-left-x, 0px) - var(--frame-left-w, 0px));
+}
+
+/* Right frame */
+body::after {
+  width: var(--frame-right-w, auto);
+  background-image: var(--frame-right-img, none);
+  background-position: left center;
+  left: var(--frame-right-x, 100%);
+}
+
+#frame_left img,
+#frame_right img {
+    height: 100vh;       /* always match viewport height */
+    width: auto;         /* keep aspect ratio */
+    object-fit: contain; /* avoid stretching */
+}
+
+
+
+:: Global Frames Loader [script]
+(function () {
+  function setSide(which, url) {
+    if (!url) {
+      document.body.style.setProperty(`--frame-${which}-img`, "none");
+      document.body.style.setProperty(`--frame-${which}-w`, "0px");
+      return;
+    }
+
+    // load image to calculate correct width for 100vh
+    const img = new Image();
+    img.onload = function () {
+      const vh = window.innerHeight;
+      const scaledWidth = (img.naturalWidth / img.naturalHeight) * vh;
+      document.body.style.setProperty(`--frame-${which}-w`, scaledWidth + "px");
+      updatePositions(); // recalc positions once width is known
+    };
+    img.src = url;
+
+    document.body.style.setProperty(`--frame-${which}-img`, `url("${url}")`);
+  }
+
+  function updatePositions() {
+    var passages = document.getElementById("passages");
+    if (!passages) return;
+    var rect = passages.getBoundingClientRect();
+    document.body.style.setProperty("--frame-left-x", rect.left + "px");
+    document.body.style.setProperty("--frame-right-x", rect.right + "px");
+  }
+
+  function applyFrames(passageName) {
+    var sprites = window.BACKPACK_SPRITES || {};
+
+    // Special case: hide frames on StartScreen
+    if (passageName === "StartScreen") {
+      document.body.style.setProperty("--frame-left-img", "none");
+      document.body.style.setProperty("--frame-right-img", "none");
+      document.body.style.setProperty("--frame-left-w", "0px");
+      document.body.style.setProperty("--frame-right-w", "0px");
+      return;
+    }
+
+    // Otherwise, apply normally
+    setSide("left",  sprites.frame_left);
+    setSide("right", sprites.frame_right);
+
+    updatePositions();
+  }
+
+  // Hook into passage change
+  $(document).on(":passagestart", function (ev) {
+    applyFrames(ev.passage.title);
+  });
+
+  // Recalc positions + widths on resize
+  window.addEventListener("resize", function () {
+    updatePositions();
+  });
+})();
+
 
 
 :: Backpack setup {"position":"0,0","size":"100,100"}
@@ -868,6 +972,7 @@ JAN pulls her beard back up and whispers something in the KING's ear. They turn,
 
 
 :: Scene1A {"position":"400,150","size":"100,100"}
+
 THE FRONT COUNTER OF JACK OF ALL FRUITS
 
 You hate it here. Deep into a double-shift. Eyes almost watering from the circus color palette, bright stupid reds, yellows, and blues.
@@ -2157,7 +2262,7 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 \  <div id="title-canvas" style="display: flex; justify-content: center">
 \    <<if window.BACKPACK_SPRITES && window.BACKPACK_SPRITES.title_screen>><img 
         @src="window.BACKPACK_SPRITES.title_screen" 
-        alt="The Middle Aged Key Art" 
+        alt="BackPackWard Key Art" 
         style="height: 90%; position: absolute; top: 0">
 \    <<else>>[Key Art Image]
 \    <</if>>
@@ -2212,3 +2317,5 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 <<goto "Backpack setup">>
 
 /* \[[Go to the STRIP MALL|Scene8A]] */
+
+
