@@ -10,6 +10,7 @@ The Middle Aged
   "tag-colors": {
     "splash": ""
   },
+  "start": "StartScreen",
   "zoom": 1
 }
 
@@ -2151,23 +2152,20 @@ He points at the pyramid with the eye on the front of the bill. You nod like you
 \<<set $mobmen = 0>>
 \<<set $backpackMemory = {}>>
 \<<set $nextPassageString = "">>
-
-<div id="title-root">
-  <div id="title-canvas">
-    <<if window.BACKPACK_SPRITES && window.BACKPACK_SPRITES.title_screen>>
-    <img 
-      @src="window.BACKPACK_SPRITES.title_screen" 
-      alt="The Middle Aged Key Art" 
-      style="max-width: 100%; height: auto; position: absolute; top: 0"
-    >
-    <<else>>[Key Art Image]
-    <</if>>
-    <div id="start-panel"><span style="font-size:1.25em; line-height:1.2; display:inline-block;">[[START|Scene1A]]</span>
+\
+\<div id="title-root">
+\  <div id="title-canvas" style="display: flex; justify-content: center">
+\    <<if window.BACKPACK_SPRITES && window.BACKPACK_SPRITES.title_screen>><img 
+        @src="window.BACKPACK_SPRITES.title_screen" 
+        alt="The Middle Aged Key Art" 
+        style="height: 90%; position: absolute; top: 0">
+\    <<else>>[Key Art Image]
+\    <</if>>
+\    <div id="start-panel"><span style="font-size:1.25em; line-height:1.2; display:inline-block;">[[START|Scene1A]]</span>
       [[SOUND]]  ||  [[CONTENT WARNING]]  ||  [[CREDITS]]
-      <span class="byline">By Zach Dodson for Interactive Tragedy, Limited</span></div>
-  </div>
-</div>
-
+\      <span class="byline">By Zach Dodson for Interactive Tragedy, Limited</span></div>
+\  </div>
+\</div>
 /* Playtest version
 [[Test Backpack 2|backpackmenu2]]
 [[Test Backpack 3|backpackmenu3]]
