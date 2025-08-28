@@ -92,9 +92,10 @@ const config = {
         'amb_peasant_hutt_no_baby': 'assets/audio/amb_past/Peasant_Hutt_no_baby.ogg',
         'amb_outdoors_peasant_barn': 'assets/audio/amb_past/Outdoors_Peasant_Barn.ogg',
         'amb_angry_mob': 'assets/audio/amb_castle/Angry_Mob.ogg',
-        'amb_castle_crowded_town': 'assets/audio/amb_castle/Castle_crowded_town.ogg',
+        'amb_castle_battle': 'assets/audio/amb_castle/Castle_Battle.ogg',
         'amb_castle_empty': 'assets/audio/amb_castle/Castle_empty.ogg',
         'eff_door_open': 'assets/audio/effects/DoorOpen.ogg',
+        'eff_smoothie_splat': 'assets/audio/effects/smoothie_splat.ogg',
     },
     
     // Output file
