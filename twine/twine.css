@@ -1,8 +1,8 @@
 body {
-  background-color: black;
+  background-color: #111111;
   color: White;
   font-family: Georgia, serif;
-  margin: 0;
+  margin: 0em
   padding: 2em;
   text-align: left; /* screenplay is left-aligned, not centered */
   line-height: 1.2;
@@ -13,14 +13,14 @@ body {
   display: block;
   font-weight: bold;
   text-transform: uppercase;
-  margin: 0;
+  margin: 0em 0em 0em 6em;
   color: #ffffcc;
 }
 
 /* Action lines */
 .action {
   display: block;
-  margin: 0 0 0 0;
+  margin: 0em 6em 0em 6em;
 }
 
 /* Character name (centered) */
@@ -29,7 +29,7 @@ body {
   text-transform: uppercase;
   font-weight: bold;
   text-align: center;
-  margin: -1em;
+  margin: -0.5em 0em -1em 0em;
   color: White;
 }
 
@@ -83,6 +83,7 @@ a:hover {
 }
 
 .goback-link a:hover {
+  color: #9999cc;  
   text-decoration: underline;         /* underline on hover */
 }
 
@@ -100,15 +101,13 @@ a:hover {
 
 .back-ui {
     position: fixed;        /* Stays in the corner */
-    bottom: 25px;
-    right: 25px;
-    background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
+    top: 25px;
+    left: 25px;
+    background: #494963;
     color: white;
     font-weight: bold;
     padding: 12px 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
-    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -118,9 +117,9 @@ a:hover {
 }
 
 .back-ui:hover {
-    background-color: rgba(41, 128, 185, 0.95);
+    background-color: #494963;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
+    box-shadow: 0 6px 20px rgba(115, 115, 156, 0.5);
 }
 
 .back-ui .arrow {
@@ -130,10 +129,4 @@ a:hover {
 
 .back-ui:hover .arrow {
     transform: translateX(-4px); /* arrow slides left slightly on hover */
-}
-
-/* Optional: click/tap effect */
-.back-ui:active {
-    transform: translateY(1px);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
