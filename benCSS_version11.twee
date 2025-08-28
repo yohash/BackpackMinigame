@@ -89,35 +89,34 @@ The Middle Aged
 \<<set $trophy = $backpackMemory["trophy"] && $backpackMemory["trophy"].isPlaced>>
 \<<set $jesterpant = $backpackMemory["jesterpant"] && $backpackMemory["jesterpant"].isPlaced>>
 \<<set $burtreyn = $backpackMemory["burtreyn"] && $backpackMemory["burtreyn"].isPlaced>>
-IN YOUR BACKPACK
-<<if $romancand>>• Roman candle<br><</if>>
-\<<if $lighterram>>• Rambo’s lighter<br><</if>>
-\<<if $matchbook>>• Matchbook<br><</if>>
-\<<if $lollipops>>• Lollipops<br><</if>>
-\<<if $fleacollar>>• Flea collar<br><</if>>
-\<<if $fabreeze>>• Fabreeze<br><</if>>
-\<<if $cheetos>>• Cheetos<br><</if>>
-\<<if $cheetos2>>• Cheetos 2<br><</if>>
-\<<if $bong>>• Bong<br><</if>>
-\<<if $pointer>>• Laser Pointer<br><</if>>
-\<<if $spade>>• Spade<br><</if>>
-\<<if $trophy>>• Softball trophy<br><</if>>
-\<<if $burtreyn>>• Burt Reynolds portrait<br><</if>>
-\<<if $jesterpant>>• Jester pants<br><</if>>
-\<<if $baseball>>• Baseball<br><</if>>
-\<<if $lightergrt>>• Greta’s lighter<br><</if>>
-\<<if $cellphone>>• Cellphone<br><</if>>
-\<<if $cups>>• Empty cups<br><</if>>
-\<<if $cash401>>• Stack of $401<br><</if>>
-\<<if $cash1>>• One dollar<br><</if>>
-\<<if $smokes>>• Greta’s smokes<br><</if>>
-\<<if $jestervest>>• Jester vest<br><</if>>
-\<<if $orcking>>• Orc King figurine<br><</if>>
-\<<if $dice>>• 6-sided dice<br><</if>>
-\<<if $lighterern>>• Ernesto’s lighter<br><</if>>
-\<<if $shield>>• Half shield<br><</if>>
-\<<if $papertow>>• Paper towels<br><</if>>
-
+<<scene "IN YOUR BACKPACK">>
+<<if $romancand>><<action "• Roman Candle">><br><</if>>
+\<<if $lighterram>><<action "• Rambo’s Lighter">><br><</if>>
+\<<if $matchbook>><<action "• Matchbook">><br><</if>>
+\<<if $lollipops>><<action "• Lollipops">><br><</if>>
+\<<if $fleacollar>><<action "• Flea Collar">><br><</if>>
+\<<if $fabreeze>><<action "• Fabreeze">><br><</if>>
+\<<if $cheetos>><<action "• Cheetos">><br><</if>>
+\<<if $cheetos2>><<action "• Cheetos 2">><br><</if>>
+\<<if $bong>><<action "• Bong">><br><</if>>
+\<<if $pointer>><<action "• Laser Pointer">><br><</if>>
+\<<if $spade>><<action "• Spade">><br><</if>>
+\<<if $trophy>><<action "• Softball Trophy">><br><</if>>
+\<<if $burtreyn>><<action "• Burt Reynolds Portrait">><br><</if>>
+\<<if $jesterpant>><<action "• Jester Pants">><br><</if>>
+\<<if $baseball>><<action "• Baseball">><br><</if>>
+\<<if $lightergrt>><<action "• Greta’s Lighter">><br><</if>>
+\<<if $cellphone>><<action "• Cellphone">><br><</if>>
+\<<if $cups>><<action "• Empty Cups">><br><</if>>
+\<<if $cash401>><<action "• Stack of $401">><br><</if>>
+\<<if $cash1>><<action "• One Dollar">><br><</if>>
+\<<if $smokes>><<action "• Greta’s Smokes">><br><</if>>
+\<<if $jestervest>><<action "• Jester Vest">><br><</if>>
+\<<if $orcking>><<action "• Orc King figurine">><br><</if>>
+\<<if $dice>><<action "• 6-sided Dice">><br><</if>>
+\<<if $lighterern>><<action "• Ernesto’s Lighter">><br><</if>>
+\<<if $shield>><<action "• Half Shield">><br><</if>>
+\<<if $papertow>><<action "• Paper towels">><br><</if>>
 
 [[$nextPassageString->$nextPassage]]
 
@@ -173,14 +172,15 @@ Christopher Curtis
 [[CONTENT WARNING]]
 
 
-:: EndScreen {"position":"1800,3200","size":"100,100"}
+:: EndScreen {"position":"1800,3175","size":"100,100"}
 <<action "Will there be another episode? Stay tuned.">>
 <<action "In the meantime, more Interactive Tragedies can be found at:">>
 <a href="https://www.interactivetragedy.com" target="_blank" rel="noopener noreferrer">interactivetragedy.com</a>
 <a href="https://store.steampowered.com/franchise/InterTragedy" target="_blank" rel="noopener noreferrer">Steam</a>
 
-[[PLAY AGAIN|StartScreen]]
-[[CREDITS]]
+[[PLAY AGAIN|StartScreen][State.reset()]]
+[[CREDITS][State.reset()]]
+
 
 
 :: Ending1 {"position":"1050,3075","size":"100,100"}
@@ -190,6 +190,15 @@ Christopher Curtis
 
 [[THE END|EndScreen]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Ending2 {"position":"1300,3075","size":"100,100"}
 <<action "You look up at the CASTLE. You never managed to see the KING. SEWARD and his MOB will likely be slaughtered. And, as much as you hated it, you'll never return to the world you came from again. ">>
@@ -197,6 +206,15 @@ Christopher Curtis
 <<action "As you lose consciousness, you think back on the choices you've made. <<if not $romancand>>You wish you had brought something to make more of an impression on the denizens of the CASTLE. <<else>><</if>><<if $romancand && not ($lighterram || $lighterern || $lightergrt || $matchbook)>>Why wouldn't you have brought something to light the ROMAN CANDLE with? You feel stupid. <<else>><</if>>You try and retrace your steps, regretting every decision you've made, as the new world you’ve found goes black.">>
 
 [[THE END|EndScreen]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Ending3 {"position":"1550,3075","size":"100,100"}
@@ -207,14 +225,35 @@ Christopher Curtis
 
 [[THE END|EndScreen]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Ending4 {"position":"1675,3075","size":"100,100"}
 <<action "You feel all the anger you have been holding dissipate. Things will change for you now, certainly. As long as someone can staunch the blood still oozing out of you. ">>
-<<action "As you start to lose consciousness, you think back on the choices you've made. <<if not $bodyarmor || $shield>>You wish you had brought something to protect you against all those arrows. Why did you leave the BODY ARMOR behind?? <<if not $cheetos || $spade>>You wish you had been able to save SEWARD from those ravenous dogs. He was only ever helpful to you. His last gesture was to lure those animals away from you. You didn't have anything with you to save him in turn. <<else>>You wish you hadn't gotten SEWARD involved in such a mess. But at least he didn't die.<</if>><<if $burtreyn || $pointer>>You brought everything you needed to gain auidence with the KING. <</if>><<if $pointer>>If only you had brought something for JAN as well. No matter, it's the KING that counts. <</if>>You know he will bring you inside, and reward you richly.">>
+<<action "As you start to lose consciousness, you think back on the choices you've made. <<if not $bodyarmor || $shield>>You wish you had brought something to protect you against all those arrows. Why did you leave the BODY ARMOR behind?? <</if>><<if not $cheetos || $spade>>You wish you had been able to save SEWARD from those ravenous dogs. He was only ever helpful to you. His last gesture was to lure those animals away from you. You didn't have anything with you to save him in turn. <<else>>You wish you hadn't gotten SEWARD involved in such a mess. But at least he didn't die. <</if>><<if $burtreyn || $pointer>>You brought everything you needed to gain auidence with the KING. <</if>><<if $pointer>>If only you had brought something for JAN as well. No matter, it's the KING that counts. <</if>>You know he will bring you inside, and reward you richly.">>
 <<action "You've survived, just barely.">>
 <<action "You smile, faintly, as the new world you’ve found goes black.">>
 
 [[THE END|EndScreen]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
+
+
 
 
 :: Scene10A {"position":"800,2100","size":"100,100"}
@@ -238,27 +277,36 @@ Christopher Curtis
 
 <<set $ANGRY = false>>
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene10B {"position":"950,2100","size":"100,100"}
-<<if $ANGRY>>
+<<if $ANGRY>>\
 <<char "BERT">>
 <<dialogue "Greta. I don’t know if I can forgive you. But I like your friend. So, for her sake, I’ll give you one chance to… RUN.">>
 <<action "They do not hesitate; high-pitched screams fade as they tear ass around the corner in platform leather boots.">>
-<<else>>
+<<else>>\
 <<action "You could scare them. But it feels too mean. And you have a bigger purpose now. Impressing her friend.">>
 <<char "BERT">>
 <<dialogue "Greta. I forgive you. ">><</if>>
-<<if $smokes>>
+<<if $smokes>>\
 <<action "You pull GRETA'S SMOKES out of your BACKPACK and return them to her.">>
-<<else>>
+<<else>>\
 <<char "BERT">>
 <<dialogue "Can I share a smoke with you?">>
 <<action "GRETA hesitates, <<if $bodyarmor>>glances at the BODY ARMOR,<</if>>and hands you a smoke.">><</if>>
-<<if $lighterern>>
+<<if $lighterern>>\
 <<char "BERT">>
 <<dialogue "Here's a light.">>
 <<action "They nod as you use ERNESTO'S LIGHTER to light their cigarettes. You try to catch GOTH GRRRL's eye, but she won't look at you. ">>
-<<elseif $lightergrt>>
+<<elseif $lightergrt>>\
 <<char "BERT">>
 <<dialogue "Here's a light.">>
 <<action "You use the BATWING LIGHTER to light their cigarettes. You try to catch GOTH GRRRL's eye, but she won't look at you.">>
@@ -267,11 +315,11 @@ Christopher Curtis
 <<action "She snatches it from your hand. ">>
 <<char "GRETA">>
 <<dialogue "God, Bert, you need to change.">>
-<<else>>
+<<else>>\
 <<char "BERT">>
 <<dialogue "Got a light?">>
 <<action "GOTH GRRRL holds out a lighter. You try to catch her eye, but she won't look at you.">>
-<</if>>
+<</if>>\
 <<char "BERT">>
 <<dialogue "So, I've got this secret...">>
 <<char "GRETA">>
@@ -283,6 +331,15 @@ Christopher Curtis
 
 [[... DRAGON’S BREATH FIREWORKS TRAILER |Scene11A]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene10C {"position":"1100,2100","size":"100,100"}
 <<action "RAMBO didn't even raise an eyebrow when you chickened out. Walking out of GUNZ 'N AMMO, you literally run into GRETA and GOTH GRRRL, outside for their smoke break. You have to grab GOTH GRRRL to keep yourself from knocking her over completely.">>
@@ -292,17 +349,17 @@ Christopher Curtis
 <<dialogue "BERT. Do NOT touch my…">>
 <<char "BERT">>
 <<dialogue "Sorry. ">>
-<<if $smokes>>
+<<if $smokes>>\
 <<action "You pull GRETA'S SMOKES out of your BACKPACK and return them to her.">>
-<<else>>
+<<else>>\
 <<char "BERT">>
 <<dialogue "Can I share a smoke with you?">>
 <<action "GRETA hesitates, and hands you a smoke.">><</if>>
-<<if $lighterern>>
+<<if $lighterern>>\
 <<char "BERT">>
 <<dialogue "Here's a light.">>
 <<action "They nod as you use ERNESTO'S LIGHTER to light their cigarettes. You try to catch GOTH GRRRL's eye, but she won't look at you.">>
-<<elseif $lightergrt>>
+<<elseif $lightergrt>>\
 <<char "BERT">>
 <<dialogue "Here's a light.">>
 <<action "You use the BATWING LIGHTER to light their cigarettes. You try to catch GOTH GRRRL's eye, but she won't look at you.">>
@@ -311,10 +368,10 @@ Christopher Curtis
 <<action "She snatches it from your hand.">> <<set $lightergrt = false>>
 <<char "GRETA">>
 <<dialogue "God, Bert, you need to change.">>
-<<else>>
+<<else>>\
 <<char "BERT">>
 <<dialogue "Got a light?">>
-<<action "GOTH GRRRL holds out a lighter. You try to catch her eye, but she won't look at you.">><</if>>
+<<action "GOTH GRRRL holds out a lighter. You try to catch her eye, but she won't look at you.">><</if>>\
 <<char "BERT">>
 <<dialogue "So, I've got this secret...">>
 <<char "GRETA">>
@@ -325,6 +382,15 @@ Christopher Curtis
 <<action "You leap after them, trying to step on them before they roll underneath the...">>
 
 [[... DRAGON’S BREATH FIREWORKS TRAILER |Scene11A]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene11A {"position":"800,2300","size":"100,100"}
@@ -340,9 +406,18 @@ Christopher Curtis
 [[the ROMAN CANDLE|Scene11B][$romancand = true]]
 [[NOTHING|Scene11B]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene11B {"position":"925,2300","size":"100,100"}
-<<if ($lighterram || $matchbook || $romancand)>>
+<<if ($lighterram || $matchbook || $romancand)>>\
 <<char "JEFFREY">>
 <<dialogue "That’s thu-reeee dollars.">>
 <<char "BERT">>
@@ -350,7 +425,7 @@ Christopher Curtis
 <<char "JEFFREY">>
 <<dialogue "Dad’s gone. Buy something or leave. Sale’s over. ">>
 <<action "Jeffrey tips the $1 sale sign face-down. Rolling your eyes, <<if $cash1>>you plunk your last DOLLAR on the counter, <<else>>you <</if>>pick up the <<if $romancand>>ROMAN CANDLE<<elseif $matchbook>>MATCHBOOK<<elseif $lighterram>>LIGHTER<</if>>, and turn to go.">>
-<<else>>
+<<else>>\
 <<char "BERT">>
 <<dialogue "Who’s in charge here?">>
 <<char "JEFFREY">>
@@ -362,17 +437,35 @@ Christopher Curtis
 [[Push it down|Scene11BSupress]]
 [[Let it out|Scene11BAnger]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene11BAnger {"position":"1075,2350","size":"100,100"}
 <<action "You reach for him, furious. He dodges. So you <<if $romancand>>brandish your ROMAN CANDLE like a sword and swat at JEFFREY with it.<<else>>pick up a ROMAN CANDLE from the box on the counter and try to whack JEFFREY on the head with it.<</if>>">>
 <<if $cash1>>
 <<action "You miss, and snatch your DOLLAR back from the counter.">>
-<</if>><<set $romancand = true>>
+<</if>><<set $romancand = true>>\
 <<char "JEFFREY">>
 <<dialogue "DAAAAAAAD!!">>
 <<action "The real RAMBO bursts forth from GUNZ ’N AMMO and roars like an armed grizzly bear. You <<if $romancand>>grasp your ROMAN CANDLE like a baton and <</if>>run as fast as you can from the parking lot<<if $bodyarmor>>, thankful you’re wearing the BODY ARMOR<</if>>.">>
 
 [[Back to MA'S HOUSE|Scene12A]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene11BSupress {"position":"1075,2225","size":"100,100"}
@@ -383,6 +476,15 @@ Christopher Curtis
 
 [[Back to MA'S HOUSE|Scene12A]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene12A {"position":"900,2500","size":"100,100"}
 <<scene "MA REYNOLDS' HOUSE">>
@@ -391,7 +493,16 @@ Christopher Curtis
 
 [[Open your BACKPACK|backpackmenu12]]
 
-<<set $romancand = true>><<set $lighterram = true>><<set $matchbook = true>><<set $lollipops = true>><<set $fleacollar = true>><<set $fabreeze = true>>
+<<set $romancand = true>><<set $lighterram = true>><<set $matchbook = true>><<set $lollipops = true>><<set $fleacollar = true>><<set $fabreeze = true>>\
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene12B {"position":"1150,2500","size":"100,100"}
@@ -405,36 +516,46 @@ Christopher Curtis
 <<char "BERT">>
 <<dialogue "You can’t control everybody with Excel.">>
 <<action "He pops a Cheeto in his mouth<<if $bodyarmor>> and eyes your BODY ARMOR<</if>>.">>
-<<if $bodyarmor>><<char "NED">>
+<<if $bodyarmor>>\
+<<char "NED">>
 <<dialogue "Is someone after you? Do you need protection from the subterranean sheep next door?">>
-<<else>>
+<<else>>\
 <<char "NED">>
 <<dialogue "You can always go sleep with the subterranean sheep next door.">>
-<</if>>
+<</if>>\
 <<action "MA told him. Now you're doubly annoyed. You don't want anyone knowing what you are up to.">>
-<<if $bodyarmor>>
+<<if $bodyarmor>>\
 <<action "You grab MA’s TIE-DYED ROBE off the back of the kitchen chair and drape it over your BODY ARMOR.">>
-<<else>>
+<<else>>\
 <<action "But you do need a costume. You grab MA’s TIE-DYED ROBE off the back of the kitchen chair and put it on.">>
-<</if>>
+<</if>>\
 <<action "Looking past NED, you notice the sun is setting behind Jan's house. Time to go.">>
 <<action "You turn to NED, who is clearly about to comment on your new fashion choice. You're already mad. ">>
 
 [[Push it down|Scene13A][$ANGRY = false]]
 [[Let it Out|Scene13A][$ANGRY = true]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene13A {"position":"950,2650","size":"100,100"}
-<<if $ANGRY>>
+<<if $ANGRY>>\
 <<char "BERT">>
 <<dialogue "Know what, Ned? I’ve got another place to stay. You’re just Ma’s employee. Unpaid. Go fuck yourself.">>
 <<action "You shove past NED, snatching the CHEETO bag out of his hand. NED looks startled at your sudden show of force.">>
-<<set $cheetos2 = true>>
-<<else>>
+<<set $cheetos2 = true>>\
+<<else>>\
 <<char "BERT">>
 <<dialogue "Know what, Ned? Have a great day.">>
 <<action "You breeze past NED. He is so startled at your sudden show of politeness, a Cheeto falls out of his open mouth.">>
-<</if>>
+<</if>>\
 <<action "You burst out of the door and scramble across the driveway between the two houses, tripping over the ROBE. You look up, to see if JAN is still watching from the upstairs window, but nothing moves. The FOR SALE sign in front of the HOUSE is gone.">>
 <<action "The last rays of light are just framing the CELLAR DOOR. The scrawny cat is there again, looking hungry. <<if $cheetos2>>You take off your BACKPACK, and squat down to offer her NED's bag of CHEETOS. <<if $cheetos>>You decide you should keep your own bag of CHEETOS in your BACKPACK. <</if>>She eats them, gratefully.<<elseif $lollipops>>You take off your BACKPACK, looking for something for her to eat. You offer her the LOLLIPOPS but she doesn't seem into them. You hope she's still lucky. <<elseif $cheetos>>You look in your BACKPACK, and hesitate. You decide you should keep your bag of CHEETOS. You might get hungry. <<else>>You take off your BACKPACK, looking for something for her to eat. You don't have any CHEETOS for her. You hope she's still lucky. <</if>>">>
 <<char "BERT">>
@@ -446,6 +567,15 @@ Christopher Curtis
 
 [[JUMP IN|Scene13B]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene13B {"position":"1075,2650","size":"100,100"}
 <<action "...to a pile of shit. It's the...">>
@@ -453,16 +583,25 @@ Christopher Curtis
 <<char "BERT">>
 <<dialogue "Yes! FUCK YES!">>
 <<action "You stand up. The sheep bleat the same distressed greeting. ">>
-<<if $fabreeze>>
+<<if $fabreeze>>\
 <<action "You whip the can of FABREZE out of your BACKPACK and give the barn a good long spray. Like, really long. The sheep go quiet. Maybe that was too long.">>
-<<else>>
+<<else>>\
 <<action "The smell is awful.">>
-<</if>> 
+<</if>> \
 <<action "You cough and stumble for the door.">>
 <<action "Outside, the rolling hills are edged with dusk, the sun going down just beyond the CASTLE, which is lit up with torches. The scene is set.">>
 <<action "You cinch the TIE-DYED ROBE tightly around you<<if $bodyarmor>>, and pat the BODY ARMOR underneath<<else>><</if>>.">>
 
 [[March toward the PEASANT’S HUT|Scene14A]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene14A {"position":"1000,2800","size":"100,100"}
@@ -473,13 +612,13 @@ Christopher Curtis
 <<action "CICILIA is lounging on the straw bed, <<if $LEFTbong>>drinking ale from your BONG. She’s clearly sauced. <<elseif $LEFTcups>>sipping ale from your stack of CUPS. She’s clearly sauced. <<else>>she looks exhuasted. <</if>>Her babies, all three of them, wake up and start screaming when you walk in. You could have sworn there were two last time. <<if $lollipops>>You pull the LOLLIPOPS from your backpack and pop one in the mouth of each baby. They quiet down.<<else>><</if>>">>
 <<char "CICILIA">>
 <<dialogue "My hero. I told SEWARD you’d return.">>
-<<if ($LEFTbong || $LEFTcups)>>
+<<if ($LEFTbong || $LEFTcups)>>\
 <<action "She offers a sloshing sip of cloudy ale to you.">>
 <<char "CICILIA">>
 <<dialogue "We drink!">>
 <<char "BERT">>
 <<dialogue "That’s not actually what that's for…">>
-<</if>>
+<</if>>\
 <<char "CICILIA">>
 <<dialogue "You seek audience with the king…">>
 <<char "BERT">>
@@ -501,6 +640,15 @@ Christopher Curtis
 
 [[To the CASTLE|Scene14B]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene14B {"position":"1125,2800","size":"100,100"}
 <<action "You tighten your backpack straps, and open the door to the HUT. Only to be met by THE VILLAGE MOB. You immediately slam it closed. SEWARD bursts in.">>
@@ -517,64 +665,47 @@ Christopher Curtis
 <<char "SEWARD">>
 <<dialogue "In jest! They are steadfast fellows! Many would join us in our siege of the castle walls. But some are not convinced you're truly a wizard. Can you produce some of that magic you displayed before?">>
 <<action "You're ready for this. You reach into your BACKPACK. ">>
-<<if $smokes || $orcking || $dice || $baseball>><<if $orcking>>
+<<if $smokes || $orcking || $dice || $baseball>><<if $orcking>>\
 <<char "BERT">>
 <<dialogue "I have this miniaturized demon king. That I captured. And shrank.">>
 <<char "SEWARD">>
 <<dialogue "I will offer that to the men of Maerlebeorg. They are 79 strong.">>
-<<set $mobmen = $mobmen + 79>><<else>><</if>><<if $baseball>>
+<<set $mobmen = $mobmen + 79>><<else>><</if>><<if $baseball>>\
 <<char "BERT">>
 <<dialogue "What about this baseball? It's real leather. ">>
 <<char "SEWARD">>
 <<dialogue "Perhaps that will convince the men of Wintanceaster. They have but 21, but they are sporting.">>
-<<set $mobmen = $mobmen + 21>> <<else>><</if>><<if $dice>>
+<<set $mobmen = $mobmen + 21>> <<else>><</if>><<if $dice>>\
 <<char "BERT">>
 <<dialogue "I have this die. From Diabolical Dungeons. It's lucky. ">>
 <<char "SEWARD">>
 <<dialogue "Hm. I don't know if the men of Grimsbythwaite will accept that. I hope they do, they are 58 strong.">>
-<<set $mobmen = $mobmen + 58>> <<else>><</if>><<if $smokes>>
+<<set $mobmen = $mobmen + 58>> <<else>><</if>><<if $smokes>>\
 <<char "BERT">>
 <<dialogue "I still have the elder Scrolls of Smokeland.">>
 <<char "SEWARD">>
 <<dialogue "Excellent. The men of Stonton-under-Weald will be pleased with that. They number 43.">>
-
-
-<<set $mobmen = $mobmen + 43>><<else>><</if>><<else>>
-
-
+<<set $mobmen = $mobmen + 43>><<else>><</if>><<else>>\
 <<if $lighterram>><<action "You hold up the LIGHTER. SEWARD looks satisfied.">>
-
 <<elseif $lighterern>><<action "You hold up the LIGHTER. SEWARD looks satisfied.">>
-
 <<elseif $lightergrt>><<action "You hold up the LIGHTER. SEWARD looks satisfied.">>
-
 <<elseif $romancand>><<action "You hold up the ROMAN CANDLE. The swirling graphics along the side make for a convincing wand. SEWARD looks satisfied.">>
-
 <<elseif $matchbook>><<action "You hold up the MATCHBOOK. SEWARD looks concerned.">>
-
 <<elseif $cheetos>><<action "You hold up the CHEETOS. SEWARD looks concerned.">>
-
 <<elseif $pointer>><<action "You hold up the LASER POINTER. SEWARD looks confused. You press the button and a red dot appears on the ceiling. They stare at it in wonder. ">>
-
 <<elseif $shield>><<action "You hold up the SHIELD. SEWARD looks satisfied.">>
-
 <<elseif $papertow>><<action "You hold up the PAPER TOWELS. SEWARD looks concerned.">>
-
 <<elseif $trophy>><<action "You hold up the SOFTBALL TROPHY. SEWARD looks concerned.">>
-
 <<elseif $burtreyn>><<action "You hold up the BURT REYNOLDS PORTRAIT. Burt is smiling. SEWARD looks concerned.">>
-
-<<else>><<action "You're not ready for this. You've got no good proof. SEWARD looks concerned.">><</if>>
-
-<</if>><<if $mobmen >= 10>>
-
-
+<<else>><<action "You're not ready for this. You've got no good proof. SEWARD looks concerned.">>
+<</if>>\
+<</if>><<if $mobmen >= 10>>\
 <<char "SEWARD">>
 <<dialogue "Excellent. This is good proof. We'll have at least <<print $mobmen>> men when we approach the castle gates. ">>
 <<char "BERT">>
 <<dialogue "And we're sure... that's a good idea?">>
 <<action "SEWARD looks at you quizzically.">>
-<<else>><</if>><<if $fleacollar>>
+<<else>><</if>><<if $fleacollar>>\
 <<char "BERT">>
 <<dialogue "Oh, and I brought you something!">>
 <<action "You pull out the rhinestone-studded pink FLEA COLLAR and fasten it around SEWARD’s neck.">>
@@ -582,12 +713,23 @@ Christopher Curtis
 <<dialogue "This collar… er, necklace will take care of your fleas.">>
 <<char "SEWARD">>
 <<dialogue "My curse is lifted? Oh, mighty one.">>
-<<action "Clearly moved, he takes a deep, unnecessary bow.">><<else>><</if>>
+<<action "Clearly moved, he takes a deep, unnecessary bow.">>
+<<else>>\
+<</if>>\
 <<char "CICILIA">>
 <<dialogue "Beshrew this, must I do everything?">>
 <<action "CICILIA pushes you both outside…">>
 
 [[...in to the FARMYARD|Scene14C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene14C {"position":"1250,2800","size":"100,100"}
@@ -609,6 +751,15 @@ Christopher Curtis
 <<action "CICILIA pushes a shield and pack into SEWARD’s hands, and the two of you are swept away at the head of the angry mob.">>
 
 [[To the CASTLE|Scene14D]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene14D {"position":"1375,2800","size":"100,100"}
@@ -639,11 +790,20 @@ Christopher Curtis
 
 [[Gather your THOUGHTS|Scene14E]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene14E {"position":"1500,2800","size":"100,100"}
 <<scene "CASTLE HILL">>
 <<action "The MOB is restless. A hush falls over them, as they pack in tight around you.">>
-<<if $papertow || $trophy>>
+<<if $papertow || $trophy>>\
 <<char "SEWARD">>
 <<dialogue "We need a banner of arms!">>
 <<action "You reach into your BACKPACK, and pull out the <<if $papertow>>PAPER TOWELS<</if>><<if $papertow && $trophy>> and the<</if>><<if $trophy>> TROPHY<</if>>.">>
@@ -651,7 +811,7 @@ Christopher Curtis
 <<dialogue "<<if $papertow && $trophy>>Here, use these towels for the flag. And you can place this trophy upside down on the top of the pole. <<elseif $papertow>>Here, use these towels for the flag. <<elseif $trophy>>You can place this trophy upside down on the top of the pole.<</if>>">>
 <<char "SEWARD">>
 <<dialogue "Huzzah! Three cheers for the HOUSE of STRIPMALLSHIRE!!">>
-<</if>>
+<</if>>\
 <<action "You start to speak, without even knowing what you are saying. Your speech is a jumble of clichés, high-school pep talks, and lines you can barely remember from Braveheart. You have no idea what you are trying to say. So you try to wrap it up.">>
 <<char "BERT">>
 <<dialogue "…and in conclusion, we’ll just have to roll the dice, which as an expression means, uh… never mind. For STRIPMALLSHIRE!  ">>
@@ -659,6 +819,15 @@ Christopher Curtis
 <<dialogue "For STRIPMALLSHIRE!">>
 
 [[To the CASTLE|Scene14F]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene14F {"position":"1625,2800","size":"100,100"}
@@ -678,24 +847,40 @@ Christopher Curtis
 [[Push it down|Scene15A][$ANGRY = true]]
 [[Follow it|Scene15A][$ANGRY = false]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene15A {"position":"1050,2950","size":"100,100"}
 <<action "<<if $ANGRY>>You gather your courage. You didn't come all this way to chicken out at the last minute. You turn to rally the men with a battle cry and... <<else>>Your survival instinct kicks in. You turn your back to run. And...<</if>>">>
-
-<<if $bodyarmor || $shield>>
-<<action "THWAP. An arrow hits you square in the back. You scream. <<if $bodyarmor || $shield>> <</if>><<if $shield>>But the SHIELD, lodged in your BACKPACK has protected you. It's incredible luck. You think of ERNESTO. He always had your back.<<elseif $bodyarmor>>But the BODY ARMOR has protected you. The arrow hurt, but it didn't penetrate. Best thing $400 could have bought.<</if>>You reach around and feel your back. No blood. But everyone saw what happened. The MOB shrieks, breaks up, and begins to flee.>">>
+<<if $bodyarmor || $shield>>\
+<<action "THWAP. An arrow hits you square in the back. You scream. <<if $bodyarmor || $shield>> <</if>><<if $shield>>But the SHIELD, lodged in your BACKPACK has protected you. It's incredible luck. You think of ERNESTO. He always had your back.<<elseif $bodyarmor>>But the BODY ARMOR has protected you. The arrow hurt, but it didn't penetrate. Best thing $400 could have bought.<</if>>You reach around and feel your back. No blood. But everyone saw what happened. The MOB shrieks, breaks up, and begins to flee.">>
 <<char "BERT">>
 <<dialogue "No! Wait! My magic will protect us!">>
 <<action "You squat down to unzip your BACKPACK. SEWARD remains by your side, cowering behind his shield. More archers appear on the ramparts. ZSHWAP. ZSHWONK. The arrows are coming faster and heavier now. You feel the familiar impulse to run.">>
 
 [[Push it down|Scene15B]]
-
-<<else>>
+<<else>>\
 <<action "THWAP. An arrow hits you square in the back. You scream and fall over.">>
 <<action "On the ground, the pain hits. You look down. An arrow, deep in your love handle. Muscle tissue and bone peeking through. A pool of blood growing quickly on the grass. A static hiss fills your ears. You tilt your head back and moan. You're dying.">>
 
 [[Look to the CASTLE|Ending1]]
-<</if>>
+<</if>>\
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene15B {"position":"1175,2950","size":"100,100"}
@@ -703,7 +888,7 @@ Christopher Curtis
 <<char "ARCHER">>
 <<dialogue "Release the dogs!">>
 <<action "It’s not a line. There they come: two giant, mangy, snarling terrifying dogs, running at full speed towards you. You turn to look at SEWARD, who raises his shield for a moment and…">>
-<<if $cheetos >>
+<<if $cheetos >>\
 <<action "ZHWELCH. A black arrow hits him square in the toe. He tips over, squealing. The dogs will be on him soon. You lunge for your BACKPACK, and pull out the bag of CHEETOS.">>
 <<action "The dogs are closing on you. You can see the whites of their fangs. In your desperation, you fling the bag of CHEETOS in their path.">>
 <<action "To your great astonishment, they stop, and sniff the bag. First curiously, and then they bite into it like the ravenous, blood-thirsty animals you assume them to be.">>
@@ -714,7 +899,7 @@ Christopher Curtis
 
 [[Let it out|Scene15C]]
 
-<<elseif $spade>>
+<<elseif $spade>>\
 <<action "ZHWELCH. A black arrow hits him square in the toe. He tips over, squealing. The dogs will be on him soon. You lunge for your BACKPACK, and pull out the gardening SPADE.">>
 <<action "You brandish the gardening SPADE at them. They ignore that and run past you! Right to SEWARD, where they start to ravage him as he tries to kick them away. <<if $fleacollar>>The rhinestone-studded pink FLEA COLLAR you gave him sparkles.<</if>>One of them bites SEWARD’s wooden shield cleanly in half, and looks up at you.">>
 <<action "You throw the SPADE at them, missing badly. Your aim has always been terrible. But it scares them, and they run off back to the CASTLE, yelping. <<set $spade = false>>">>
@@ -722,125 +907,138 @@ Christopher Curtis
 
 [[Let it out|Scene15C]]
 
-<<else>>
+<<else>>\
 <<action "ZHWELCH. A black arrow tears through SEWARD’s jaw. Blood sprays as the lower half of his face slides off. It is incredibly disgusting and gory. He wobbles, and two more arrows tear through his midsection, spilling his intestines in the dirt. This just got way too real.">>
 <<action "The dogs are closing on you. You can see the whites of their fangs. Almost to you... You squeeze your eyes shut, bracing, and… they run past you! Right to SEWARD, where they start to ravage his still-twitching body. Really, way too gory. Even Game of Thrones didn’t have starving dogs eating people alive. One of them bites SEWARD’s wooden shield cleanly in half, and looks up at you. SEWARD has saved your life. <<if $fleacollar>>The rhinestone-studded pink FLEA COLLAR you gave him sparkles sadly.<</if>>">>
 <<action "You have to avenge him. You feel indignant. But for once it is righteous. You feel something you can finally put to good use. The anger.">>
 
 [[Let it out|Scene15C]]
-<</if>>
+<</if>>\
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene15C {"position":"1300,2950","size":"100,100"}
-<<action "<<if ($romancand || $fabreeze) && ($lighterram || $lighterern || $lightergrt || $matchbook)>><<if $lighterram && !$lighterern && !$lightergrt && !$matchbook>>As quickly as you can, you pull RAMBO’S LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.">>
-<<action "You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.">>
-<<action "Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && $lighterern && !$lightergrt && !$matchbook>>As quickly as you can, you pull ERNESTO’S LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.">>
-<<action "You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.">>
-<<action "Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && !$lighterern && $lightergrt && !$matchbook>>As quickly as you can, you pull GRETA’S LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.">>
-<<action "You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.">>
-<<action "Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && !$lighterern && !$lightergrt && $matchbook>>As quickly as you can, you pull the MATCHBOOK and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.">>
-<<action "You rip a MATCH out of the MATCHBOOK. You strike it on the cover. It won’t light. You rip out another. Try again. It goes out. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.">>
-<<action "Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<elseif $matchbook && ($lighterram || $lighterern || $lightergrt)>>As quickly as you can, you pull <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. You fumble around in the bottom for a LIGHTER. You find one. <<if $lighterram>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>>You have to hurry. You grasp GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. <</if>>
-Final backup, you’re so glad you brought the MATCHBOOK. You rip a MATCH out and strike it on the cover. It won’t light. You rip out another. Try again. It goes out. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.">>
+<div style="margin: 0em 6em 0em 6em;">\
+<<if ($romancand || $fabreeze) && ($lighterram || $lighterern || $lightergrt || $matchbook)>><<if $lighterram && !$lighterern && !$lightergrt && !$matchbook>>As quickly as you can, you pull RAMBO’S LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.
 
-<<action "Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<else>>As quickly as you can, you pull a LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. <<if $lighterram && ($lighterern || $lightergrt)>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern && $lightergrt>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>> You have to hurry. You find GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. ">>
+You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-<<action "You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.">>
+Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && $lighterern && !$lightergrt && !$matchbook>>As quickly as you can, you pull ERNESTO’S LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.
 
-<<action "Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif $lighterern>>
-You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.">>
+You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
+Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && !$lighterern && $lightergrt && !$matchbook>>As quickly as you can, you pull GRETA’S LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.
 
-<<action "Fuck! You try the LIGHTER one more time and… FSST. It ignites! <<elseif $lighterram>>You try to get RAMBO’S LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.">>
+You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-<<action "Fuck! You try the LIGHTER one more time and… FSST. It ignites!<</if>><</if>>">>
+Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$lighterram && !$lighterern && !$lightergrt && $matchbook>>As quickly as you can, you pull the MATCHBOOK and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK.
 
-<<action "<<if $romancand>>You try to line the flame up with the fuse of the ROMAN CANDLE. It’s burning your finger. You are shaking too much. There it is, so close, almost there—and: LIT!<<else>>You try to line the flame up with the nozzle on the can of FABREEZE. You are shaking too much. You get your thumb on top and give it a long hard pump, lighting the areosol spray. It smells like a sun-dappled meadow on fire.<</if>>">>
+You rip a MATCH out of the MATCHBOOK. You strike it on the cover. It won’t light. You rip out another. Try again. It goes out. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-<<action "FIZZZZ… and: ZHWELCH. Once again: the sickening sound of an arrow through flesh.">>
+Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<elseif $matchbook && ($lighterram || $lighterern || $lightergrt)>>As quickly as you can, you pull <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. You fumble around in the bottom for a LIGHTER. You find one. <<if $lighterram>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>>You have to hurry. You grasp GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. <</if>>
+Final backup, you’re so glad you brought the MATCHBOOK. You rip a MATCH out and strike it on the cover. It won’t light. You rip out another. Try again. It goes out. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-<<action "You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.">>
+Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<else>>As quickly as you can, you pull a LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. <<if $lighterram && ($lighterern || $lightergrt)>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern && $lightergrt>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>> You have to hurry. You find GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. 
 
-<<action "Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.">>
+You try to get the LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
+Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif $lighterern>>
+You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
+Fuck! You try the LIGHTER one more time and… FSST. It ignites! <<elseif $lighterram>>You try to get RAMBO’S LIGHTER lit. You flick. And again. It won’t light. You shake it. Try again. It won’t light. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-[[Look up at the CASTLE|Scene15D]]<<elseif !$romancand && !$fabreeze && ($lighterram || $lighterern || $lightergrt || $matchbook)>>
+Fuck! You try the LIGHTER one more time and… FSST. It ignites!<</if>><</if>>
 
-<<action "As quickly as you can, you pull <<if $lighterram || $lighterern || $lightergrt>>a LIGHTER<<elseif $matchbook>>the MATCHBOOK<<else>><</if>> out of your BACKPACK. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.">>
+<<if $romancand>>You try to line the flame up with the fuse of the ROMAN CANDLE. It’s burning your finger. You are shaking too much. There it is, so close, almost there—and: LIT!<<else>>You try to line the flame up with the nozzle on the can of FABREEZE. You are shaking too much. You get your thumb on top and give it a long hard pump, lighting the areosol spray. It smells like a sun-dappled meadow on fire.<</if>>
 
-<<action "You <<if $lighterram || $lighterern || $lightergrt>>flick the LIGHTER<<elseif $matchbook>>rip a MATCH out and strike it on the cover.<<else>><</if>> and… FSST. It ignites!">>
+FIZZZZ… and: ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
-<<action "You hold it up, to show the ARCHERS aligner on the ramparts your magical prowess. Certainly they will think a fireball is coming next. ">>
+You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-<<action "…and: ZHWELCH. Once again: the sickening sound of an arrow through flesh.">>
+Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
 
-<<action "You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.">>
+[[Look up at the CASTLE|Scene15D]]<<elseif (!$romancand && !$fabreeze) && ($lighterram || $lighterern || $lightergrt || $matchbook)>>
 
-<<action "Flat on your back, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.">>
+As quickly as you can, you pull <<if ($lighterram || $lighterern || $lightergrt)>>a LIGHTER<<elseif $matchbook>>the MATCHBOOK<<else>><</if>> out of your BACKPACK. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
+You <<if ($lighterram || $lighterern || $lightergrt)>>flick the LIGHTER<<elseif $matchbook>>rip a MATCH out and strike it on the cover.<<else>><</if>> and… FSST. It ignites!
 
+You hold it up, to show the ARCHERS aligner on the ramparts your magical prowess. Certainly they will think a fireball is coming next. 
 
-[[Look up at the CASTLE|Ending2]]
-<<action "<<elseif ($romancand || $fabreeze) && !($lighterram || $lighterern || $lightergrt || $matchbook)>>As quickly as you can, you pull <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You look at the fuse. You realize that you failed to bring anything to light it.">>
+…and: ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
-<<action "You wave <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> above your head threateningly, like a wand. Nobody takes any notice. ">>
+You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-<<action "ZHWELCH. Once again: the sickening sound of an arrow through flesh.">>
+Flat on your back, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
 
-<<action "You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.">>
+[[Look up at the CASTLE|Ending2]]<<elseif ($romancand || $fabreeze) && !($lighterram || $lighterern || $lightergrt || $matchbook)>>As quickly as you can, you pull <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You look at the fuse. You realize that you failed to bring anything to light it.
 
-<<action "Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.">>
+You wave <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> above your head threateningly, like a wand. Nobody takes any notice. 
 
+ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
-[[Look up at the CASTLE|Ending2]]
-<<action "<<elseif !$romancand&& !$fabreeze) && !($lighterram || $lighterern || $lightergrt || $matchbook)>><<if $pointer>>You take out the LASER POINTER. You press it and shine a red dot uselessly on the ARCHERS above. They don’t even seem to notice. ">>
+You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-<<action "ZHWELCH. Once again: the sickening sound of an arrow through flesh.">>
+Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
 
-<<action "You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.">>
+[[Look up at the CASTLE|Ending2]]<<elseif (!$romancand&& !$fabreeze) && !($lighterram || $lighterern || $lightergrt || $matchbook)>><<if $pointer>>You take out the LASER POINTER. You press it and shine a red dot uselessly on the ARCHERS above. They don’t even seem to notice. 
 
-<<action "Flat on your back, still clutching the LASER POINTER, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.">>
+ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
+You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-[[Look up at the CASTLE|Ending2]]
+Flat on your back, still clutching the LASER POINTER, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.
 
-<<elseif $spade>>
-<<action "You hold up the SPADE. You shake it towards the ARCHERS in a threatening manner.">>
-<<action "ZHWELCH. Once again: the sickening sound of an arrow through flesh.">>
-<<action "You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.">>
-<<action "Flat on your back, still clutching the SPADE, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.">>
+[[Look up at the CASTLE|Ending2]]<<elseif $spade>>You hold up the SPADE. You shake it towards the ARCHERS in a threatening manner.
 
-[[Look up at the CASTLE|Ending2]]
-<<elseif $shield>>
-<<action "You hold up your SHIELD. But it’s too high, leaving your legs exposed. And…">>
-<<action "ZHWELCH. Once again: the sickening sound of an arrow through flesh.">>
-<<action "You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.">>
-<<action "Flat on your back, still clutching the SHIELD, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.">>
+ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
-[[Look up at the CASTLE|Ending2]]
-<<elseif $burtreyn>>
-<<action "You hold up the BURT REYNOLDS PORTRAIT. Burt is smiling. No one seems to care.">>
-<<action "ZHWELCH. Once again: the sickening sound of an arrow through flesh.">>
-<<action "You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.">>
-<<action "Flat on your back, still clutching the PORTRAIT, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.">>
+You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-[[Look up at the CASTLE|Ending2]]
-<<else>>
-<<action "You’ve got nothing. Nothing that could help you.">>
-<<action "ZHWELCH. Once again: the sickening sound of an arrow through flesh.">>
-<<action "You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.">>
-<<action "Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.">>
+Flat on your back, still clutching the SPADE, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
+
+[[Look up at the CASTLE|Ending2]]<<elseif $shield>>You hold up your SHIELD. But it’s too high, leaving your legs exposed. And…
+
+ZHWELCH. Once again: the sickening sound of an arrow through flesh.
+
+You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
+
+Flat on your back, still clutching the SHIELD, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.
+
+[[Look up at the CASTLE|Ending2]]<<elseif $burtreyn>>You hold up the BURT REYNOLDS PORTRAIT. Burt is smiling. No one seems to care.
+
+ZHWELCH. Once again: the sickening sound of an arrow through flesh.
+
+You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
+
+Flat on your back, still clutching the PORTRAIT, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.
+
+[[Look up at the CASTLE|Ending2]]<<else>>You’ve got nothing. Nothing that could help you.
+
+ZHWELCH. Once again: the sickening sound of an arrow through flesh.
+
+You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
+
+Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
 
 [[Look up at the CASTLE|Ending2]]<</if>><</if>>
+</div>\
 
 
 :: Scene15D {"position":"1425,2950","size":"100,100"}
 <<action "You feel weak. You can't tell if the light is fading from the sky, or if you're blacking out. The sky above you is spinning. <<if $romancand>>A static hiss fills your ears, and then gives way to the familiar POP and WHOOSH of a firework. The ROMAN CANDLE worked. <<else>>A firey whoosh fills your ears as the FABREEZE is projected from the can, with surprising speed and staying power. <</if>>">>
 <<action "And there it is... A glowing pink fireball blazing straight up through the darkening medieval sky. It’s beautiful.">>
-<<if !($cheetos || $spade)>>
+<<if !($cheetos || $spade)>>\
 <<action "The dogs freeze over SEWARD’s remains.">>
-<</if>>
+<</if>>\
 <<action "All goes quiet as the MOB turns in wonder and the ARCHERS stop, lowering their bows. From between them a crowned head of wispy hair appears.">>
 <<action "It’s the KING. He arrives on the rampart with his royal guard and white-bearded WIZARD. His sunken eyes, along with eveyone's, follow the FIREBALL you've launched into the sky. Everyone except the WIZARD. His eyes are searching the ground below, where you lie. ">>
 <<action "He looks strangely familiar. He tugs at his beard, which comes easily away from his face. You recognize the face. It's not a WIZARD at all. It's JAN, from next door.">>
@@ -850,9 +1048,18 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Get SOMETHING, ANYTHING|Scene15E]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene15E {"position":"1550,2950","size":"100,100"}
-<<if $burtreyn>>
+<<if $burtreyn>>\
 <<action "You take BURT REYNOLDS' PORTRAIT out of your BACKPACK, and hold it above you, angling the glass, trying to catch JAN's eye. It works. She spots you. ">>
 <<char "JAN">>
 <<dialogue "Bert?!">>
@@ -864,7 +1071,7 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "The ARCHERS stop, and the royal guard disperse to fufill the KING's orders. You will be saved. ">>
 
 [[You CLOSE YOUR EYES|Ending4]]
-<<elseif $pointer>>
+<<elseif $pointer>>\
 <<action "You take the LASER POINTER out of your BACKPACK, and aim it's beam at the KING's face, trying to catch his attention. It works. ">>
 <<char "KING">>
 <<dialogue "Hold fire! Seize that barbarian.">>
@@ -874,12 +1081,21 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "The royal guard disperse to fulfill the KING's orders. You will be saved. ">>
 
 [[You CLOSE YOUR EYES|Ending4]]
-<<else>> 
+<<else>> \
 <<action "You have nothing of use anymore in BACKPACK. Nothing that could get their attention so high up on that wall. You have come so far, and you were so close to the KING, and now you feel the moment slipping away. ">>
 <<action "JAN pulls her beard back up and whispers something in the KING's ear. They turn, and go back inside. You feel frantic.">>
 
 [[You WAVE YOUR ARMS and SHOUT|Ending3]]
-<</if>>
+<</if>>\
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene1A {"position":"400,150","size":"100,100"}
@@ -968,6 +1184,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Let it out|Scene1Cpart2]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene1CAnger {"position":"900,225","size":"100,100"}
 <<action "You’ve had it. You fill the rest of the smoothie cup up, turn to the TECH BRO, and…">>
@@ -977,6 +1202,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Go to the BACKROOM|Scene1D]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene1CSupress {"position":"900,75","size":"100,100"}
 <<action "You push the anger down. As best you can. But…">>
@@ -984,6 +1218,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "ERNESTO sinks into the backroom, terrified. The peekapoos start lapping the smoothie off the floor.">>
 
 [[Go to the BACKROOM|Scene1D]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene1Cpart2 {"position":"775,150","size":"100,100"}
@@ -1017,6 +1260,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 [[Push it down|Scene1CSupress]]
 [[Let it out|Scene1CAnger]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene1D {"position":"1025,150","size":"100,100"}
 <<char "TECH BRO">>
@@ -1029,6 +1281,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<dialogue "Pack your shit. Five minutes.">>
 
 [[Go to the BACKROOM|Scene1E]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene1E {"position":"1150,150","size":"100,100"}
@@ -1045,17 +1306,26 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 <<set $lightergrt = true>><<set $cellphone = true>><<set $cups = true>><<set $cash401 = true>><<set $smokes = true>><<set $jestervest = true>>
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene2A {"position":"400,425","size":"100,100"}
 <<scene "STRIP MALL PARKING LOT">>
 <<action "You are in the parking lot, still. The anger won’t let you leave. ">>
-<<if $cash401>><<set $STOLEcash401 = true>>
+<<if $cash401>><<set $STOLEcash401 = true>>\
 <<action "You crouch down behind a dirty pick-up truck and pull the envelope of cash out of your bag. $401 dollars. They owe you that much, at least, for years of humiliation. But GRETA will notice any minute that it’s gone. They’ll obviously come looking for you. Why did you take it?">>
 <<action "You hear the door to JACK OF ALL FRUITS open and you wince.">>
-<<else>>
+<<else>>\
 <<action "You should’ve just taken the money. They owe you. Today wasn’t the first 8-hour shift of constant humiliation. ">>
 <<action "You hear the door to JACK OF ALL FRUITS open and you crouch down behind a dirty pick-up truck.">>
-<</if>>
+<</if>>\
 <<action "From behind the truck, all you can see are the sad signs hung along the front of the strip mall: CHECKS KASHED, RAMBO’S GUNZ ‘N AMMO, and KIDS BOUNCY RENTALS. And the DRAGON’S BREATH FIREWORKS trailer parked in the corner of the lot.">>
 <<action "You peek out. The TECH BRO has been cleaned up a bit, but looks even more pissed off. ERNESTO trails behind him, trying to apologize.">>
 <<char "ERNESTO">>
@@ -1065,14 +1335,23 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 [[Push it down|Scene2BSupress]]
 [[Let it out|Scene2BAnger]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene2BAnger {"position":"525,375","size":"100,100"}
 <<if $cups>><<action "You reach into your backpack and grab the stack of empty CUPS. Squinting with one eye, to aim, you hurl them at the TECH BRO. You miss by a mile. You can’t throw for shit.">>
 <<action "He doesn’t even notice as they sail over the peekapoos’ heads. The dogs freak out, pulling at their leashes with high-pitched yapping. You duck back down.">>
-<<set $THREWcups = true>>
-<<else>>
+<<set $THREWcups = true>>\
+<<else>>\
 <<action "You peek your head around a tire, and do your best impression of the stupid dogs’ bark. The dogs freak out, answering their own with highpitched yapping. You duck back down before the TECH BRO can turn his head.">>
-<</if>>
+<</if>>\
 <<char "TECH BRO">>
 <<dialogue "See? My poos are effin traumatized. You’ll hear from my lawyer.">>
 <<action "TECH BRO storms off. ERNESTO sighs, looks up, and sees you behind the truck, ducking responsibility.">>
@@ -1081,19 +1360,38 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 <<set $cups = false>>
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene2BSupress {"position":"525,500","size":"100,100"}
 <<if $jestervest>><<action "You try to duck down lower and angle out of your backpack. But the little jingle bells on your jester vest sound from inside your bag. The TECH BRO doesn’t hear them, but his dogs sure do. They freak out, pulling at their leashes with high-pitched yapping.">>
-<<else>><<action "You try to stay as still as possible. Which always makes you sneeze. ">>
+<<else>>\
+<<action "You try to stay as still as possible. Which always makes you sneeze. ">>
 <<char "BERT">>
 <<dialogue "Achoo-OOOO">>
 <<action "The peekapoos freak out, pulling at their leashes with highpitched yapping.">>
-<</if>>
+<</if>>\
 <<char "TECH BRO">>
 <<dialogue " See? My poos are effin traumatized. You’ll hear from my lawyer.">>
 <<action "TECH BRO storms off. ERNESTO sighs, looks up, and sees you behind the truck, ducking responsibility.">>
 
 [[You WAVE HIM OVER|Scene2C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene2C {"position":"650,450","size":"100,100"}
@@ -1104,22 +1402,35 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "You stand up and scream. There are two deer heads in the back of the pick-up truck. Hunting trophies. Flies buzz around them. It’s super gross.">>
 <<char "ERNESTO">>
 <<dialogue "Greta shouldn’t have given you three strikes. It wasn’t your fault.">>
-<<if hasVisited("Scene2BAnger")>>
+<<if hasVisited("Scene2BAnger")>>\
 <<dialogue "But you can’t harass someone’s dogs.">>
-<<else>>
+<<else>>\
 <<dialogue "But you can’t hide from it now.">>
-<</if>>
+<</if>>\
 <<action "You back away from the truck bed, covering your mouth and nose. Ernesto follows.">>
 <<char "ERNESTO">>
 <<dialogue "Maybe it’s a good thing? You say every day you want to quit.">>
 <<char "BERT">>
-<<if $cash401>><<dialogue "Yeah, well, they can’t rip me off anymore. Neither can you">><<else>><<dialogue "I need money. You should know.">><</if>>
+<<if $cash401>>\
+<<dialogue "Yeah, well, they can’t rip me off anymore. Neither can you">>
+<<else>>\
+<<dialogue "I need money. You should know.">>
+<</if>>\
 <<dialogue "You still want to charge me to sleep on your filthy couch?">>
 <<char "ERNESTO">>
 <<dialogue "I didn’t mean that. Of course you can...">>
 <<action "You can’t really be mad at ERNESTO, he’s harmless. Not that he’s been much help either...">>
 
 [[Let it out... but just a little|Scene2D]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene2D {"position":"775,450","size":"100,100"}
@@ -1128,22 +1439,24 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "ERNESTO is looking at something behind you. A teenage GOTH GRRRL, strapped into a corset and fishnets. GRETA'S best friend, though she's never been introduced to either of you. She passes you both, stops, turns, and asks:">>
 <<char "GOTH GRRRL">>
 <<dialogue "Got a smoke?">>
-<<if $smokes>><<action "As it turns out, you do! You fumble around in your backpack till you find the pack of GRETA’S SMOKES. You open the box with a tremble. With two long black fingernails the GOTH GRRRL plucks a cigarette from the pack, without looking at you. She pops it between her black-lipstick lips. ">>
+<<if $smokes>>\
+<<action "As it turns out, you do! You fumble around in your backpack till you find the pack of GRETA’S SMOKES. You open the box with a tremble. With two long black fingernails the GOTH GRRRL plucks a cigarette from the pack, without looking at you. She pops it between her black-lipstick lips. ">>
 <<char "GOTH GRRRL">>
 <<dialogue "Got a light?">> 
-<<if $lightergrt>><<action "You have that too! Now you’re really trembling, as you flick the LIGHTER again and again, trying to get it to light. ">>
-<<action "She grabs it from you, lights her cigarette with one flick. And walks past you both, nose upturned, without saying thanks. ">><<else>>
-<<action "Why would you take the cigarettes but leave the lighter? You sadly shake your head no.
-">>
+<<if $lightergrt>>\
+<<action "You have that too! Now you’re really trembling, as you flick the LIGHTER again and again, trying to get it to light. ">>
+<<action "She grabs it from you, lights her cigarette with one flick. And walks past you both, nose upturned, without saying thanks. ">>
+<<else>>\
+<<action "Why would you take the cigarettes but leave the lighter? You sadly shake your head no.">>
 <<action "She rolls her eyes, turns up her nose, and brushes past you both. ">>
-<</if>>
-<<else>>
+<</if>>\
+<<else>>\
 <<char "BERT">>
 <<dialogue "No, but Greta...">> 
 <<char "GOTH GRRRL">>
 <<dialogue "Yeah, no shit. ">> 
 <<action "She brushes past you both, nose upturned. ">>
-<</if>>
+<</if>>\
 <<action "ERNESTO just stares as she walks in to JACK OF ALL FRUITS.">>
 <<char "ERNESTO">>
 <<dialogue "That means it is time for Greta’s smoke break. I have to get back in there and take over.">>
@@ -1152,70 +1465,105 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<char "ERNESTO">>
 <<dialogue "Just go to my apartment. We have the game tonight anyway.">>
 <<action "You spend the rest of the afternoon in the park across the street from ERNESTO’s apartment. ">>
-<<if $cellphone>>
+<<if $cellphone>>\
 <<action "Your CELL PHONE is dead, and you can’t charge it until you’re inside.">>
-<<else>>
+<<else>>\
 <<action "You realize you left your CELL PHONE in the backroom. That was dumb. No going back now.">>
-<</if>>
-<<if $lightergrt && $smokes>>
+<</if>>\
+<<if $lightergrt && $smokes>>\
 <<action "You light up one of GRETA's cigarettes. Just to spite her.">>
-<<else>>
-<</if>> 
+<<else>>\
+<</if>> \
 <<action "You think about what kind of job you could get that doesn’t require any skill or work, that pays an infinite amount, and would garner you undying respect and adulation.">>
 <<action "You try not to feel angry.">>
 
 [[Push it down|Scene3A]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene3A {"position":"450,700","size":"100,100"}
 <<scene "ERNESTO’S APARTMENT">>
 <<action "You suppose it's nice of ERNESTO to let you crash his apartment. Even if the couch is half-busted and you know there will be springs in your back all night. Everything you have is in your BACKPACK, stashed in the least-dirty corner. ">>
-<<if $cellphone>>
+<<if $cellphone>>\
 <<action "At least you can charge your phone here.">>
-<<else>>
+<<else>>\
 <<action "Except your CELLPHONE. You’re still kicking yourself for leaving it behind.">>
-<</if>> 
-<<if not $cellphone && not $cash401>>
+<</if>> \
+<<if not $cellphone && not $cash401>>\
 <<action "You could have used that MONEY to buy a new one.">>
-<<else>>
-<</if>>
-<<if $cash401>> 
+<<else>>\
+<</if>>\
+<<if $cash401>> \
 <<action "You keep thinking about that stack of CASH in your BACKPACK.">>
-<<else>>
+<<else>>\
 <<action "You keep thinking about that stack of CASH you left behind.">>
-<</if>>
+<</if>>\
 <<action "It is so dorky in here. ERNESTO is in too deep. There’s a replica medieval SHIELD and two crossed swords hung on the wall above an elaborate display case full of small-scale fantasy figurines. The ORC KING is painted meticulously with slime. On ERNESTO’s coffee table the Diabolical Dungeons game board is surrounded by WolfOut Energy cans and food wrappers.">>
 <<action "You all have been at it for an hour, but it feels like aeons. DUNGEON MASTER DAN carefully arranges the pieces for the next sequence, clicking the plastic drawbridge into place on the set’s miniature castle. FRED coughs out smoke and passes you a ridiculous psychedelic BONG. You don’t want him to know it’s yours, from the last time you were here. ">>
-<<if $lightergrt>>
+<<if $lightergrt>>\
 <<action "You use GRETA'S LIGHTER to light it and try not to think about her.">>
-<<else>>
+<<else>>\
 <<action "You take a long draw.">>
-<</if>>
+<</if>>\
 
 [[Make your next move|Scene3B]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene3B {"position":"575,700","size":"100,100"}
 <<char "BERT">>
 <<dialogue "Well, fuck, I’ll just teleport onto the throne, if it’s empty.">>
+
 <<char "FRED">>
 <<dialogue "It’s empty because I’m on a quest.  Helping you.">>
+
 <<char "DUNGEON MASTER DAN">>
 <<dialogue "You can’t become King that way.">>
+
 <<char "BERT">>
 <<dialogue "I’ve been telling people to fuck off all day, right Ernesto?">>
+
 <<char "ERNESTO">>
 <<dialogue "In a sense...">>
+
 <<char "BERT">>
 <<dialogue "I’m a fucking wizard right? So I teleport. Once I’m on the throne...">>
+
 <<char "DUNGEON MASTER DAN">>
 <<dialogue "You’re too high. It ruins the game if you don’t take it seriously.">>
+
 <<char "ERNESTO">>
 <<dialogue "C’mon Bert, you know that’s not how it’s played.">>
+
 <<char "DUNGEON MASTER DAN">>
 <<dialogue "You haven’t prepped that spell, so even with +2 modifier... You’d have to roll a twelve.">>
 
 [[Roll the dice|Scene3C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene3C {"position":"700,700","size":"100,100"}
@@ -1253,6 +1601,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 [[Push it down|Scene3DSupress]]
 [[Let it out|Scene3DAnger]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene3DAnger {"position":"825,625","size":"100,100"}
 <<action "If this stupid game doesn’t have any rules, why should you? You jump up and lunge at DUNGEON MASTER DAN, but he skitters out of the way, and you lurch into ERNESTO’s display case of table-top figurines. The replica swords come clattering down and the medieval SHIELD cracks neatly in half, making a horrible noise. ">>
@@ -1266,7 +1623,16 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Open your BACKPACK|backpackmenu3]]
 
-<<set $orcking = true>><<set $dice = true>><<set $lighterern = true>><<set $bong = true>><<set $shield = true>><<set $papertow = true>>
+<<set $orcking = true>><<set $dice = true>><<set $lighterern = true>><<set $bong = true>><<set $shield = true>><<set $papertow = true>>\
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene3DSupress {"position":"825,750","size":"100,100"}
@@ -1280,7 +1646,16 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Open your BACKPACK|backpackmenu3]]
 
-<<set $orcking = true>><<set $dice = true>><<set $lighterern = true>><<set $bong = true>><<set $shield = true>><<set $papertow = true>>
+<<set $orcking = true>><<set $dice = true>><<set $lighterern = true>><<set $bong = true>><<set $shield = true>><<set $papertow = true>>\
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene3E {"position":"1075,700","size":"100,100"}
@@ -1291,13 +1666,20 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Go to MA'S HOUSE|Scene4A]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene4A {"position":"500,950","size":"100,100"}
 <<scene "MA’S HOUSE">>
 <<action "You find yourself on the front porch of your two-story, dilapidated childhood home. Nowhere else to go.">>
-
-
-<<if $orcking>>
+<<if $orcking>>\
 <<action "You pull the tiny ORC KING from your backpack. It's face is distorted into a hideous grimace. You press it right up against the tiny peephole, and ring the doorbell.">>
 <<char "MA REYNOLDS">>
 <<dialogue "AAAHHHHHH. Also: Fuck off.">>
@@ -1307,8 +1689,7 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<dialogue "If that's what you've done to your face, you're no son of mine.">>
 <<action "You hear her stomp away back into the house. She's not going to open the door now.">>
 <<action "You knock. Wait. Knock again. A crack. ">>
-<<else>><</if>>
-
+<<else>><</if>>\
 <<action "You hesitate, then sharply pound on the door. An extended amount of muffled cursing behind the door. Finally, it cracks open, still chained from the inside, and your MA’s leathery face appears, cigarette pinched between her thin lips.">>
 <<char "MA REYNOLDS">>
 <<dialogue "I’m asleep.">>
@@ -1316,10 +1697,10 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<dialogue "You’re smoking.">>
 <<char "MA REYNOLDS">>
 <<dialogue "I already gave your allowance.">>
-<<if $cash401>>
+<<if $cash401>>\
 <<char "BERT">>
 <<dialogue "I have money...">>
-<<else>><</if>>
+<<else>><</if>>\
 <<action "She slams the door. You knock. Wait. Knock again. A crack.">>
 <<char "MA REYNOLDS">>
 <<dialogue "You smell like <<if $bong>>a bong. And<<else>><</if>> you are living on the streets.">>
@@ -1332,9 +1713,18 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 [[Push it open|Scene4BAnger]]
 [[Let it close|Scene4BSupress]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene4BAnger {"position":"625,1000","size":"100,100"}
-<<action "You stick your foot in the door. She continues to try and push it shut. You wince at the pain. ">>
+<<action "You stick your foot in the door. She continues to try and push it shut. You wince at the pain.">>
 <<char "BERT">>
 <<dialogue "...and I lost my job.">>
 <<action "She opens the door a crack, still chained from the inside. She looks you up and down, raises a painted eyebrow at your striped jester work PANTS.">>
@@ -1353,6 +1743,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Go around back|Scene4C]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene4BSupress {"position":"625,875","size":"100,100"}
 <<action "She closes the door, and you hear her shuffle away.">> 
@@ -1367,8 +1766,16 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<dialogue "What...?">>
 <<action "You open up the mailbox next to the front door. There is a bag of CHEETOS inside. You have questions, but you can hear NED and MA shouting at each other upstairs now. They're not coming back. You sigh. ">>
 
-
 [[Go around back|Scene4C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene4C {"position":"750,950","size":"100,100"}
@@ -1380,6 +1787,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "You doze off, wake up<<if $bong && ($lightergrt || $lighterern)>>, take another BONG rip<<else>>, eat another Cheeto<</if>>. <<if $dice>>You roll the DIE again. Another one. <<else>><</if>>Time passes... ">>
 
 [[You fall ASLEEP|Scene4D]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene4D {"position":"875,950","size":"100,100"}
@@ -1393,6 +1809,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 <<set $cheetos = true>><<set $baseball = true>><<set $spade = true>>
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene5A {"position":"550,1150","size":"100,100"}
 <<scene "JAN'S CELLAR">>
@@ -1401,6 +1826,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "Suddenly the cat skitters out, and knocks your BACKPACK into the dark. You bend forward, reaching after it, and step through the frame. Your foot expects to find the stairs, but instead, there’s nothing, and you tumble forward, head first...">>
 
 [[... in to the DARKNESS|Scene5B]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene5B {"position":"675,1150","size":"100,100"}
@@ -1413,6 +1847,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[... OUTSIDE|Scene5C]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene5C {"position":"800,1150","size":"100,100"}
 <<scene "THE COUNTRY-SIDE">>
@@ -1424,6 +1867,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "You look around in wonder. The air is fresh, there’s sparkling dew on the grass, butterflies, it’s like a movie. You hear voices, coming from inside the HUT. ">>
 
 [[Go to the PEASANT’S HUT|Scene5D]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene5D {"position":"925,1150","size":"100,100"}
@@ -1442,43 +1894,42 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<dialogue "Technically, it’s a Balrog.">>
 <<char "SEWARD">>
 <<dialogue "Relent, evil fiend!  ">>
-<<action "He pokes at you with the pitchfork. You back into the corner. It looks really sharp, actually. <<if $jestervest>>You swing your BACKPACK around and try to tug your JESTER VEST out in order to cover up the Balrog. <<else>>You swing your BACKPACK around to protect your soft belly. <</if>> ">>
+<<action "He pokes at you with the pitchfork. You back into the corner. It looks really sharp, actually. <<if $jestervest>>You swing your BACKPACK around and try to tug your JESTER VEST out in order to cover up the Balrog. <<else>>You swing your BACKPACK around to protect your soft belly. <</if>>">>
 <<char "SEWARD">>
 <<dialogue "Prepare to be banish’d to the foul realm which birthed you!  ">>
 <<action "SEWARD cranks the pitchfork back to deliver a death blow. ">>
 
 [[Do SOMETHING|Scene5E]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene5E {"position":"1050,1150","size":"100,100"}
-<<if $lightergrt || $lighterern>>
+<<if $lightergrt || $lighterern>>\
 <<action "You reach inside your BACKPACK and pull out the LIGHTER. Cowering in fear, you flick the wheel of your LIGHTER and a flame appears.">>
-
 <<elseif $orcking>><<action "You reach inside your BACKPACK and pull out the miniature ORC KING. You hold him up.">>
-
 <<char "BERT">>
 <<dialogue "I have captured and miniaturized this demon from foreign lands!">>
-
-
-<<elseif $baseball>>
+<<elseif $baseball>>\
 <<action "You reach inside the BACKPACK and pull out the BASEBALL.">>
-
  <<char "BERT">>
 <<dialogue "Do not make my wizard ball angry! It's red threads are... the veins of my enemies.">>
-
-<<elseif $smokes>>
+<<elseif $smokes>>\
 <<action "You reach inside your BACKPACK and pull out the SMOKES.">>
-
 <<char "BERT">>
 <<dialogue "I bring with me the elder Scrolls of Smokeland. ">>
-
 <<action "<<elseif $spade>>You reach inside your BACKPACK and pull out the SPADE. The blade is small and rusty. But the handle is a translucent plastic, that catches the light just so. They seem mesmerized. <<elseif $cellphone>>You reach inside your BACKPACK and pull out the CELLPHONE. The screen lights up, a bright square of colored icons. You turn on the flashlight features and wave it frantcially around the room.<<else>>You unzip your BACKPACK as loudly as you possibly can. ">>
-<</if>>
-
+<</if>>\
 <<char "BERT">>
 <<dialogue "This backpack leads to the future! ">>
 <<action "Everyone stops. CICILIA, BABY, and SEWARD fall silent. The pitchfork clatters to the floor.">>
-
 <<char "CICILIA">>
 <<dialogue "It’s a… Wizard.  ">>
 <<action "SEWARD drops to his knees.  ">>
@@ -1502,6 +1953,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "What do you want, exactly? ">>
 
 [[Try to THINK|Scene5F]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene5F {"position":"1175,1150","size":"100,100"}
@@ -1535,7 +1995,7 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<char "SEWARD">>
 <<dialogue "As you wish, oh Mighty One.  ">>
 <<action "He gestures for you to leave the HUT. CICILIA raises an eyebrow as you pass by. Seductively? Did you read that right? Suddenly, you want to return here. ">>
-<<if $bong>>
+<<if $bong>>\
 <<action "You reach in your BACKPACK, and pull out the BONG.">>
 <<char "BERT">>
 <<dialogue "Can you keep an eye on my…  ">>
@@ -1544,8 +2004,8 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<char "BERT">>
 <<dialogue "Yes.">>
 <<action "You set the BONG down awkwardly, and it tips over again, spilling water on the floor of the hut. The BABY resumes his unhappy cry. CICILIA drops her sultry look.  You give her an apologetic shrug.">>
-<<set $LEFTbong = true>>
-<<elseif $cups>>
+<<set $LEFTbong = true>>\
+<<elseif $cups>>\
 <<action "You reach in your BACKPACK, and pull out the empty CUPS.  ">>
 <<char "BERT">>
 <<dialogue "Can you keep an eye on my…  ">>
@@ -1556,6 +2016,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "You set the stack down awkwardly, and it tips over, spilling CUPS across the floor of the hut. The BABY resumes his unhappy cry. CICILIA drops her sultry look. You give her an awkward thumbs up.">><</if>>
 
 [[Follow SEWARD|Scene6A]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene6A {"position":"600,1325","size":"100,100"}
@@ -1590,6 +2059,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[To the CASTLE|Scene6B]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene6B {"position":"725,1325","size":"100,100"}
 <<scene "THE CASTLE">>
@@ -1599,33 +2077,37 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<char "BERT">>
 <<dialogue "It is I… RAMBO OF STRIPMALLSHIRE!">>
 <<action "There is no response. You reach into your BACKPACK. ">>
-
-<<if $lightergrt || $lighterern>>
+<<if $lightergrt || $lighterern>>\
 <<action "You flick the LIGHTER and hold it above your head, to show your power.">>
-<<elseif $orcking>>
+<<elseif $orcking>>\
 <<action "You hold the ORC KING above your head, to show your power. But there's no way he could see it from up there.">>
-<<elseif $baseball>>
+<<elseif $baseball>>\
 <<action "You take out your BASEBALL, and crank it back, as though you'll attack hin with it. ">>
-<<elseif $smokes>>
+<<elseif $smokes>>\
 <<action "You pull out the SMOKES, and hold them up.">><</if>>
-
-
 <<char "BERT">>
 <<dialogue "I bring scrolls from the future!">>
-
-<<if $spade>>
+<<if $spade>>\
 <<action "You take out your SPADE  again, and point the handle end at him, like a wand.">>
-
-<<elseif $cellphone>>
+<<elseif $cellphone>>\
 <<action "You grab your CELLPHONE, but hesitate before turning on the flashlight function. The battery is getting very low.">>
-<<else>>
+<<else>>\
 <<action "But you can't find anything that would prove your powers. ">><</if>>
 <<char "BERT">>
 <<dialogue "I'm a wizard! Level 6! I demand to speak to your…">>
-<<action "ZHWING—an arrow whistles by your head and thunks into the ground. Then ZING—ZAP—two more. Fuck! Those are real! They are trying to actually kill you. Heat rises under your collar. ">>
+<<action "ZHWING—an arrow whistles by your head and thunks into the ground. Then ZING—ZAP—two more. Fuck! Those are real! They are trying to actually kill you. Heat rises under your collar.">>
 
 [[Push it down|Scene6BSupress]]
 [[Let it out|Scene6BAnger]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene6BAnger {"position":"850,1425","size":"100,100"}
@@ -1637,6 +2119,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Walk back to SEWARD’S HUT|Scene6C]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene6BSupress {"position":"850,1300","size":"100,100"}
 <<char "BERT">>
@@ -1645,6 +2136,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "Until you’re out of breath, which is not that far, really. Just over the hill. But at least you’re out of arrow range. You try to catch your breath, try to think. You can’t stay here. This place is crazy.">>
 
 [[Walk back to SEWARD’S HUT|Scene6C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene6C {"position":"975,1325","size":"100,100"}
@@ -1664,6 +2164,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Make for the BARN|Scene6D]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene6D {"position":"1100,1325","size":"100,100"}
 <<action "You burst out of the HUT, ducking in the hope that somehow the MOB doesn’t spot you. They do, and start to rush after you. Already winded, you break into a loping run<<if $cellphone>> and pull your CELL PHONE out of your pocket. You struggle to dial 911 while running. You stop to press send and see there’s no signal. That makes sense. No cell service in medieval times.<<else>>.<</if>>">>
@@ -1671,6 +2180,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "You drop your BACKPACK to lighten your load. You step on a sheep’s back, it emits a loud BAAAAA of objection, but you manage to pull yourself up and grip the edge of the door frame. ">>
 
 [[Go through the CELLAR DOOR|Scene6E]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene6E {"position":"1225,1325","size":"100,100"}
@@ -1684,6 +2202,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Try the CELLAR DOOR again|Scene6F]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene6F {"position":"1350,1325","size":"100,100"}
 <<action "You climb a sheep again, which slips away. You grab another, humping it into position. You clamor on top, again pull yourself up through the door frame, your feet dangling. The MOB is inside the BARN. Someone stabs your shoe with a pitchfork. It falls off. You scream. ">>
@@ -1691,14 +2218,32 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[... in to the DARKNESS|Scene7A]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene7A {"position":"650,1550","size":"100,100"}
 <<scene "JAN'S CELLAR">>
 <<action "Back up through the cellar door, you fall face-first in the yard. Bermuda grass. You jump up, still panicked, and search your BACKPACK for your CELL PHONE: Right. Gone. ">>
-<<action "JAN’S HOUSE looms in the setting sun, behind you. Your eye again catches movement from above, making you jump. A shadowy figure moves away from the upstairs window. Your body shudders. ">>
+<<action "JAN’S HOUSE looms in the setting sun, behind you. Your eye again catches movement from above, making you jump. A shadowy figure moves away from the upstairs window. Your body shudders.">>
 <<action "You've got to move. You've only got one shoe.">>
 
 [[Run back to to MA’S HOUSE|Scene7B]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene7B {"position":"775,1550","size":"100,100"}
@@ -1717,6 +2262,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "You raise a hand. You know you can...">>
 
 [[PROVE IT|Scene7C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene7C {"position":"900,1550","size":"100,100"}
@@ -1739,6 +2293,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 [[Push it down|Scene7D]]
 [[Let it out|Scene7D]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene7D {"position":"1025,1550","size":"100,100"}
 <<char "BERT">>
@@ -1759,6 +2322,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 <<if $cash401>>[[Give her the CASH|Scene7Ecash]]
 [[Don't give her the CASH|Scene7Enocash]]<<else>>[[Push it down|Scene7Enocash]]<</if>>
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene7Ecash {"position":"1150,1600","size":"100,100"}
@@ -1789,6 +2361,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 <<set $cash401 = false>>
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene7Enocash {"position":"1150,1475","size":"100,100"}
 <<action "<<if $STOLEcash401>>The stolen CASH in your BACKPACK has been nagging at your conscience. But you're not about to turn it over to MA.<<else>>Maybe you should've stolen that MONEY from work.<</if>>">>
@@ -1818,6 +2399,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Go UPSTAIRS|Scene7F]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene7F {"position":"1275,1550","size":"100,100"}
 <<action "You undress in the bathroom upstairs, pulling off the Balrog shirt and your striped jester PANTS. The bright red, yellow, and blue pattern fills you with dread. You'd rather face the castle again than return to JACK OF ALL FRUITS. ">>
@@ -1833,6 +2423,14 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 <<set $trophy = true>><<set $jesterpant = true>><<set $burtreyn = true>><<set $pointer = true>>
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene8A {"position":"700,1800","size":"100,100"}
@@ -1858,61 +2456,52 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Feel REGRET|Scene8B]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene8B {"position":"825,1800","size":"100,100"}
-<<if $cash401>>
+<<if $cash401>>\
 <<action "You can't give the MONEY to ERNESTO, either. You feel bad, but it's too much.">>
-
 <<char "BERT">>
 <<dialogue "Look, Ernesto. I have it! I'm going to get it fixed, I promise, OK?">>
-
 <<elseif $shield>>
 <<action "You slide the SHIELD out of your bag. He glances at it.">>
-
 <<elseif $orcking>>
 <<char "BERT">>
 <<dialogue "Ernesto, I'm sorry. Look, I took this from your apartment. I didn't mean to. Can we be friends?">>
-
 <<action "You set the ORC KING on the counter. He glances at it.">>
-
-<<elseif $dice>>
+<<elseif $dice>>\
 <<char "BERT">>
 <<dialogue "Ernesto, I'm sorry. Look, I took this from your apartment. I didn't mean to. Can we be friends?">>
-
 <<action "You set the 6-SIDED DIE on the counter. He glances at it.">>
-
-<<elseif $lighterern>>
+<<elseif $lighterern>>\
 <<char "BERT">>
 <<dialogue "Ernesto, I'm sorry. Look, I took this from your apartment. I didn't mean to. Can we be friends?">>
 <<action "You set his LIGHTER on the counter. He snatches it up. ">>
-
-<<set $lighterern = false>>
-
-<<elseif $papertow>>
+<<set $lighterern = false>>\
+<<elseif $papertow>>\
 <<char "BERT">>
 <<dialogue "Ernesto, I'm sorry. Look, I took this from your apartment. I didn't mean to. Can we be friends?">>
-
 <<action "You set the PAPER TOWELS on the counter. He glances at them.">>
-
-<<elseif $trophy>>
+<<elseif $trophy>>\
 <<char "BERT">>
 <<dialogue "Ernesto, I'm sorry. Can we be friends?">>
-
 <<action "You set your SOFTBALL TROPHY on the counter, as a peace offering. He glances at it.">>
-
-<<elseif $cheetos>>
+<<elseif $cheetos>>\
 <<char "BERT">>
 <<dialogue "Ernesto, I'm sorry. Can we be friends?">>
-
-<<action "You set the bag of CHEETOS on the counter, as a peace offering. He glances at it.">><<else>>
-
+<<action "You set the bag of CHEETOS on the counter, as a peace offering. He glances at it.">><<else>>\
 <<char "BERT">>
 <<dialogue "Ernesto, I'm sorry. Can we be friends?">>
-
 <<action "You have nothing to offer him. He glances at you.">>
-
-<</if>>
-
+<</if>>\
 <<action "Then turns to restock the straws, even though the straw bin is completely full. His voice starts to crack.">>
 <<char "ERNESTO">>
 <<dialogue "Bert, I worked… so hard… to get you to level six… as your FRIEND… even though the others… I let you crash on my couch… and then…">>
@@ -1921,6 +2510,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "Ernesto spins around dramatically and goes through the back door. ">>
 
 [[You wait with DREAD|Scene8C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene8C {"position":"950,1800","size":"100,100"}
@@ -1936,7 +2534,7 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<action "She makes her famous face of fake pity.">>
 <<char "BERT">>
 <<dialogue "Do I, um, get a final check? It should be, like, two weeks.">>
-<<if $STOLEcash401>>
+<<if $STOLEcash401>>\
 <<action "Greta produces the CHECK—it’s $401. That’s half of what you’re owed. The other $401 has been deducted.">>
 <<char "BERT">>
 <<dialogue "Why is it half?!">>
@@ -1948,18 +2546,19 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<dialogue "What? Why?!">>
 <<char "GRETA">>
 <<dialogue "You STOLE Bert.">>
-<<action "<<if $jestervest || $jesterpant>>You feel furious. They owe you way more than that. You slam your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>shit<</if>> down on the counter and pick up the CHECK. <<else>>You feel furious. They owe you way more than that. You grab the CHECK. <</if>><<elseif $jestervest || $jesterpant>>Greta produces the CHECK—it’s $401. That’s half of what you’re owed. The other $401 has been deducted.">>
+<<else>>\
+<<action "Greta produces the CHECK—it’s $401. That’s half of what you’re owed. The other $401 has been deducted.">>
 <<char "BERT">>
 <<dialogue "Why is it half?!">>
 <<char "GRETA">>
-<<dialogue "Uniform deposit. You have to turn that in to get the rest. It'll take em, like, 60 days to process.">>
-<<action "You feel furious. You wrestle your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>shit<</if>> out of your BACKPACK and slam the uniform down on the counter to pick up the CHECK.<<else>>Greta produces the CHECK—it’s $401. That’s half of what you’re owed. The other $401 has been deducted.">>
-<<char "BERT">>
-<<dialogue "Why is it half?!">>
-<<char "GRETA">>
-<<dialogue "Uniform deposit. You never returned it.">>
-<<action "You feel furious. That's an outrageous price for a stupid little costume that didn't even fit. You grab the CHECK. ">>
-<</if>>
+<<dialogue "Uniform deposit. <<if $jestervest || $jesterpant>>You have to turn that in to get the rest. It'll take em, like, 60 days to process.<<else>>You never returned it.<</if>>">>
+<</if>>\
+<<action "You feel furious. They owe you way more than that. ">>
+<<if $jestervest || $jesterpant>>\
+<<action "You slam your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>fist<</if>> down on the counter and pick up the CHECK.">>
+<<else>>\
+<<action "That's an outrageous price for a stupid little costume that didn't even fit. You slam your fist down on the counter and pick up the CHECK. ">>
+<</if>>\
 <<char "GRETA">>
 <<dialogue "Don’t spend it all in one place.">>
 <<action "You can feel the fury spreading across your face.">>
@@ -1967,29 +2566,42 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 [[Push it down|Scene8D][$ANGRY = false]]
 [[Let it out|Scene8D][$ANGRY = true]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene8D {"position":"1075,1800","size":"100,100"}
 <<action "<<if $ANGRY>>You're about to grab the entire cash register when<<else>>You bite down on your tongue really hard. You think it's bleeding. You turn to go when<</if>> suddenly GRETA’s GOTH GRRRL friend appears behind her, pencil-thin eyebrow raised. She’s wearing a jester uniform with fishnets underneath, and you instantly wilt at her hotness.">>
 <<char "GOTH GRRRL">>
 <<dialogue "Smoke break before we start?">>
-<<if $smokes>>
+<<if $smokes>>\
 <<char "BERT">>
 <<dialogue "I got one for you. ">>
 <<action "You pull out the PACK OF SMOKES.">>
 <<char "GRETA">>
 <<dialogue "Are those mine? <<if $STOLEcash401>>Are you like, a klepto or something? You keep stealing everyone's shit.<<else>>Why would you steal from me?<</if>>">>
-<<action "She grabs the pack of SMOKES away from you.">><<set $smokes = false>>
+<<action "She grabs the pack of SMOKES away from you.">>
+<<set $smokes = false>>\
 <<char "BERT">>
-<<dialogue "Is she always so grabby?<<else>>BERT: You know, in actual Gothic times, when young women came of age, if there was a King, they had to…">><</if>>
+<<dialogue "Is she always so grabby?">>
+<</if>>\
+<<char "BERT">>
+<<dialogue "You know, in actual Gothic times, when young women came of age, if there was a King, they had to…">>
 <<char "GRETA">>
 <<dialogue "BERT. Do NOT talk to my friends.">>
 <<char "GOTH GRRRL">>
 <<dialogue "Ew, wait. What’s that smell?">>
-<<if $jestervest || $jesterpant>>
+<<if $jestervest || $jesterpant>>\
 <<action "Everyone looks at your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>shit<</if>> on the counter. GRETA lifts the <<if $jestervest>>torn VEST<<elseif $jesterpant>>ruined PANTS<<else>>shit<</if>>, nostrils flaring.">>
 <<char "GRETA">>
 <<dialogue "Did you… shit in your work <<if $jestervest && $jesterpant>>uniform<<elseif $jestervest>>vest<<elseif $jesterpant>>pants<<else>>shit<</if>>?">>
-<<else>>
+<<else>>\
 <<action "You look down at your shoe. The one covered in sheep shit. ">>
 <<char "GRETA">>
 <<dialogue "Did you… track shit in here on purpose?">><</if>>
@@ -2000,16 +2612,25 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<char "GRETA">>
 <<dialogue "We don’t have to deal with your sicko revenge fantasy. Fucking get out.">>
 <<action "She holds her nose and points at the door.">>
-<<if $jestervest || $jesterpant>>
+<<if $jestervest || $jesterpant>>\
 <<char "GRETA">>
 <<dialogue "Take the <<if $jestervest && $jesterpant>>uniform<<elseif $jestervest>>vest<<elseif $jesterpant>>pants<<else>>shit<</if>> with you!">>
-<</if>>
+<</if>>\
 <<action "You stuff the CHECK<<if $jestervest && $jesterpant>>, UNIFORM,<<elseif $jestervest>>, VEST,<<elseif $jesterpant>>, PANTS,<<else>><</if>> and the shame in your BACKPACK.<<set $check = true>>">>
 <<char "GRETA">>
 <<dialogue "Fucking dumpster human.">>
 <<action "You walk out... ">>
 
 [[...into the STRIP MALL PARKING LOT|Scene8E]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene8E {"position":"1200,1800","size":"100,100"}
@@ -2021,6 +2642,15 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<if not visited("Scene8kids")>>[[Go to KIDS BOUNCY RENTALS|Scene8kids]]<</if>>
 <<if not visited("Scene8fire")>>[[Go to DRAGON’S BREATH FIREWORKS TRAILER |Scene8fire]]<</if>>
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
 
 :: Scene8fire {"position":"1325,1925","size":"100,100"}
 <<scene "DRAGON’S BREATH FIREWORKS ">>
@@ -2031,8 +2661,17 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Return to the STRIP MALL PARKING LOT|Scene8E]]
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
-:: Scene8gunz {"position":"1450,1800","size":"100,100"}
+
+:: Scene8gunz {"position":"1500,1800","size":"100,100"}
 [[Return to the STRIP MALL PARKING LOT|Scene8E]]
 
 
@@ -2040,27 +2679,42 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<scene "CHECKS KASHED">>
 <<if $cash401>>
 <<action "You're in and out of CHECKS KASHED in about 3 minutes. You tried to cash your CHECK. They asked for ID. But you lent yours to MA so she could open a credit card in your name. ">>
-
 <<action "In frustration, you punched the triple-paned safety glass that the clerk was sitting behind. Your fist throbs. He'll probably call the cops. You have to get out of here.">>
-
-<<else>>
+<<else>>\
 <<action "That was quick. You emerge from CHECKS KASHED with kash in hand. $401. You unzip your BACKPACK, to stuff it inside. You think about MA and what she’ll do with your rent money. You think about what else you could do with the money.">>
-
-<<set $check = false>>
-<<set $cash401 = true>>
-<</if>>
+<<set $check = false>>\
+<<set $cash401 = true>>\
+<</if>>\
 
 <<if visited("Scene9A")>>[[Return to RAMBO’S GUNZ ‘N AMMO|Scene9B]]<<else>>[[Return to the STRIP MALL PARKING LOT|Scene8E]]<</if>>
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene8kids {"position":"1325,1800","size":"100,100"}
 <<scene "KIDS BOUNCY RENTALS">>
 <<action "You're about to open the door of KIDS BOUNCY RENTALS when you hear blood-curlding shrieks from inside. Through the window you can see a violent little storm of 5-year olds bouncing up and down inside a giant inflatable dragon castle, whacking each other with foam swords. ">>
 <<action "Twenty exhausted parents sit in half-sized chairs, scrolling on their phones. You elect not to go inside. ">>
-<<if $baseball>>
+<<if $baseball>>\
 <<action "You set the BASEBALL down in front of the door. Maybe some kid will have better luck at sports than you ever did.<<set $baseball = false>>">><</if>>
 
 [[Return to the STRIP MALL PARKING LOT|Scene8E]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: Scene9A {"position":"750,1950","size":"100,100"}
@@ -2076,27 +2730,114 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<dialogue "How much for the fire… the flamethrower?">>
 <<char "RAMBO">>
 <<dialogue "Got money?">>
-<<if not $cash401>>
+<<if not $cash401>>\
 <<char "BERT">>
 <<dialogue "No, no I don't.">>
 <<action "RAMBO grunts.">>
-<<else>><</if>>
+<<else>><</if>>\
 
 <<if $cash401>>[[Pull out the CASH|Scene9B]]<<else>>[[Return to the STRIP MALL PARKING LOT|Scene8E]]<</if>>
 
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
-:: Scene9B {"position":"875,1950","size":"100,100"}
-<<if previous() === "Scene8kash">><<scene "RAMBO’S GUNZ ‘N AMMO">><</if>>
 
+:: Scene9B {"position":"900,1950","size":"100,100"}
 <<action "You clutch the CASH and examine the rack behind RAMBO.">>
 
-<<if typeof $weapons === "undefined">><<set $weapons = ["FLAMETHROWER","GUN","BODY ARMOR"]>><<set $lastWeaponMsg = null>>
-<</if>><<if $lastWeaponMsg>>$lastWeaponMsg<br><br><<set $lastWeaponMsg = null>><</if>><<if $weapons.includes("FLAMETHROWER")>><<link "You point to the FLAMETHROWER">><<set $lastWeaponMsg = "\n\nRAMBO: Not for you.\n\nBERT: Oh, OK. Of course.">><<set $weapons = $weapons.filter(w => w !== "FLAMETHROWER")>><<goto "Scene9B">><</link>> <br><</if>><<if $weapons.includes("GUN")>><<link "You point to the GUN">><<set $lastWeaponMsg = "\n\nRAMBO: That's $802.\n\nBERT: Will you take… $401?\n\nRAMBO: Sure. You just leave that here and come back when you've got the rest.\n\nHe winks. That doesn't seem like a good idea.">><<set $weapons = $weapons.filter(w => w !== "GUN")>><<goto "Scene9B">><</link>> <br><</if>><<if $weapons.includes("BODY ARMOR")>><<link "You point to the BODY ARMOR">><<set $lastWeaponMsg = "\n\nBERT: The… suit of armor? I mean, the body armor.\n\nRAMBO slowly stirs. He sees the trembling stack of CASH clenched in your hand. He glances up to meet your eye. Does he somehow know you’ve been using his name?\n\nHe slowly turns and plucks a large SWAT-style bulletproof vest from a hook.\n\nBERT: Does it only stop bullets? Or other things too… like arrows?\n\nRAMBO, expressionless, plunks the BODY ARMOR down on the counter.\n\nBERT: Don’t you need a background check?\n\nRAMBO: Spin.\n\nYou’re confused. RAMBO makes a little swirly circle with his finger.">><<set $weapons = []>><<goto "Scene9B">><</link>><</if>><<if $weapons.includes("BODY ARMOR")>>
-[[Buy NOTHING|Scene10C]]<br><</if>>
-<br><<if !$weapons.length>>[[You turn your BACK |Scene9C]]<</if>>
+<<if not visited("Scene9BFlame")>>[[You point to the FLAMETHROWER|Scene9BFlame]]<</if>>
+<<if not visited("Scene9BGun")>>[[You point to the GUN|Scene9BGun]]<</if>>
+<<if not visited("Scene9BArmor")>>[[You point to the BODY ARMOR|Scene9BArmor]]<</if>>
+[[Buy NOTHING|Scene10C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
-:: Scene9C {"position":"1025,1975","size":"100,100"}
+:: Scene9BArmor {"position":"300,1925","size":"100,100"}
+<<char "BERT">>
+<<dialogue "The… suit of armor? I mean, the body armor.">>
+<<action "RAMBO slowly stirs. He sees the trembling stack of CASH clenched in your hand. He glances up to meet your eye. Does he somehow know you’ve been using his name?">>
+<<action "He slowly turns and plucks a large SWAT-style bulletproof vest from a hook.">>
+<<char "BERT">>
+<<dialogue "Does it only stop bullets? Or other things too… like arrows?">>
+<<action "RAMBO, expressionless, plunks the BODY ARMOR down on the counter.">>
+<<char "BERT">>
+<<dialogue "Don’t you need a background check?">>
+<<char "RAMBO">>
+<<dialogue "Spin.">>
+<<action "You’re confused. RAMBO makes a little swirly circle with his finger.">>
+
+[[You turn your BACK|Scene9C]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
+
+
+
+
+
+:: Scene9BFlame {"position":"300,2050","size":"100,100"}
+<<action "You gesture towards the flamethrower.">>
+<<char "RAMBO">>
+<<dialogue "Not for you.">>
+<<char "BERT">>
+<<dialogue "Oh, OK. Of course.">>
+
+[[Look back at the rack|Scene9B]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
+
+:: Scene9BGun {"position":"300,1800","size":"100,100"}
+<<action "You eye up the gun on the shelf..">>
+<<char "RAMBO">>
+<<dialogue "That's $802.">>
+<<char "BERT">>
+<<dialogue "Will you take… $401?">>
+<<char "RAMBO">>
+<<dialogue "Sure. You just leave that here and come back when you've got the rest.">>
+<<action "He winks. That doesn't seem like a good idea.">>
+
+[[Something else...|Scene9B]]
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
+
+
+:: Scene9C {"position":"1050,1950","size":"100,100"}
 <<char "RAMBO">>
 <<dialogue "Nothing back there.">>
 <<action "A tiny grin appears on his wide face as he starts to write up the receipt. Slowly. You glance around anxiously.">>
@@ -2113,7 +2854,16 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 [[Return to the STRIP MALL PARKING LOT|Scene10A]]
 
-<<set $cash401 = false>><<set $cash1 = true>><<set $bodyarmor = true>>
+<<set $cash401 = false>><<set $cash1 = true>><<set $bodyarmor = true>>\
+
+<StoryCaption class="back-ui">
+  <<link "BACK">>
+    <<script>>
+      Engine.backward();
+    <</script>>
+  <</link>>
+  <span class="arrow">←</span>
+</StoryCaption>
 
 
 :: StartScreen {"position":"175,150","size":"100,100"}
@@ -2187,7 +2937,7 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 [[Test Backpack 12|backpackmenu12]]*/
 
 
-:: StoryInit [startup] {"position":"50,150","size":"100,100"}
+:: StoryInit [startup] {"position":"25,225","size":"100,100"}
 
 
 
@@ -2205,6 +2955,8 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 <<goto "Backpack setup">>
 
 /* [[Leave the BREAKROOM|Scene2A]] */
+
+
 
 
 :: backpackmenu3 {"position":"950,700","size":"100,100"}
@@ -2232,13 +2984,9 @@ You try to get ERNESTO’S LIGHTER lit. You flick. And again. It won’t light. 
 
 
 :: test {"position":"150,400","size":"100,100"}
-[[Scene15D]] 
+[[Scene1E]] 
 
-<<set $burtreyn to true>>
 
-<<set $spade to true>>
-
-<<set $cheetos to true>>
 
 
 :: StoryScript [script]
@@ -5669,7 +6417,7 @@ body {
   background-color: black;
   color: White;
   font-family: Georgia, serif;
-  margin: 0;
+  margin: 0em
   padding: 2em;
   text-align: left; /* screenplay is left-aligned, not centered */
   line-height: 1.2;
