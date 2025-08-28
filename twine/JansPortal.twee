@@ -1112,6 +1112,9 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 
 
 :: Scene1A {"position":"400,150","size":"100,100"}
+<<script>>
+window.AudioManager.playBackground('amb_jack_of_all_fruits');
+<</script>>
 <<scene "THE FRONT COUNTER OF JACK OF ALL FRUITS" >>
 <<action "You hate it here. Deep into a double-shift. Eyes almost watering from the circus color palette, bright stupid reds, yellows, and blues.">>
 <<action "But it’s a job. Jack of All Fruits. The most ridiculous jester-themed smoothie bar in the ugliest strip mall in town. Every day you come here. Every day you’d rather be anywhere else.">>
@@ -1306,6 +1309,10 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 
 
 :: Scene1E {"position":"1150,150","size":"100,100"}
+<<script>>
+window.AudioManager.play('eff_door_open');
+window.AudioManager.stopBackground(5.0);
+<</script>>
 <<scene "THE BACKROOM OF JACK OF ALL FRUITS">>
 <<action "In the backroom, you mutter to yourself as you pack up your things. Jack of All Fucks. You’ve always hated this place. You rip off your stupid jester hat and fling it across the employee room. It knocks over a stack of empty smoothie CUPS. GRETA’s going to think you did that on purpose.">>
 <<action "You almost tear your striped Fruity JESTER VEST while ripping it off. It’s so stained you’ll probably have to pay for it. You’re glad to remember you wore your BALROG T-shirt underneath today. His flame-red face is a rage-quitting mood.">>
@@ -1330,6 +1337,9 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 
 
 :: Scene2A {"position":"400,425","size":"100,100"}
+<<script>>
+window.AudioManager.playBackground('amb_parking_lot');
+<</script>>
 <<scene "STRIP MALL PARKING LOT">>
 <<action "You are in the parking lot, still. The anger won’t let you leave. ">>
 <<if $cash401>><<set $STOLEcash401 = true>>\
