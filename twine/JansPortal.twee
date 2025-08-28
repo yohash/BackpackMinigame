@@ -11,113 +11,8 @@ BackPackWard
   "tag-colors": {
     "splash": ""
   },
-  "start": "StartScreen",
   "zoom": 1
 }
-
-
-:: Global Frames CSS [stylesheet]
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  pointer-events: none;
-  background-repeat: no-repeat;
-  background-size: contain;   /* keep aspect ratio, no cropping */
-  background-position: center top;
-  z-index: 0;
-
-  /* force the frame’s box to be the full viewport height */
-  height: 100vh;
-}
-
-/* Left frame */
-body::before {
-  width: var(--frame-left-w, auto);
-  background-image: var(--frame-left-img, none);
-  background-position: right center;
-  left: calc(var(--frame-left-x, 0px) - var(--frame-left-w, 0px));
-}
-
-/* Right frame */
-body::after {
-  width: var(--frame-right-w, auto);
-  background-image: var(--frame-right-img, none);
-  background-position: left center;
-  left: var(--frame-right-x, 100%);
-}
-
-#frame_left img,
-#frame_right img {
-    height: 100vh;       /* always match viewport height */
-    width: auto;         /* keep aspect ratio */
-    object-fit: contain; /* avoid stretching */
-}
-
-
-
-:: Global Frames Loader [script]
-(function () {
-  function setSide(which, url) {
-    if (!url) {
-      document.body.style.setProperty(`--frame-${which}-img`, "none");
-      document.body.style.setProperty(`--frame-${which}-w`, "0px");
-      return;
-    }
-
-    // load image to calculate correct width for 100vh
-    const img = new Image();
-    img.onload = function () {
-      const vh = window.innerHeight;
-      const scaledWidth = (img.naturalWidth / img.naturalHeight) * vh;
-      document.body.style.setProperty(`--frame-${which}-w`, scaledWidth + "px");
-      updatePositions(); // recalc positions once width is known
-    };
-    img.src = url;
-
-    document.body.style.setProperty(`--frame-${which}-img`, `url("${url}")`);
-  }
-
-  function updatePositions() {
-    var passages = document.getElementById("passages");
-    if (!passages) return;
-    var rect = passages.getBoundingClientRect();
-    document.body.style.setProperty("--frame-left-x", rect.left + "px");
-    document.body.style.setProperty("--frame-right-x", rect.right + "px");
-  }
-
-  function applyFrames(passageName) {
-    var sprites = window.BACKPACK_SPRITES || {};
-
-    // Special case: hide frames on StartScreen
-    if (passageName === "StartScreen") {
-      document.body.style.setProperty("--frame-left-img", "none");
-      document.body.style.setProperty("--frame-right-img", "none");
-      document.body.style.setProperty("--frame-left-w", "0px");
-      document.body.style.setProperty("--frame-right-w", "0px");
-      return;
-    }
-
-    // Otherwise, apply normally
-    setSide("left",  sprites.frame_left);
-    setSide("right", sprites.frame_right);
-
-    updatePositions();
-  }
-
-  // Hook into passage change
-  $(document).on(":passagestart", function (ev) {
-    applyFrames(ev.passage.title);
-  });
-
-  // Recalc positions + widths on resize
-  window.addEventListener("resize", function () {
-    updatePositions();
-  });
-})();
-
 
 
 :: Backpack setup {"position":"0,0","size":"100,100"}
@@ -273,6 +168,7 @@ Michael Fallik
 Caspar Gray
 Will & Micky Vale
 Phil Maisel
+Dave Gouge
 
 <<char "Playtesters">>
 Sarah McKerrow
@@ -299,7 +195,6 @@ Christopher Curtis
 
 [[PLAY AGAIN|StartScreen][State.reset()]]
 [[CREDITS][State.reset()]]
-
 
 
 :: Ending1 {"position":"1050,3075","size":"100,100"}
@@ -370,9 +265,6 @@ Christopher Curtis
   <</link>>
   <span class="arrow">←</span>
 </StoryCaption>
-
-
-
 
 
 :: Scene10A {"position":"800,2100","size":"100,100"}
@@ -2870,7 +2762,7 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 
 
 :: Scene9B {"position":"900,1950","size":"100,100"}
-<<action "You clutch the CASH and examine the rack behind RAMBO.">>
+<<action "You clutch the CASH and examine the rack behind RAMBO. You feel extremely nervous. Like just being in a room full of weapons means any of them might go off at any moment. RAMBO doesn’t seem to share this concern. In fact, he looks as though he’s falling asleep. With a frown on his face. You should hurry up.">>
 
 <<if not visited("Scene9BFlame")>>[[You point to the FLAMETHROWER|Scene9BFlame]]<</if>>
 <<if not visited("Scene9BGun")>>[[You point to the GUN|Scene9BGun]]<</if>>
@@ -2913,18 +2805,19 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 </StoryCaption>
 
 
-
-
-
-
 :: Scene9BFlame {"position":"300,2050","size":"100,100"}
-<<action "You gesture towards the flamethrower.">>
+<<action “It looks complicated. But it would certainly produce a FIREBALL.”>>
+<<char "BERT">>
+<<dialogue “So, with a flamethrower, is there, like a pilot light? Do I carry a can of gas, or, how exactly…”>>
 <<char "RAMBO">>
 <<dialogue "Not for you.">>
 <<char "BERT">>
 <<dialogue "Oh, OK. Of course.">>
+<<action “As you survey the rest of the wares, you get lost in an image of walking up to the CASTLE walls with the FLAMETHROWER and just torching everything in sight. ARCHERS dropping their bows to plead mercy. The KING rushing out to offer you anything you want, if only you’ll calm the fire-breathing dragon cradled in your arms.”>>
+<<char "RAMBO">>
+<<dialogue “Don’t worry. I got all day.”>>
 
-[[Look back at the rack|Scene9B]]
+[[Pick something else|Scene9B]]
 
 <StoryCaption class="back-ui">
   <<link "BACK">>
@@ -2937,7 +2830,9 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 
 
 :: Scene9BGun {"position":"300,1800","size":"100,100"}
-<<action "You eye up the gun on the shelf..">>
+<<action “RAMBO seems to scoff. You wonder if you need a license or a background check or something. You try and think of some questions that would give RAMBO confidence in your ability to handle a firearm.>>
+<<char "BERT">>
+<<dialogue “How many, um… calibers is that pistol… pistol-gun? Does it do… How much does it cost?”>>
 <<char "RAMBO">>
 <<dialogue "That's $802.">>
 <<char "BERT">>
@@ -2946,7 +2841,7 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 <<dialogue "Sure. You just leave that here and come back when you've got the rest.">>
 <<action "He winks. That doesn't seem like a good idea.">>
 
-[[Something else...|Scene9B]]
+[[Pick something else|Scene9B]]
 
 <StoryCaption class="back-ui">
   <<link "BACK">>
@@ -3042,16 +2937,11 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 \    <<else>>[Key Art Image]
 \    <</if>>
 \    <div id="start-panel"><span style="font-size:1.25em; line-height:1.2; display:inline-block;">[[START|Scene1A]]</span>
-     [[SOUND]]  ||  [[CONTENT WARNING]]  ||  [[CREDITS]]
+     [[CREDITS]]  ||  [[CONTENT WARNING]] 
 \    <span class="byline">By Zach Dodson for Interactive Tragedy, Limited</span></div>
 \  </div>
 \</div>
-/* Playtest version
-[[Test Backpack 2|backpackmenu2]]
-[[Test Backpack 3|backpackmenu3]]
-[[Test Backpack 4|backpackmenu4]]
-[[Test Backpack 7|backpackmenu7]]
-[[Test Backpack 12|backpackmenu12]]*/
+
 
 
 :: StoryInit [startup] {"position":"25,225","size":"100,100"}
@@ -3072,8 +2962,6 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 <<goto "Backpack setup">>
 
 /* [[Leave the BREAKROOM|Scene2A]] */
-
-
 
 
 :: backpackmenu3 {"position":"950,700","size":"100,100"}
@@ -3098,3 +2986,104 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 <<goto "Backpack setup">>
 
 /* \[[Go to the STRIP MALL|Scene8A]] */
+
+
+:: StoryScript [script]
+(function () {
+  function setSide(which, url) {
+    if (!url) {
+      document.body.style.setProperty(`--frame-${which}-img`, "none");
+      document.body.style.setProperty(`--frame-${which}-w`, "0px");
+      return;
+    }
+
+    // load image to calculate correct width for 100vh
+    const img = new Image();
+    img.onload = function () {
+      const vh = window.innerHeight;
+      const scaledWidth = (img.naturalWidth / img.naturalHeight) * vh;
+      document.body.style.setProperty(`--frame-${which}-w`, scaledWidth + "px");
+      updatePositions(); // recalc positions once width is known
+    };
+    img.src = url;
+
+    document.body.style.setProperty(`--frame-${which}-img`, `url("${url}")`);
+  }
+
+  function updatePositions() {
+    var passages = document.getElementById("passages");
+    if (!passages) return;
+    var rect = passages.getBoundingClientRect();
+    document.body.style.setProperty("--frame-left-x", rect.left + "px");
+    document.body.style.setProperty("--frame-right-x", rect.right + "px");
+  }
+
+  function applyFrames(passageName) {
+    var sprites = window.BACKPACK_SPRITES || {};
+
+    // Special case: hide frames on StartScreen
+    if (passageName === "StartScreen") {
+      document.body.style.setProperty("--frame-left-img", "none");
+      document.body.style.setProperty("--frame-right-img", "none");
+      document.body.style.setProperty("--frame-left-w", "0px");
+      document.body.style.setProperty("--frame-right-w", "0px");
+      return;
+    }
+
+    // Otherwise, apply normally
+    setSide("left",  sprites.frame_left);
+    setSide("right", sprites.frame_right);
+
+    updatePositions();
+  }
+
+  // Hook into passage change
+  $(document).on(":passagestart", function (ev) {
+    applyFrames(ev.passage.title);
+  });
+
+  // Recalc positions + widths on resize
+  window.addEventListener("resize", function () {
+    updatePositions();
+  });
+})();
+
+:: StoryStylesheet [stylesheet]
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: contain;   /* keep aspect ratio, no cropping */
+  background-position: center top;
+  z-index: 0;
+
+  /* force the frame’s box to be the full viewport height */
+  height: 100vh;
+}
+
+/* Left frame */
+body::before {
+  width: var(--frame-left-w, auto);
+  background-image: var(--frame-left-img, none);
+  background-position: right center;
+  left: calc(var(--frame-left-x, 0px) - var(--frame-left-w, 0px));
+}
+
+/* Right frame */
+body::after {
+  width: var(--frame-right-w, auto);
+  background-image: var(--frame-right-img, none);
+  background-position: left center;
+  left: var(--frame-right-x, 100%);
+}
+
+#frame_left img,
+#frame_right img {
+    height: 100vh;       /* always match viewport height */
+    width: auto;         /* keep aspect ratio */
+    object-fit: contain; /* avoid stretching */
+}
