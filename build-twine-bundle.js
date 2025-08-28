@@ -95,7 +95,6 @@ const config = {
         'amb_castle_battle': 'assets/audio/amb_castle/Castle_Battle.ogg',
         'amb_castle_empty': 'assets/audio/amb_castle/Castle_empty.ogg',
         'eff_door_open': 'assets/audio/effects/DoorOpen.ogg',
-        'eff_smoothie_splat': 'assets/audio/effects/smoothie_splat.ogg',
     },
     
     // Output file
