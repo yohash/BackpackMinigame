@@ -1,0 +1,139 @@
+body {
+  background-color: black;
+  color: White;
+  font-family: Georgia, serif;
+  margin: 0;
+  padding: 2em;
+  text-align: left; /* screenplay is left-aligned, not centered */
+  line-height: 1.2;
+}
+
+/* Scene headings (slug lines) */
+.scene {
+  display: block;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0;
+  color: #ffffcc;
+}
+
+/* Action lines */
+.action {
+  display: block;
+  margin: 0 0 0 0;
+}
+
+/* Character name (centered) */
+.char {
+  display: block;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
+  margin: -1em;
+  color: White;
+}
+
+/* Dialogue (centered, slightly narrower) */
+.dialogue {
+  display: block;
+  text-align: left;
+  max-width: 40%;
+  margin: -1em auto -1em auto;
+  padding-left: 5em; 
+  color: White;
+}
+
+/* Parentheticals (centered, italics, narrower) */
+.parenthetical {
+  display: block;
+  text-align: center;
+  font-style: italic;
+  max-width: 50%;
+  margin: 0 auto 0 auto;
+}
+
+
+/* Links */
+a.link-internal, a.link-external, a {
+  display: block;
+  text-align: center;
+  color: #ccffcc;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #9999cc;
+}
+
+
+/* Custom Back Button */
+.goback-link {
+  text-align: center;                /* center the link */
+  margin: 1.5em 0;                   /* spacing above/below */
+  font-family: Georgia, serif;
+  font-weight: bold;                  /* bold text */
+}
+
+.goback-link a {
+  color: #9999cc;                     /* link color */
+  text-decoration: none;              /* remove underline */
+  cursor: pointer;
+}
+
+.goback-link a:hover {
+  text-decoration: underline;         /* underline on hover */
+}
+
+/* Hide the sidebar  */
+#ui-bar {
+  display: none; 
+}
+
+
+/* Remove leftover UI-bar offset */
+#story {
+  margin-left: 0 !important;
+  max-width: 100% !important;
+}
+
+.back-ui {
+    position: fixed;        /* Stays in the corner */
+    bottom: 25px;
+    right: 25px;
+    background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
+    color: white;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Georgia, serif;
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+    z-index: 1000;
+}
+
+.back-ui:hover {
+    background-color: rgba(41, 128, 185, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.5);
+}
+
+.back-ui .arrow {
+    font-size: 1.2em;
+    transition: transform 0.2s;
+}
+
+.back-ui:hover .arrow {
+    transform: translateX(-4px); /* arrow slides left slightly on hover */
+}
+
+/* Optional: click/tap effect */
+.back-ui:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
