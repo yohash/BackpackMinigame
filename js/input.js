@@ -402,6 +402,7 @@ class InputHandler {
                                objBounds.bottom <= gridBounds.top || 
                                objBounds.top >= gridBounds.bottom);
         
+        let placedInBackpack = false;
         if (overlapsGrid) {
             // Object touches grid - try to place it
             // Use nearest grid snap (same as ghost preview)
@@ -417,6 +418,7 @@ class InputHandler {
                 // Valid placement in backpack
                 this.game.handleObjectPlaced(obj, clampedX, clampedY);
                 console.log(`Placed ${obj.name} in backpack at grid position (${clampedX}, ${clampedY})`);
+                placedInBackpack = true;
             } else {
                 // Invalid placement - return to original position
                 obj.pixelX = this.dragStartPosition.x;
@@ -437,6 +439,9 @@ class InputHandler {
         
         // Reset cursor
         this.canvas.style.cursor = 'default';
+
+        // Let the called know if the item was placed in the backpack or not
+        return placedInBackpack;
     }
     
     /**

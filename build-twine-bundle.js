@@ -18,7 +18,8 @@ const config = {
         'js/objects.js',
         'js/renderer.js',
         'js/input.js',
-        'js/game.js'
+        'js/game.js',
+        'js/audio.js'
     ],
     
     cssFiles: [
@@ -62,6 +63,24 @@ const config = {
         'title_screen': 'assets/sprites/title_screen.jpg',
         'frame_left': 'assets/sprites/lh_frame.jpg',
         'frame_right': 'assets/sprites/rh_frame.jpg',
+    },
+
+    // Audio files to embed as base64
+    audioFiles: {
+        'backpack_impacts': 'assets/audio/backpack_impacts-001.ogg',        
+        'backpack_open': 'assets/audio/backpack_open-001.ogg',
+        'backpack_zip_close': 'assets/audio/backpack_zip_close-001.ogg',
+        'backpack_zip_open': 'assets/audio/backpack_zip_open-001.ogg',
+        'fan_grab': 'assets/audio/fan_grab-001.ogg',
+        'glass_clink': 'assets/audio/glass_clinking-001.ogg',
+        'lighter_flick': 'assets/audio/lighter_flick-001.ogg',
+        'paper_grab': 'assets/audio/paper_grab-001.ogg',
+        'paper_release': 'assets/audio/paper_release-001.ogg',
+        'plastic_metal_grab': 'assets/audio/plastic_metal_grab-001.ogg',
+        'plastic_metal_release': 'assets/audio/plastic_metal_release-001.ogg',
+        'portal': 'assets/audio/portal_reversed_cymbal.ogg',
+        'rubber_ball_grab': 'assets/audio/rubber_ball_grab-001.ogg',
+        'rubber_ball_release': 'assets/audio/rubber_ball_release-001.ogg',
     },
     
     // Output file
@@ -347,6 +366,41 @@ function imageToBase64(filepath) {
 }
 
 /**
+ * Convert audio file to base64 data URL
+ */
+function audioToBase64(filepath) {
+    try {
+        const buffer = fs.readFileSync(filepath);
+        const ext = path.extname(filepath).slice(1).toLowerCase();
+        let mimeType;
+        
+        // Map file extensions to MIME types
+        switch (ext) {
+            case 'wav':
+                mimeType = 'audio/wav';
+                break;
+            case 'mp3':
+                mimeType = 'audio/mpeg';
+                break;
+            case 'ogg':
+                mimeType = 'audio/ogg';
+                break;
+            case 'webm':
+                mimeType = 'audio/webm';
+                break;
+            default:
+                mimeType = 'audio/wav'; // Default fallback
+        }
+        
+        const base64 = buffer.toString('base64');
+        return `data:${mimeType};base64,${base64}`;
+    } catch (error) {
+        console.warn(`⚠️  Could not load audio: ${filepath}`);
+        return null;
+    }
+}
+
+/**
  * Main build function
  */
 async function build() {
@@ -485,7 +539,42 @@ async function build() {
     console.log(`\n📊 Total sprite size: ${(totalSpriteSize / 1024).toFixed(1)} KB`);
     
     // ================================
-    // 4. CREATE TWEE FILE
+    // 4. CONVERT AUDIO TO BASE64
+    // ================================
+    console.log('\n🔊 Converting audio files to base64...');
+    const audioFiles = {};
+    let totalAudioSize = 0;
+    
+    for (const [key, filepath] of Object.entries(config.audioFiles)) {
+        const dataUrl = audioToBase64(filepath);
+        if (dataUrl) {
+            audioFiles[key] = dataUrl;
+            const sizeKB = (dataUrl.length / 1024).toFixed(1);
+            totalAudioSize += dataUrl.length;
+            console.log(`   ✓ ${key} (${sizeKB} KB)`);
+        } else {
+            console.log(`   ✗ ${key} - file not found`);
+        }
+    }
+    
+    console.log(`\n📊 Total audio size: ${(totalAudioSize / 1024).toFixed(1)} KB`);
+    
+    // ================================
+    // 5. BUILD TWEE CONTENT
+    // ================================
+    console.log('\n📝 Building Twee content...');
+    
+    // Read story file
+    let storyContent = '';
+    if (fs.existsSync(config.storyFile)) {
+        storyContent = fs.readFileSync(config.storyFile, 'utf8');
+        console.log(`   ✓ ${config.storyFile}`);
+    } else {
+        console.warn(`   ✗ ${config.storyFile} not found`);
+    }
+    
+    // ================================
+    // 5. CREATE TWEE FILE
     // ================================
     console.log('\n📚 Importing story...');
     let story = '';
@@ -515,6 +604,11 @@ ${cssContent}
     // EMBEDDED SPRITES
     // ================================
     window.BACKPACK_SPRITES = ${JSON.stringify(sprites, null, 2)};
+    
+    // ================================
+    // EMBEDDED AUDIO (Base64)
+    // ================================
+    window.BACKPACK_AUDIO = ${JSON.stringify(audioFiles, null, 2)};
     
     // ================================
     // ITEM DATABASE
@@ -583,7 +677,7 @@ ${cssContent}
     }
 
     // ================================
-    // TWINE INTEGRATION WITH PERSISTENCE
+    // TWINE INTEGRATION WITH AUDIO SUPPORT
     // ================================
     window.BackpackMinigame = {
         currentGame: null,
@@ -595,9 +689,14 @@ ${cssContent}
          * @returns {BackpackGame} Game instance
          */
         start: function(itemIds, memoryData) {
-            console.log('Starting Backpack Minigame with responsive scaling and persistence...');
+            console.log('Starting Backpack Minigame...');
             console.log('Items:', itemIds);
             console.log('Memory data:', memoryData);
+            
+            // Initialize audio system
+            if (!window.AudioManager.audioContext) {
+                window.AudioManager.init();
+            }
             
             // Prepare container for responsive display
             if (!prepareGameContainer()) {
@@ -629,7 +728,7 @@ ${cssContent}
                 }
             }
             
-            // Build config with memory support
+            // Build config with memory support and audio callbacks
             const config = {
                 backpackWidth: 5,
                 backpackHeight: 5,
@@ -646,6 +745,9 @@ ${cssContent}
                 sprites: window.BACKPACK_SPRITES,
                 memoryData: memoryData || {}, // Add memory data to config
                 onComplete: function(placedObjects, memory) {
+                    // Play success sound
+                    window.AudioManager.play('backpack_zip_close');
+                    
                     // Store results in Twine variables
                     State.variables.packedItems = Object.keys(placedObjects);
                     State.variables.packedCount = Object.keys(placedObjects).length;
@@ -665,7 +767,16 @@ ${cssContent}
             
             // Create game with scaling and persistence support
             this.currentGame = new BackpackGame('backpack-canvas', config);
+            
+            // Add audio event handlers to the game
+            this.addAudioEventHandlers(this.currentGame);
+            
             this.currentGame.startGame();
+            
+            // Play opening sound
+            setTimeout(() => {
+                window.AudioManager.play('backpack_zip_open');
+            }, 500);
             
             // Remove loading class after short delay
             setTimeout(function() {
@@ -678,6 +789,54 @@ ${cssContent}
             return this.currentGame;
         },
         
+        /**
+         * Add audio event handlers to game instance
+         */
+        addAudioEventHandlers: function(game) {            
+            // For pickup, we need to hook into the InputHandler since that's where pickup happens
+            // We'll add this when the game creates its input handler
+            const originalInitializeSubsystems = game.initializeSubsystems;
+            game.initializeSubsystems = function() {
+                const result = originalInitializeSubsystems.call(this);
+                
+                // Now hook into the input handler's pickup method
+                if (this.inputHandler && this.inputHandler.pickUpPlacedObject) {
+                    const originalPickUp = this.inputHandler.pickUpPlacedObject;
+                    this.inputHandler.pickUpPlacedObject = function(obj) {
+                        const result = originalPickUp.call(this, obj);
+                        window.AudioManager.play('plastic_metal_grab', 0.6);
+                        return result;
+                    };
+                }
+
+                // Next hook into the input handler's endDrag method
+                if (this.inputHandler && this.inputHandler.endDrag) {
+                    const originalEndDrag = this.inputHandler.endDrag;
+                    this.inputHandler.endDrag = function(obj) {
+                        const result = originalEndDrag.call(this, obj);
+                        if (result) {
+                            window.AudioManager.play('backpack_impacts', 0.8);
+                        } else {
+                            window.AudioManager.play('plastic_metal_release');
+                        }
+                        return result;
+                    };
+                }
+
+                // Next hook into the input handler's startDrag method
+                if (this.inputHandler && this.inputHandler.startDrag) {
+                    const originalStartDrag = this.inputHandler.startDrag;
+                    this.inputHandler.startDrag = function(obj, position) {
+                        const result = originalStartDrag.call(this, obj, position);
+                        window.AudioManager.play('plastic_metal_grab', 0.6);
+                        return result;
+                    };
+                }
+
+                return result;
+            };
+        },
+
         /**
          * Stop current game
          */
@@ -737,19 +896,29 @@ ${cssContent}
             window.BackpackMinigame.stop();
         }
     });
+    
+    // Initialize audio on first user interaction
+    $(document).ready(function() {
+        // Enable audio on first user interaction
+        if (!window.AudioManager.audioContext) {
+            window.AudioManager.init();
+        }
+    });
 })();
 `;
     
     // ================================
-    // 5. WRITE FILE
+    // 6. WRITE FILE
     // ================================
     fs.writeFileSync(config.outputFile, tweeContent);
     
     const stats = fs.statSync(config.outputFile);
     const sizeMB = (stats.size / (1024 * 1024)).toFixed(2);
+    const totalAssetSize = (totalSpriteSize + totalAudioSize) / 1024;
     
     console.log('\n✅ Build complete!');
     console.log(`📄 Output: ${config.outputFile} (${sizeMB} MB)`);
+    console.log(`🎵 Total asset size: ${totalAssetSize.toFixed(1)} KB`);
     console.log('\n📋 Next steps:');
     console.log('1. Open Twine 2');
     console.log('2. Click "Import From File"');
