@@ -63,8 +63,8 @@ const config = {
         'trophy': 'assets/sprites/trophy.png',
         // other png assets
         'title_screen': 'assets/sprites/title_screen.jpg',
-        'frame_left': 'assets/sprites/lh_frame.jpg',
-        'frame_right': 'assets/sprites/rh_frame.jpg',
+        'frame_left': 'assets/sprites/rh_frame.jpg',
+        'frame_right': 'assets/sprites/lh_frame.jpg',
     },
 
     // Audio files to embed as base64
