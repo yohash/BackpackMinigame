@@ -3042,8 +3042,8 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 \    <<else>>[Key Art Image]
 \    <</if>>
 \    <div id="start-panel"><span style="font-size:1.25em; line-height:1.2; display:inline-block;">[[START|Scene1A]]</span>
-      [[SOUND]]  ||  [[CONTENT WARNING]]  ||  [[CREDITS]]
-\      <span class="byline">By Zach Dodson for Interactive Tragedy, Limited</span></div>
+     [[SOUND]]  ||  [[CONTENT WARNING]]  ||  [[CREDITS]]
+\    <span class="byline">By Zach Dodson for Interactive Tragedy, Limited</span></div>
 \  </div>
 \</div>
 /* Playtest version
