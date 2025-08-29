@@ -306,7 +306,7 @@ window.AudioManager.playBackground('amb_castle_empty');
 <<if $ANGRY>>\
 <<char "BERT">>
 <<dialogue "Greta. I don’t know if I can forgive you. But I like your friend. So, for her sake, I’ll give you one chance to… RUN.">>
-<<action "They do not hesitate; high-pitched screams fade as they tear ass around the corner in platform leather boots.">>
+<<action "They do not hesitate; high-pitched screams fade as they tear ass around the corner in platform leather boots, flinging their cigarettes over their shoulders.">>
 <<else>>\
 <<action "You could scare them. But it feels too mean. And you have a bigger purpose now. Impressing her friend.">>
 <<char "BERT">>
@@ -316,7 +316,7 @@ window.AudioManager.playBackground('amb_castle_empty');
 <<else>>\
 <<char "BERT">>
 <<dialogue "Can I share a smoke with you?">>
-<<action "GRETA hesitates, <<if $bodyarmor>>glances at the BODY ARMOR,<</if>>and hands you a smoke.">><</if>>
+<<action "GRETA hesitates, <<if $bodyarmor>>glances at the BODY ARMOR, <</if>>and hands you a smoke.">><</if>>
 <<if $lighterern>>\
 <<char "BERT">>
 <<dialogue "Here's a light.">>
@@ -441,8 +441,7 @@ window.AudioManager.playBackground('amb_castle_empty');
 <<dialogue "Who’s in charge here?">>
 <<char "JEFFREY">>
 <<dialogue "Dad’s gone. Buy something or leave. Sale’s over. ">>
-<<action "Jeffrey tips the $1 sale sign face-down. Rolling your eyes, <<if $cash1>>you plunk your last DOLLAR on the counter, <<else>>you <</if>>pick up the <<if $romancand>>ROMAN CANDLE<<elseif $matchbook>>MATCHBOOK<<elseif $lighterram>>LIGHTER<</if>>, and turn to go.">>
-<<else>>\
+<<action "Jeffrey tips the $1 sale sign face-down. Rolling your eyes, <<if $cash1>>you plunk your last DOLLAR on the counter, <<else>>you <</if>>pick up the <<if $romancand>>ROMAN CANDLE<<elseif $matchbook>>MATCHBOOK<<elseif $lighterram>>LIGHTER<</if>>, and turn to go.">><<else>>\
 <<char "BERT">>
 <<dialogue "Who’s in charge here?">>
 <<char "JEFFREY">>
@@ -465,8 +464,7 @@ window.AudioManager.playBackground('amb_castle_empty');
 
 
 :: Scene11BAnger {"position":"1075,2350","size":"100,100"}
-<<action "You reach for him, furious. He dodges. So you <<if $romancand>>brandish your ROMAN CANDLE like a sword and swat at JEFFREY with it.<<else>>pick up a ROMAN CANDLE from the box on the counter and try to whack JEFFREY on the head with it.<</if>>">>
-<<if $cash1>>
+<<action "You reach for him, furious. He dodges. So you <<if $romancand>>brandish your ROMAN CANDLE like a sword and swat at JEFFREY with it.<<else>>pick up a ROMAN CANDLE from the box on the counter and try to whack JEFFREY on the head with it.<</if>>">><<if $cash1>>
 <<action "You miss, and snatch your DOLLAR back from the counter.">>
 <</if>><<set $romancand = true>>\
 <<char "JEFFREY">>
@@ -987,7 +985,8 @@ Fuck! You try the LIGHTER one more time and… FSST. It ignites!<<elseif !$light
 
 You rip a MATCH out of the MATCHBOOK. You strike it on the cover. It won’t light. You rip out another. Try again. It goes out. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
-Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<elseif $matchbook && ($lighterram || $lighterern || $lightergrt)>>As quickly as you can, you pull <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. You fumble around in the bottom for a LIGHTER. You find one. <<if $lighterram>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>>You have to hurry. You grasp GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. <</if>>
+Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<elseif $matchbook && ($lighterram || $lighterern || $lightergrt)>>As quickly as you can, you pull <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. You fumble around in the bottom for a LIGHTER. You find one. <<if $lighterram>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>>You have to hurry. You grasp GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit. 
+<</if>>
 Final backup, you’re so glad you brought the MATCHBOOK. You rip a MATCH out and strike it on the cover. It won’t light. You rip out another. Try again. It goes out. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You have to concentrate.
 
 Fuck! One more MATCH. You close your eyes, strike, and… FSST. It ignites!<<else>>As quickly as you can, you pull a LIGHTER and <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. <<if $lighterram && ($lighterern || $lightergrt)>>RAMBO’S LIGHTER. You flick it. You can’t get the wick to light. It must be damp. <</if>><<if $lighterern && $lightergrt>>ERNESTO’S LIGHTER. You flick it again and again. Still nothing. <</if>><<if $lightergrt>> You have to hurry. You find GRETA’S LIGHTER. You flick it. No spark. Stupid novelty batwing bullshit.
@@ -1144,11 +1143,11 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 
 :: Scene1A {"position":"400,150","size":"100,100"}
 <<scene "THE FRONT COUNTER OF JACK OF ALL FRUITS" >>
-<<action "You hate it here. Deep into a double-shift. Eyes almost watering from the circus color palette, bright stupid reds, yellows, and blues.">>
+<<action "You hate it here. Deep into a double-shift. Eyes watering from the circus color palette, bright stupid reds, greens, and purples.">>
 <<action "But it’s a job. Jack of All Fruits. The most ridiculous jester-themed smoothie bar in the ugliest strip mall in town. Every day you come here. Every day you’d rather be anywhere else.">>
 <<action "You struggle to get the plastic lid on the latest order. The king-sized lids don’t fit the king-sized cups. Everybody always orders king-size. You squeeze too hard. Neon orange goo drips down the side of the cup.">>
 <<action "You feel angry.">>
-<<action "Finally the lid clicks with a pop and drops of the orange fleck your court jester uniform. You grab a dirty dishrag to try and blot it out, but you already know from experience that it will stain. Little bells jingle as you tug on your JESTER VEST, too tight even though it was the largest size they had. Your nametag, BERT, falls on to the sticky floor.">>
+<<action "Finally the lid clicks with a pop and drops of orange fleck your court jester uniform. You grab a dirty dishrag to try and blot it out, but you already know from experience that it will stain. Little bells jingle as you tug on your JESTER VEST, too tight even though it was the largest size they had. Your nametag, BERT, falls on to the sticky floor.">>
 <<action "You feel depressed. Then angry again. ">>
 
 [[Push the anger down|Scene1B]]
@@ -1285,8 +1284,7 @@ window.AudioManager.playBackground('amb_jack_of_all_fruits');
 <<action "You glance up. He looks pissed.">>
 <<char "TECH BRO">>
 <<dialogue "Lemme see, like, right now.">>
-<<action "His peekapoos start yipping angrily. You hold up the front of the cup, for a second.">>
- <<action "He reaches over the counter and tries to grab it. You pull it away just in time, but he’s seen the name.">>
+<<action "His peekapoos start yipping angrily. You hold up the front of the cup, for a second. He reaches over the counter and tries to grab it. You pull it away just in time, but he’s seen the name.">>
 <<char "TECH BRO">>
 <<dialogue "Oh, you’ve done it now, shithead. I want to talk to your manager.">>
 <<char "BERT">>
@@ -1523,15 +1521,11 @@ window.AudioManager.playBackground('amb_parking_lot');
 <<dialogue "I’m... I’m sorry, Ernesto. I wouldn’t have been able to stomach that place at all without you.">>
 <<char "ERNESTO">>
 <<dialogue "Just go to my apartment. We have the game tonight anyway.">>
-<<action "You spend the rest of the afternoon in the park across the street from ERNESTO’s apartment. ">>
-<<if $cellphone>>\
-<<action "Your CELL PHONE is dead, and you can’t charge it until you’re inside.">>
-<<else>>\
-<<action "You realize you left your CELL PHONE in the backroom. That was dumb. No going back now.">>
-<</if>>\
+<<action "You spend the rest of the afternoon in the park across the street from ERNESTO’s apartment. ">><<if $cellphone>>\
+<<action "Your CELL PHONE is dead, and you can’t charge it until you’re inside.">><<else>>\
+<<action "You realize you left your CELL PHONE in the backroom. That was dumb. No going back now.">><</if>>\
 <<if $lightergrt && $smokes>>\
-<<action "You light up one of GRETA's cigarettes. Just to spite her.">>
-<<else>>\
+<<action "You light up one of GRETA's cigarettes. Just to spite her.">><<else>>\
 <</if>> \
 <<action "You think about what kind of job you could get that doesn’t require any skill or work, that pays an infinite amount, and would garner you undying respect and adulation.">>
 <<action "You try not to feel angry.">>
@@ -1552,19 +1546,13 @@ window.AudioManager.playBackground('amb_parking_lot');
 <<scene "ERNESTO’S APARTMENT">>
 <<action "You suppose it's nice of ERNESTO to let you crash his apartment. Even if the couch is half-busted and you know there will be springs in your back all night. Everything you have is in your BACKPACK, stashed in the least-dirty corner. ">>
 <<if $cellphone>>\
-<<action "At least you can charge your phone here.">>
-<<else>>\
-<<action "Except your CELLPHONE. You’re still kicking yourself for leaving it behind.">>
-<</if>> \
+<<action "At least you can charge your phone here.">><<else>>\
+<<action "Except your CELLPHONE. You’re still kicking yourself for leaving it behind.">><</if>> \
 <<if not $cellphone && not $cash401>>\
-<<action "You could have used that MONEY to buy a new one.">>
-<<else>>\
-<</if>>\
+<<action "You could have used that MONEY to buy a new one.">><<else>><</if>>\
 <<if $cash401>> \
-<<action "You keep thinking about that stack of CASH in your BACKPACK.">>
-<<else>>\
-<<action "You keep thinking about that stack of CASH you left behind.">>
-<</if>>\
+<<action "You keep thinking about that stack of CASH in your BACKPACK.">><<else>>\
+<<action "You keep thinking about that stack of CASH you left behind.">><</if>>\
 <<action "It is so dorky in here. ERNESTO is in too deep. There’s a replica medieval SHIELD and two crossed swords hung on the wall above an elaborate display case full of small-scale fantasy figurines. The ORC KING is painted meticulously with slime. On ERNESTO’s coffee table the Diabolical Dungeons game board is surrounded by WolfOut Energy cans and food wrappers.">>
 <<action "You all have been at it for an hour, but it feels like aeons. DUNGEON MASTER DAN carefully arranges the pieces for the next sequence, clicking the plastic drawbridge into place on the set’s miniature castle. FRED coughs out smoke and passes you a ridiculous psychedelic BONG. You don’t want him to know it’s yours, from the last time you were here. ">>
 <<if $lightergrt>>\
@@ -1851,8 +1839,7 @@ window.AudioManager.playBackground('amb_outdoor_present_with_cat');
 <<action "You try to pull them open. Locked. You look around for something to use. All you can find is a BASEBALL from when you were a kid and an old rusted SPADE. Probably from the same time, you can barely remember when MA last tried gardening.">>
 <<action "Nothing else to do. ">>
 <<action "<<if $bong>>You sit on the cellar doors, take the BONG out of your backpack. There still seems to be half a burnt bowl loaded. <<if $lightergrt || $lighterern>>You take out the LIGHTER, light the bowl, and blow a big cloud of smoke into the night. <<else>>Then you realize you've failed to bring a LIGHTER. That was dumb. You put the BONG back in your backpack. <</if>><<else>><</if>><<if $cellphone>>You scroll on your phone while eating the bag of CHEETOS, covering the screen in orange Cheeto dust. <<else>>You open the bag of CHEETOS and eat them mechanically. You don't even have your CELL PHONE. <</if>>No messages, no notifications, no likes. You lie back, under the stars, <<if $bong>>and feel the weed start to relax you. <<else>>and contemplate the vastness of the universe. Anything could happen, right? <</if>>Everything is fine, really. ">>
-<<action "<<if $dice>>You roll the 6-sided DIE. It's a one. You roll again. It's a one.<<else>><</if>>">>
-<<action "You doze off, wake up<<if $bong && ($lightergrt || $lighterern)>>, take another BONG rip<<else>>, eat another Cheeto<</if>>. <<if $dice>>You roll the DIE again. Another one. <<else>><</if>>Time passes... ">>
+<<action "<<if $dice>>You roll the 6-sided DIE. It's a one. You roll again. It's a one.<<else>><</if>>">><<action "You doze off, wake up<<if $bong && ($lightergrt || $lighterern)>>, take another BONG rip<<else>>, eat another Cheeto<</if>>. <<if $dice>>You roll the DIE again. Another one. <<else>><</if>>Time passes... ">>
 
 [[You fall ASLEEP|Scene4D]]
 
@@ -2165,22 +2152,15 @@ window.AudioManager.playBackground('amb_outdoors_peasant_barn');
 <<dialogue "Who goes there?">>
 <<char "BERT">>
 <<dialogue "It is I… RAMBO OF STRIPMALLSHIRE!">>
-<<action "There is no response. You reach into your BACKPACK. ">>
-<<if $lightergrt || $lighterern>>\
-<<action "You flick the LIGHTER and hold it above your head, to show your power.">>
-<<elseif $orcking>>\
-<<action "You hold the ORC KING above your head, to show your power. But there's no way he could see it from up there.">>
-<<elseif $baseball>>\
-<<action "You take out your BASEBALL, and crank it back, as though you'll attack hin with it. ">>
-<<elseif $smokes>>\
-<<action "You pull out the SMOKES, and hold them up.">><</if>>
+<<action "There is no response. You reach into your BACKPACK. ">><<if $lightergrt || $lighterern>>\
+<<action "You flick the LIGHTER and hold it above your head, to show your power.">><<elseif $orcking>>\
+<<action "You hold the ORC KING above your head, to show your power. But there's no way he could see it from up there.">><<elseif $baseball>>\
+<<action "You take out your BASEBALL, and crank it back, as though you'll attack hin with it. ">><<elseif $smokes>>\
+<<action "You pull out the SMOKES, and hold them up.">>
 <<char "BERT">>
-<<dialogue "I bring scrolls from the future!">>
-<<if $spade>>\
-<<action "You take out your SPADE  again, and point the handle end at him, like a wand.">>
-<<elseif $cellphone>>\
-<<action "You grab your CELLPHONE, but hesitate before turning on the flashlight function. The battery is getting very low.">>
-<<else>>\
+<<dialogue "I bring scrolls from the future!">><</if>><<elseif $spade>>\
+<<action "You take out your SPADE  again, and point the handle end at him, like a wand.">><<elseif $cellphone>>\
+<<action "You grab your CELLPHONE, but hesitate before turning on the flashlight function. The battery is getting very low.">><<else>>\
 <<action "But you can't find anything that would prove your powers. ">><</if>>
 <<char "BERT">>
 <<dialogue "I'm a wizard! Level 6! I demand to speak to your…">>
@@ -2293,7 +2273,7 @@ window.AudioManager.playBackground('amb_angry_mob');
 
 
 :: Scene6E {"position":"1225,1325","size":"100,100"}
-<<action "You wrench yourself through the door, and look around to see... the same medieval sky. On top of the roof, you see the MOB surrounding the BARN. <<if $item>>You throw your CELL PHONE at them, uselessly.<<else>><</if>><<set $cellphone = false>><<set $LEFTcellphone = true>>">>
+<<action "You wrench yourself through the door, and look around to see... the same medieval sky. On top of the roof, you see the MOB surrounding the BARN. <<if $cellphone>>You throw your CELL PHONE at them, uselessly.<<set $cellphone = false>><<set $LEFTcellphone = true>><</if>>">>
 <<char "BERT">>
 <<dialogue "Fuck!">>
 <<action "You drop back inside. The MOB is bashing at the BARN door. You push sheep up against it, trying to keep them out. But they immediately run to the far side of the pen. ">>
@@ -2660,18 +2640,14 @@ window.AudioManager.playBackground('amb_jack_of_all_fruits');
 <<char "BERT">>
 <<dialogue "What? Why?!">>
 <<char "GRETA">>
-<<dialogue "You STOLE Bert.">>
-<<else>>\
+<<dialogue "You STOLE Bert.">><<else>>\
 <<action "Greta produces the CHECK—it’s $401. That’s half of what you’re owed. The other $401 has been deducted.">>
 <<char "BERT">>
 <<dialogue "Why is it half?!">>
 <<char "GRETA">>
-<<dialogue "Uniform deposit. <<if $jestervest || $jesterpant>>You have to turn that in to get the rest. It'll take em, like, 60 days to process.<<else>>You never returned it.<</if>>">>
-<</if>>\
-<<action "You feel furious. They owe you way more than that. ">>
-<<if $jestervest || $jesterpant>>\
-<<action "You slam your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>fist<</if>> down on the counter and pick up the CHECK.">>
-<<else>>\
+<<dialogue "Uniform deposit. <<if $jestervest || $jesterpant>>You have to turn that in to get the rest. It'll take em, like, 60 days to process.<<else>>You never returned it.<</if>>">><</if>>\
+<<action "You feel furious. They owe you way more than that. ">><<if $jestervest || $jesterpant>>\
+<<action "You slam your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>fist<</if>> down on the counter and pick up the CHECK.">><<else>>\
 <<action "That's an outrageous price for a stupid little costume that didn't even fit. You slam your fist down on the counter and pick up the CHECK. ">>
 <</if>>\
 <<char "GRETA">>
@@ -3152,3 +3128,44 @@ window.AudioManager.playBackground('amb_parking_lot');
     updatePositions();
   });
 })();
+
+
+:: StoryStylesheet [stylesheet]
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: contain;   /* keep aspect ratio, no cropping */
+  background-position: center top;
+  z-index: 0;
+
+  /* force the frame’s box to be the full viewport height */
+  height: 100vh;
+}
+
+/* Left frame */
+body::before {
+  width: var(--frame-left-w, auto);
+  background-image: var(--frame-left-img, none);
+  background-position: right center;
+  left: calc(var(--frame-left-x, 0px) - var(--frame-left-w, 0px));
+}
+
+/* Right frame */
+body::after {
+  width: var(--frame-right-w, auto);
+  background-image: var(--frame-right-img, none);
+  background-position: left center;
+  left: var(--frame-right-x, 100%);
+}
+
+#frame_left img,
+#frame_right img {
+    height: 100vh;       /* always match viewport height */
+    width: auto;         /* keep aspect ratio */
+    object-fit: contain; /* avoid stretching */
+}
