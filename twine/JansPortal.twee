@@ -2158,7 +2158,7 @@ window.AudioManager.playBackground('amb_outdoors_peasant_barn');
 <<action "You take out your BASEBALL, and crank it back, as though you'll attack hin with it. ">><<elseif $smokes>>\
 <<action "You pull out the SMOKES, and hold them up.">>
 <<char "BERT">>
-<<dialogue "I bring scrolls from the future!">><</if>><<elseif $spade>>\
+<<dialogue "I bring scrolls from the future!">><<elseif $spade>>\
 <<action "You take out your SPADE  again, and point the handle end at him, like a wand.">><<elseif $cellphone>>\
 <<action "You grab your CELLPHONE, but hesitate before turning on the flashlight function. The battery is getting very low.">><<else>>\
 <<action "But you can't find anything that would prove your powers. ">><</if>>
@@ -2645,11 +2645,11 @@ window.AudioManager.playBackground('amb_jack_of_all_fruits');
 <<char "BERT">>
 <<dialogue "Why is it half?!">>
 <<char "GRETA">>
-<<dialogue "Uniform deposit. <<if $jestervest || $jesterpant>>You have to turn that in to get the rest. It'll take em, like, 60 days to process.<<else>>You never returned it.<</if>>">><</if>>\
-<<action "You feel furious. They owe you way more than that. ">><<if $jestervest || $jesterpant>>\
-<<action "You slam your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>fist<</if>> down on the counter and pick up the CHECK.">><<else>>\
+<<dialogue "Uniform deposit. <<if $jestervest || $jesterpant>>You have to turn that in to get the rest. It'll take em, like, 60 days to process.<<else>>You never returned it.<</if>>">><</if>>
+<<action "You feel furious. They owe you way more than that. ">><<if $jestervest || $jesterpant>>
+<<action "You slam your <<if $jestervest && $jesterpant>>PANTS and VEST<<elseif $jestervest>>VEST<<elseif $jesterpant>>PANTS<<else>>fist<</if>> down on the counter and pick up the CHECK.">><<else>>
 <<action "That's an outrageous price for a stupid little costume that didn't even fit. You slam your fist down on the counter and pick up the CHECK. ">>
-<</if>>\
+<</if>>
 <<char "GRETA">>
 <<dialogue "Don’t spend it all in one place.">>
 <<action "You can feel the fury spreading across your face.">>
