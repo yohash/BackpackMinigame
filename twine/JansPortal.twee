@@ -137,7 +137,7 @@ BackPackWard
 
 :: CONTENT WARNING {"position":"225,50","size":"100,100"}
 <<scene "CONTENT WARNING ">>
-<<action "This game contains strong language, crude humor, references to drug and alcohol use, references to sexual harm, mild sexual innuendo, and cartoonish but occasionally gory depictions of violence. May not be suitable for players under 16.">>
+<<action "This game contains strong language, crude humor, references to drug and alcohol use, mild sexual innuendo, and cartoonish depictions of violence. May not be suitable for players over 16.">>
 
 [[Go back to the MAIN MENU|StartScreen]]
 [[CREDITS]]
@@ -180,6 +180,7 @@ Mitchell Holmes
 Jasper Rynhart
 Emily-Jane Butler
 Christopher Curtis
+Anton Patsi
 
 </div>\
 
@@ -255,7 +256,7 @@ window.AudioManager.playBackground('amb_castle_empty');
 
 :: Ending4 {"position":"1675,3075","size":"100,100"}
 <<action "You feel all the anger you have been holding dissipate. Things will change for you now, certainly. As long as someone can staunch the blood still oozing out of you. ">>
-<<action "As you start to lose consciousness, you think back on the choices you've made. <<if not $bodyarmor || $shield>>You wish you had brought something to protect you against all those arrows. Why did you leave the BODY ARMOR behind?? <</if>><<if not $cheetos || $spade>>You wish you had been able to save SEWARD from those ravenous dogs. He was only ever helpful to you. His last gesture was to lure those animals away from you. You didn't have anything with you to save him in turn. <<else>>You wish you hadn't gotten SEWARD involved in such a mess. But at least he didn't die. <</if>><<if $burtreyn || $pointer>>You brought everything you needed to gain auidence with the KING. <</if>><<if $pointer>>If only you had brought something for JAN as well. No matter, it's the KING that counts. <</if>>You know he will bring you inside, and reward you richly.">>
+<<action "As you start to lose consciousness, you think back on the choices you've made. <<if not $bodyarmor || $shield>>You wish you had brought something to protect you against all those arrows. Why did you leave the BODY ARMOR behind?? <</if>><<if not $cheetos || $spade>>You wish you had been able to save SEWARD from those ravenous dogs. He was only ever helpful to you. His last gesture was to lure those animals away from you. You didn't have anything with you to save him in turn. <<else>>You wish you hadn't gotten SEWARD involved in such a mess. But at least he didn't die. <</if>><<if $burtreyn || $pointer>>You brought everything you needed to gain audience with the KING. <</if>><<if $pointer>>If only you had brought something for JAN as well. No matter, it's the KING that counts. <</if>>You know he will bring you inside, and reward you richly.">>
 <<action "You've survived, just barely.">>
 <<action "You smile, faintly, as the new world you’ve found goes black.">>
 
@@ -898,7 +899,7 @@ window.AudioManager.playBackground('amb_angry_mob');
 :: Scene15A {"position":"1050,2950","size":"100,100"}
 <<action "<<if $ANGRY>>You gather your courage. You didn't come all this way to chicken out at the last minute. You turn to rally the men with a battle cry and... <<else>>Your survival instinct kicks in. You turn your back to run. And...<</if>>">>
 <<if $bodyarmor || $shield>>\
-<<action "THWAP. An arrow hits you square in the back. You scream. <<if $bodyarmor || $shield>> <</if>><<if $shield>>But the SHIELD, lodged in your BACKPACK has protected you. It's incredible luck. You think of ERNESTO. He always had your back.<<elseif $bodyarmor>>But the BODY ARMOR has protected you. The arrow hurt, but it didn't penetrate. Best thing $400 could have bought.<</if>> You reach around and feel your back. No blood. But everyone saw what happened. The MOB shrieks, breaks up, and begins to flee.">>
+<<action "THWAP. An arrow hits you square in the back. You scream. <<if $shield>>But the SHIELD, lodged in your BACKPACK has protected you. It's incredible luck. You think of ERNESTO. He always had your back.<<elseif $bodyarmor>>But the BODY ARMOR has protected you. The arrow hurt, but it didn't penetrate. Best thing $400 could have bought.<<else>><</if>> You reach around and feel your back. No blood. But everyone saw what happened. The MOB shrieks, breaks up, and begins to flee.">>
 <<char "BERT">>
 <<dialogue "No! Wait! My magic will protect us!">>
 <<action "You squat down to unzip your BACKPACK. SEWARD remains by your side, cowering behind his shield. More archers appear on the ramparts. ZSHWAP. ZSHWONK. The arrows are coming faster and heavier now. You feel the familiar impulse to run.">>
@@ -906,7 +907,7 @@ window.AudioManager.playBackground('amb_angry_mob');
 [[Push it down|Scene15B]]
 <<else>>\
 <<action "THWAP. An arrow hits you square in the back. You scream and fall over.">>
-<<action "On the ground, the pain hits. You look down. An arrow, deep in your love handle. Muscle tissue and bone peeking through. A pool of blood growing quickly on the grass. A static hiss fills your ears. You tilt your head back and moan. You're dying.">>
+<<action "On the ground, the pain hits. You look down. An arrow, deep in your side. A pool of blood growing quickly on the grass. A static hiss fills your ears. You tilt your head back and moan. You're dying.">>
 
 [[Look to the CASTLE|Ending1]]
 <</if>>\
@@ -950,8 +951,8 @@ window.AudioManager.playBackground('amb_castle_battle');
 [[Let it out|Scene15C]]
 
 <<else>>\
-<<action "ZHWELCH. A black arrow tears through SEWARD’s jaw. Blood sprays as the lower half of his face slides off. It is incredibly disgusting and gory. He wobbles, and two more arrows tear through his midsection, spilling his intestines in the dirt. This just got way too real.">>
-<<action "The dogs are closing on you. You can see the whites of their fangs. Almost to you... You squeeze your eyes shut, bracing, and… they run past you! Right to SEWARD, where they start to ravage his still-twitching body. Really, way too gory. Even Game of Thrones didn’t have starving dogs eating people alive. One of them bites SEWARD’s wooden shield cleanly in half, and looks up at you. SEWARD has saved your life. <<if $fleacollar>>The rhinestone-studded pink FLEA COLLAR you gave him sparkles sadly.<</if>>">>
+<<action "ZHWELCH. A black arrow lodges itself in SEWARD. Blood spreads across his tunic. He wobbles, and two more arrows hit him. This just got way too real.">>
+<<action "The dogs are closing on you. You can see the whites of their fangs. Almost to you... You squeeze your eyes shut, bracing, and… they run past you! Right to SEWARD, where they pounce on his body. One of them bites SEWARD’s wooden shield cleanly in half, and looks up at you. SEWARD has saved your life. <<if $fleacollar>>The rhinestone-studded pink FLEA COLLAR you gave him sparkles sadly.<</if>>">>
 <<action "You have to avenge him. You feel indignant. But for once it is righteous. You feel something you can finally put to good use. The anger.">>
 
 [[Let it out|Scene15C]]
@@ -1006,7 +1007,7 @@ FIZZZZ… and: ZHWELCH. Once again: the sickening sound of an arrow through fles
 
 You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
+Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. A pool of blood growing quickly. You tilt your head back and moan.
 
 [[Look up at the CASTLE|Scene15D]]<<elseif (!$romancand && !$fabreeze) && ($lighterram || $lighterern || $lightergrt || $matchbook)>>
 
@@ -1020,7 +1021,7 @@ You hold it up, to show the ARCHERS aligner on the ramparts your magical prowess
 
 You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-Flat on your back, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
+Flat on your back, you look down. An arrow, deep in your calf. A pool of blood growing quickly. You tilt your head back and moan.
 
 [[Look up at the CASTLE|Ending2]]<<elseif ($romancand || $fabreeze) && !($lighterram || $lighterern || $lightergrt || $matchbook)>>As quickly as you can, you pull <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>> out of your BACKPACK. Your hands are trembling. ZHWIP—an arrow pierces the sleeve of your robe, narrowly missing you. You look at the fuse. You realize that you failed to bring anything to light it.
 
@@ -1030,7 +1031,7 @@ ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
 You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
+Flat on your back, still clutching <<if $romancand>>the ROMAN CANDLE<<else>>the can of FABREEZE<</if>>, you look down. An arrow, deep in your calf. A pool of blood growing quickly. You tilt your head back and moan.
 
 [[Look up at the CASTLE|Ending2]]<<elseif (!$romancand&& !$fabreeze) && !($lighterram || $lighterern || $lightergrt || $matchbook)>><<if $pointer>>You take out the LASER POINTER. You press it and shine a red dot uselessly on the ARCHERS above. They don’t even seem to notice.
 
@@ -1038,7 +1039,7 @@ ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
 You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-Flat on your back, still clutching the LASER POINTER, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.
+Flat on your back, still clutching the LASER POINTER, you look down. An arrow, deep in your calf. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.
 
 [[Look up at the CASTLE|Ending2]]<<elseif $spade>>You hold up the SPADE. You shake it towards the ARCHERS in a threatening manner.
 
@@ -1046,7 +1047,7 @@ ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
 You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-Flat on your back, still clutching the SPADE, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
+Flat on your back, still clutching the SPADE, you look down. An arrow, deep in your calf. A pool of blood growing quickly. You tilt your head back and moan.
 
 [[Look up at the CASTLE|Ending2]]<<elseif $shield>>You hold up your SHIELD. But it’s too high, leaving your legs exposed. And…
 
@@ -1062,7 +1063,7 @@ ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
 You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-Flat on your back, still clutching the PORTRAIT, you look down. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.
+Flat on your back, still clutching the PORTRAIT, you look down. An arrow, deep in your calf. A pool of blood growing quickly. A static hiss fills your ears. You tilt your head back and moan.
 
 [[Look up at the CASTLE|Ending2]]<<else>>You’ve got nothing. Nothing that could help you.
 
@@ -1070,7 +1071,7 @@ ZHWELCH. Once again: the sickening sound of an arrow through flesh.
 
 You scream, girlishly. You collapse onto the ground. The pain is searing. It fills your mind.
 
-Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscle tissue and bone peeking through. A pool of blood growing quickly. You tilt your head back and moan.
+Flat on your back, you look down at your leg. An arrow, deep in your calf. A pool of blood growing quickly. You tilt your head back and moan.
 
 [[Look up at the CASTLE|Ending2]]<</if>><</if>>
 </div>\
@@ -1111,7 +1112,7 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 <<action "She pulls her beard back up and whispers something in the KING's ear. The KING peers at you, down over the edge of his high wall. ">>
 <<char "KING">>
 <<dialogue "Hold fire! Bring him to my court.">>
-<<action "The ARCHERS stop, and the royal guard disperse to fufill the KING's orders. You will be saved. ">>
+<<action "The ARCHERS stop, and the royal guard disperse to fulfill the KING's orders. You will be saved. ">>
 
 [[You CLOSE YOUR EYES|Ending4]]
 <<elseif $pointer>>\
@@ -1147,7 +1148,7 @@ Flat on your back, you look down at your leg. An arrow, deep in your calf. Muscl
 <<action "But it’s a job. Jack of All Fruits. The most ridiculous jester-themed smoothie bar in the ugliest strip mall in town. Every day you come here. Every day you’d rather be anywhere else.">>
 <<action "You struggle to get the plastic lid on the latest order. The king-sized lids don’t fit the king-sized cups. Everybody always orders king-size. You squeeze too hard. Neon orange goo drips down the side of the cup.">>
 <<action "You feel angry.">>
-<<action "Finally the lid clicks with a pop and drops of orange fleck your court jester uniform. You grab a dirty dishrag to try and blot it out, but you already know from experience that it will stain. Little bells jingle as you tug on your JESTER VEST, too tight even though it was the largest size they had. Your nametag, BERT, falls on to the sticky floor.">>
+<<action "Finally the lid clicks with a pop and drops of orange fleck your court jester uniform. You grab a dirty dishrag to try and blot it out, but you already know from experience that it will stain. Little bells jingle as you tug on your JESTER VEST, too tight even though it was the largest size they had. Your name-tag, BERT, falls on to the sticky floor.">>
 <<action "You feel depressed. Then angry again. ">>
 
 [[Push the anger down|Scene1B]]
@@ -1997,7 +1998,12 @@ window.AudioManager.playBackground('amb_peasant_hutt_no_baby');
 <<action "You reach inside your BACKPACK and pull out the SMOKES.">>
 <<char "BERT">>
 <<dialogue "I bring with me the elder Scrolls of Smokeland. ">>
-<<action "<<elseif $spade>>You reach inside your BACKPACK and pull out the SPADE. The blade is small and rusty. But the handle is a translucent plastic, that catches the light just so. They seem mesmerized. <<elseif $cellphone>>You reach inside your BACKPACK and pull out the CELLPHONE. The screen lights up, a bright square of colored icons. You turn on the flashlight features and wave it frantcially around the room.<<else>>You unzip your BACKPACK as loudly as you possibly can. ">>
+<<elseif $spade>>\
+<<action "You reach inside your BACKPACK and pull out the SPADE. The blade is small and rusty. But the handle is a translucent plastic, that catches the light just so. They seem mesmerized.">>
+<<elseif $cellphone>>\
+<<action "You reach inside your BACKPACK and pull out the CELLPHONE. The screen lights up, a bright square of colored icons. You turn on the flashlight features and wave it frantcially around the room.">>
+<<else>>\
+<<action "You unzip your BACKPACK as loudly as you possibly can. ">>
 <</if>>\
 <<char "BERT">>
 <<dialogue "This backpack leads to the future! ">>
@@ -2007,8 +2013,21 @@ window.AudioManager.playBackground('amb_peasant_hutt_no_baby');
 <<action "SEWARD drops to his knees.  ">>
 <<char "SEWARD">>
 <<dialogue "Our apologies, mighty one. You bless our home with your presence.  ">>
-<<action "<<if $lightergrt || $lighterern>>They are mesmerized by your LIGHTER. You hold it out in front of you, still trembling a bit. <<elseif $orcking>>They are mesmerized by the ORC KING. You hold it out in front of you, and shake it while making little orc noises. <<elseif $baseball>>They are mesmerized by your BASEBALL. You hold it out in front of you, still trembling a bit. <<elseif $smokes>>They are mesmerized by the pack of SMOKES. You take one out, hand trembling, and stick it in your mouth. If only you had brought the LIGHTER. <<elseif $spade>>You turn the SPADE around and point the handle at them, trembling. They seem genuinely in awe of it. <<elseif $cellphone>>They are mesmerized by your CELL PHONE. You hold it out in front of you, still trembling a bit. <<else>>They are mesmerized by your BACKPACK. You keep zipping it and unzipping it.<</if>>">>
-<<char "BERT">>
+<<if $lightergrt || $lighterern>>\
+<<action "They are mesmerized by your LIGHTER. You hold it out in front of you, still trembling a bit.">>
+<<elseif $orcking>>\
+<<action "They are mesmerized by the ORC KING. You hold it out in front of you and shake it while making little orc noises.">>
+<<elseif $baseball>>\
+<<action "They are mesmerized by your BASEBALL. You hold it out in front of you, still trembling a bit.">>
+<<elseif $smokes>>\
+<<action "They are mesmerized by the pack of SMOKES. You take one out, hand trembling, and stick it in your mouth. If only you had brought the LIGHTER.">>
+<<elseif $spade>>\
+<<action "You turn the SPADE around and point the handle at them, trembling. They seem genuinely in awe of it.">>
+<<elseif $cellphone>>\
+<<action "They are mesmerized by your CELLPHONE. You hold it out in front of you, still trembling a bit.">>
+<<else>>\
+<<action "They are mesmerized by your BACKPACK. You keep zipping it and unzipping it.">>
+<</if>><<char "BERT">>
 <<dialogue "I am a Wizard. Yes. Level 6, actually. My name is…  ">>
 <<action "You need a better name. A wizard name. <<if $lightergrt>>You look at the LIGHTER. It's GRETA's, for her smoke breaks right in front of <<elseif $lighterram>>It belongs to <<elseif $lighterern>>You look at the LIGHTER. It's ERNESTO's, he got it at <<else>>You wrack your brain for the scariest thing you can think of. JACK OF ALL FRUITS is the only thing that comes to mind. You can picture it there, next to <</if>>the GUNZ ‘N AMMO store…  ">>
 <<char "BERT">>
