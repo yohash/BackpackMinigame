@@ -137,7 +137,7 @@ BackPackWard
 
 :: CONTENT WARNING {"position":"225,50","size":"100,100"}
 <<scene "CONTENT WARNING ">>
-<<action "This game contains strong language, crude humor, references to drug and alcohol use, mild sexual innuendo, and cartoonish depictions of violence. May not be suitable for players over 16.">>
+<<action "This game contains strong language, crude humor, references to drug and alcohol use, mild sexual innuendo, and cartoonish depictions of violence. May not be suitable for players under 16.">>
 
 [[Go back to the MAIN MENU|StartScreen]]
 [[CREDITS]]
